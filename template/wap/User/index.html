@@ -1,0 +1,95 @@
+<extend name="Public:base"/>
+<block name="content">
+      <div class="content" style="background:#fff;">
+        <div style="background:red;height:30%;width:100%;text-align:center;">
+          <div>
+          <img src="__ROOT__{$user_info['user_headimg']}" style="width:4rem;height:4rem;border-radius:50%;margin-top:2%;" />
+          <p style="margin:0 auto;color:#fff;font-size:0.8rem;width: 50%;">{$user_info['uname']?$user_info['uname']:'<a href="/wap/index/login" class="button button-big button-fill button-success">登陆</a>'}</p>
+          <p style="margin:0;color:#fff;font-size:0.7rem">账户余额:{$balance|format_currency}</p>
+          </div>
+        </div>
+        <div class="content-padded grid-demo">
+            <div class="row">
+              <div class="col-33">
+                <a href="{:U('recharge')}">
+                    <span class="icon icon-recharge"></span>
+                    <p style="font-size:0.5rem;color:#000;">充值</p>
+                </a>
+              </div>
+              <div class="col-33">
+                <a href="{:U('withdraw')}">
+                    <span class="icon icon-star"></span>
+                    <p style="font-size:0.5rem;color:#000;">提现</p>
+                </a>
+              </div>
+              <div class="col-33">
+                <a href="">
+                    <span class="icon icon-star"></span>
+                    <p style="font-size:0.5rem;color:#000;">签到</p>
+                </a>
+              </div>               
+            </div>
+        </div>
+   <div class="list-block info-li" style="margin:0">
+      <ul>
+          <a href="/wap/user/invest.html">
+            <li class="item-content item-link">
+              <div class="item-media"><i class="icon icon-code"></i></div>
+              <div class="item-inner">
+                <div class="item-title">投资中心</div>
+              </div>
+            </li>
+          </a>
+          <a href="/wap/user/money.html">
+            <li class="item-content item-link">
+              <div class="item-media"><i class="icon icon-computer"></i></div>
+              <div class="item-inner">
+                <div class="item-title">资金明细</div>
+              </div>
+            </li>
+          </a>
+          
+          <a href="/wap/user/generalize.html">
+            <li class="item-content item-link">
+              <div class="item-media"><i class="icon icon-download"></i></div>
+              <div class="item-inner">
+                <div class="item-title">推广中心</div>
+              </div>
+            </li>
+          </a>
+          <a href="/wap/user/data_change.html">
+            <li class="item-content item-link">
+              <div class="item-media"><i class="icon icon-edit"></i></div>
+              <div class="item-inner">
+                <div class="item-title">资料修改</div>
+              </div>
+            </li>
+          </a>    
+          <a href="/wap/user/message.html">
+            <li class="item-content item-link">
+              <div class="item-media"><i class="icon icon-emoji"></i></div>
+              <div class="item-inner">
+                <div class="item-title">消息中心</div>
+              </div>
+            </li>
+          </a>                                      
+      </ul>
+    </div>
+  <div class="content-block">
+    <div class="row">
+        <div class="col-100"><a href="#" class="button button-fill button-danger" id="logout" <if condition="empty($user_info['uid'])">style='display:none;' disabeled</if> >退出当前账号</a></div>
+    </div>
+  </div>    
+
+      </div>
+</block>
+<block name="jsinit">
+    <script type="text/javascript">
+
+        $(document).on('click',"#logout",function(){
+            location.href='{:U("logout")}';
+        });
+        $(".bar-tab .tab-item").eq(2).addClass('active').siblings().removeClass('active');
+        $.init();
+    </script>
+</block>

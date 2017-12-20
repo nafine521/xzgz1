@@ -1,0 +1,59 @@
+<extend name="Public:base"/>
+<block name="content">
+<!--banner-->
+<div class="news_banner">
+    <img src="http://mer.xiaozhu168.com/static/website/images/news/new_banners.jpg" />
+</div>
+<!--banner结束-->
+
+<!--包裹内容div-->
+<div class="new_center">
+    <!--指引条div-->
+    <div class="news_bar">
+        <ul>
+            <li><i class="icon-house"></i></li>
+            <li class="news_index"><a href="/">首页</a></li>
+            <li  class="news_jt"><i class="icon-leftarrow"></i></li>
+            <li class="news_notice" style="color:#1eae58;">新闻中心</li>
+        </ul>
+    </div>
+    <!--指引条div结束-->
+
+    <!--正文div-->
+    <div class="news_list">
+        <!--官方公告服务通知-->
+        <ul class="news_dh">
+            <volist name="subnav" id="v">
+            <li class="news_li <if condition='$_GET["tid"] eq $v["id"]'>news_li1</if>  <empty name="Think.get.tid"><if condition="$key lt 1">news_li1</if></empty> "><label><a href="?tid={$v.id}">{$v.name}</a></label></li>
+            </volist>
+
+        </ul>
+        <!--官方公告服务通知结束-->
+        <!--官方公告列表-->
+        <volist name="list" id="v">
+        <ul class="news_content">
+            <li class="content_li"><a href="{:U('/index/news_detail',['aid'=>$v['id']])}" target="_blank">{$v.title}</a></li>
+            <li class="content_li1">
+                <i class="icon-new"></i>
+            </li>
+            <li class="content_li2">{$v.pubdate|date='Y-m-d H:i:s',###}</li>
+        </ul>
+        </volist>
+
+    </div>
+    <!--正文div结束-->
+
+    <!--分页-->
+    <div class="news_page" style="padding-top:0px;">
+
+        <div class='main_c_list_page'>{$page}</div></div>
+    <!--分页结束-->
+</div>
+<!--包裹内容div结束-->
+<!--清除浮动-->
+<div class="news_clear"></div>
+<!--清除浮动结束-->
+    <block name="footer_js"></block>
+<script type="text/javascript" src="__PUBLIC__website/js/jquery.xz168fy-1.0.js"></script>
+</block>
+

@@ -1,0 +1,41 @@
+<table class="message w-740 m-t-20" cellspacing="0" cellpadding="0" border="0" >
+    <colgroup>
+        <col width="50">
+        <col width="50">
+        <col width="80">
+        <col width="200">
+        <col width="150">
+    </colgroup>
+    <thead>
+    <tr>
+        <th><input type="checkbox" name="all" id="checkall" value=" "></th>
+        <th>查看状态</th>
+        <th>消息类型</th>
+        <th>主题</th>
+        <th>发送时间</th>
+    </tr>
+    </thead>
+    <tbody>
+
+
+
+    <volist name="list" id="v" key="k" empty="$empty">
+        <tr>
+           <td><input type="checkbox" name="sysMail" value="{$v.id}"></td>
+            <td>
+                <if condition="false eq $v['status']">未读<else/>已读</if>
+            </td>
+            <td>
+                <switch name="v.theme" ><case value="0" >系统消息</case><case value="1">活动消息</case><default />用户消息</switch>
+            </td>
+            <td><a href="javascript:getNewDetail('{$v.id}');">{$v.title}</a></td>
+            <td>{$v["pubdate"]|date="Y-m-d H:i:s",###}</td>
+        </tr>
+    </volist>
+
+    </tbody>
+</table>
+
+
+<div class="per_pages w-740">
+</div>

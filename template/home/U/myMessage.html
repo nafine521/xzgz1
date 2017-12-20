@@ -1,0 +1,217 @@
+<extend name="Public:base"/>
+
+
+<block name="content">
+
+<!-- 面包屑 start -->
+<div class="crumbs">
+    <i class="icon-home"></i>
+    <a href="/">首页</a><i class="icon-gt"></i>
+    <a href="#">百宝箱</a><i class="icon-gt"></i>消息中心
+</div>
+<!--/ 面包屑 end -->
+<div class="main">
+    <include file="Public:parent_list"/>
+    <div class="rightBox">
+    <div class="widget-h-75 bg-white widget-header-em"><em>消息中心</em></div>
+
+    <div class="datas-widget bg-white">
+
+        <!-- 筛选 -->
+        <div class="tab-widget w-740 m-t-20">
+            <ul class="date-tab">
+                <li class="active" value="0">未读<em>(<i id="messagesCount"></i>)</em></li>
+                <li value="1">已读</li>
+            </ul>
+        </div>
+        <!--/ 筛选 -->
+
+        <!-- 类型筛选 -->
+        <div class="checkbox-widget w-740">
+            <div class="widget-title">类型筛选：</div>
+            <div class="checkboxs">
+                <ul>
+                    <li class="active" type="all" style="margin-left: 1.875em" value="1">
+                        <a href="javascript:;">全部</a>
+                    </li>
+                    <li type="activity" value="2">
+                        <a href="javascript:;">活动</a>
+                    </li>
+                    <li type="system" value="3">
+                        <a href="javascript:;">系统</a>
+                    </li>
+                </ul>
+
+            </div>
+            <span class="f-r"><a href="javascript:checkbox_del();">删除</a><a href="javascript:checkbox_isread();" class="m-l-20">标为已读</a></span>
+        </div>
+        <!--类型筛选 -->
+        <div class="per_tc"></div>
+        <input  type="hidden"   value="all" id="messageType">
+    </div>
+</div>
+</div>
+</block>
+<block name="footer_js">
+<script type="text/javascript" src="__PUBLIC__website/js/common.js"></script>
+<script type="text/javascript"  src="__PUBLIC__website/js/jquery.xz168-1.0.js"></script>
+<script type="text/javascript">
+    var param = {};
+    var type_child = 'all',
+        status= status_child =0;
+
+    $(document).ready(function(){
+        init();
+
+        (function(){
+
+            var tab = $('.tab-widget li');
+            tab.click(function() {
+                var key = $('.tab-widget li.active').val();
+                tab.removeClass('active');
+                $(this).addClass('active');
+                status =$(this).val();
+
+                //禁止相同的参数提交
+                if(key != status){
+                    init();
+                }
+            })
+
+            var _li = $('.checkbox-widget .checkboxs ul li');
+            _li.click(function() {
+                var key_child = $('.checkbox-widget .checkboxs ul li.active').val();
+                _li.removeClass('active');
+                $(this).addClass('active');
+                status_child = $(this).val();
+                type_child = $(this).attr('type');
+
+                //禁止相同的参数提交
+                if(key_child != status_child) {
+                    init();
+                }
+            });
+
+        })();
+
+    })
+
+
+    function checkbox_del(){
+        var chk_value =[];
+        $('input[name="sysMail"]:checked').each(function(){
+            chk_value.push($(this).val());
+        });
+        //alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value);
+        if (chk_value.length == 0) {
+            xzalert("你还没有选择任何需要删除的内容！");
+            return;
+        }else{
+            delMailOk(chk_value);
+            init();
+        }
+    }
+
+    function delMailOk(chk_value) {
+        var ids = chk_value.join(",");
+        $.post("newDeleteSysMails", {
+            ids : ids
+        }, function(data) {
+            if(data.msg=="ok"){
+                removeNews( chk_value );
+                init();
+            }
+        });
+    }
+
+    // 删除消息
+    function removeNews( chk_value ){
+        if( !chk_value || !chk_value.length )return;
+        for(var  i=0;i<chk_value.length;i++){
+            $( '#' + chk_value[i]).remove();
+            //location.reload();
+        }
+    }
+
+
+    function checkbox_isread(){
+        var stIdArray=[];
+        $('input[name="sysMail"]:checked').each(function(){
+            stIdArray.push($(this).val());
+        });
+        //alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value);
+        if (stIdArray.length == 0) {
+            xzalert("你还没有选择任何需要标记为已读的内容！");
+            return;
+        }else if(status == 1){
+            return ;
+        }else{
+            isreadMailOk(stIdArray);
+        }
+    }
+
+    function isreadMailOk(stIdArray){
+        var ids = stIdArray.join(",");
+        $.post("isReadMails", {
+            ids : ids
+        }, function(data) {
+            if(data.msg=="ok"){
+                removeNews( stIdArray );
+                xzalert(data.info,2);
+                setTimeout(function () {
+                    location.reload();
+                },1000);
+
+            }else {
+                xzalert(data.msg);
+            }
+        });
+    }
+
+
+    function  getNewDetail(id){
+        var param = {};
+        param["paramMap.newsId"]=id;
+        $.get("newsContent", param, function(data) {
+            $(".datas-widget").html(data);
+        });
+        $.post("isReadMails", {  ids : id   }, function(data) {
+
+        });
+    }
+
+    function init(){
+        param["pageBean.pageNum"] = 1;
+        initListInfo(param);
+    }
+
+    //分页
+    function initListInfo(param) {
+        param["paramMap.messageType"]= type_child;
+        param["paramMap.status"]= status;
+        $(".per_tc").html("");
+
+        $.post("newQuerySysMails", param, function(data) {
+            $(".per_tc").html(data);
+            //全选、取消全选的事件
+            var checkboxAll = $('table th input[type="checkbox"]');
+            var checkbox_child = $('table td input:checkbox');
+            checkboxAll.click(function() {
+                if ($(this).attr("checked")) {
+                    checkbox_child.attr("checked", true);
+                } else {
+                    checkbox_child.attr("checked", false);
+                }
+            });
+        });
+
+        $.get("messagesCount", function(data) {
+            var count = data.messageCount;
+            count = (count > 99) ? '99+' : count;
+            $("#messagesCount").html(count);
+        });
+    }
+</script>
+
+</block>
+

@@ -1,0 +1,107 @@
+<extend name="Public:base"/>
+<block name="content">
+      <div class="content">
+      <div class="list-block" style="margin:0">
+          <ul>
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-gender"></i></div>
+                <div class="item-inner">
+                  <div class="item-title label">选择卡号</div>
+                  <div class="item-input">
+                    <select onchange="add_bankaccount(this);" id="card">
+                      <volist name="bank" id="v" >
+                        <option value="{$v.id}">{$v.branch_bank_name}</option>
+                      </volist>
+                      <if condition="count($bank) lt 3">
+                        <option value="0">添加一张银行卡</option>
+                      </if>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-name"></i></div>
+                <div class="item-inner">
+                  <div class="item-title label">提现金额</div>
+                  <div class="item-input">
+                    <input type="text" placeholder="请输入提现金额" id="withdraw_money" value="">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                <div class="item-inner">
+                  <div class="item-title label">支付密码</div>
+                  <div class="item-input">
+                    <input type="password" placeholder="请输入支付密码" id="password">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-password"></i></div>
+                <div class="item-inner">
+                  <div class="item-title label">可提金额</div>
+                  <div class="item-input">
+                    <input type="text" value="{$user_info['balance']}" disabled="disabled" id="balance">
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+  </div>
+  <div class="content-block">
+    <div class="row">
+      <div class="col-100"><a href="#" class="button button-big button-fill button-success" id="withdraw">提交</a></div>
+    </div>
+  </div>
+</div>
+
+      </div>
+
+</block>
+<block name="jsinit">
+    <script>
+        $(function (){
+            $(".button-link.back").show();
+            var saving=false;
+            $(document).on('click','#withdraw',function () {
+                if(saving)return;
+                saving=true;
+                var card=$("#card").val();
+                if(card<1) return $.toast("请选择一张银行卡");
+                var balance=$("#balance").val();
+                var money=$("#withdraw_money").val();
+                if(parseInt(money)>parseInt(balance)){
+                    $("#withdraw_money").val(balance);//console.log(balance,money);
+                    money=balance;
+                }
+                var data={
+                    card_id:card,
+                    money:money,
+                    password:$("#password").val()
+                }
+                $.post("",data,function (res) {
+                    if(res.error>0){
+                        $.toast(res.msg);
+                        saving=false;
+                    }else{
+                        $.alert(res.msg);
+                        location.href='/wap/user'
+                    }
+                })
+            });
+        });
+        function add_bankaccount(obj){
+            var v=$(obj).val();
+            if(v!=0)return;
+            location.href='{:U("binding")}'
+        }
+    </script>
+</block>

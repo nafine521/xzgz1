@@ -1,0 +1,322 @@
+<extend name="Public:base"/>
+
+<block name="content">
+<!-- 面包屑start -->
+<div class="crumbs">
+    <div class="crumbs-content">
+        <i class="icon-house"></i>
+        <a href="/">首页</a>
+        <i class="icon-leftarrow"></i>
+        <a href="{:U('project')}">投资理财</a>
+    </div>
+</div>
+<!-- 面包屑end -->
+
+<!-- 页面内容 start -->
+<div class="main-content">
+    <!-- 左边浮动导航 start -->
+    <div class="left-nav-bar" id="left-nav-bar">
+        <div class="left-nav-slider">
+            <dl class="nav-tab-list">
+                <dt>
+                    <a href="javascript:;">所有项目</a>
+                </dt>
+                <volist name="pro_type" id="v" key="k">
+
+                <if condition="$v['id'] eq $getq['tid']" >
+                    <dt class="nav-tab-hover hover{$k}"></dt>
+                </if>
+                    <dd <if condition="$v['id'] eq $getq['tid']" > class="active"</if> >
+                    <a href="{:U('',array_merge($getq,['tid'=>$v['id']]))}">
+                        <h4>{$v.name}</h4>
+                        <span>
+									{$v.abstract}
+								</span>
+                    </a>
+                </dd>
+                    <volist name="v.children" id="vo"  >
+                        <if condition="$vo['id'] eq $getq['tid']" >
+                            <dt class="nav-tab-hover hover{$k*$ko+$ko}"></dt>
+                        </if>
+                        <dd <if condition="$vo['id'] eq $getq['tid']" > class="active"</if> >
+                            <a href="{:U('',array_merge($getq,['tid'=>$vo['id']]))}">
+                                <h4>{$vo.name}</h4>
+                                <span>
+									{$vo.abstract}
+								</span>
+                            </a>
+                        </dd>
+                    </volist>
+                <dt class="tag-mt10"></dt>
+                </volist>
+
+
+
+
+
+            </dl>
+
+            <!-- 左边打个小广告 start -->
+            <!-- 左边打个小广告 end -->
+        </div>
+    </div>
+    <!-- 左边浮动导航 end -->
+
+    <!-- 右边列表 start -->
+    <div class="tag-list-content clearfix">
+        <!-- 搜索栏 start -->
+        <div class="search-bar">
+            <ul class="search-list">
+                <li>
+                    <strong>还款期限</strong>
+                    <div class="search-tag-list">
+                        <a href="{:U('project',array_merge($getq,['exp'=>'']))}" <if  condition="isset($getq['exp']) eq false "> class="active" </if> >全部</a>
+                        <a href="{:U('project',array_merge($getq,['exp'=>'1']))}" <if  condition="$getq['exp'] eq '1' "> class="active" </if> >1个月内</a>
+                        <a href="{:U('project',array_merge($getq,['exp'=>'3']))}" <if  condition="$getq['exp'] eq '3' "> class="active" </if> >1-3个月</a>
+                        <a href="{:U('project',array_merge($getq,['exp'=>'6']))}" <if  condition="$getq['exp'] eq '6' "> class="active" </if> >3-6个月</a>
+                        <a href="{:U('project',array_merge($getq,['exp'=>'12']))}" <if  condition="$getq['exp'] eq '12' "> class="active" </if> >6-12个月</a>
+                    </div>
+                </li>
+
+                <volist name="attr" id="v" key="k">
+                <li>
+                    <strong>{$v.name}</strong>
+                    <div class="search-tag-list">
+                        <a href="{:U('project',array_merge($getq,['attr_id'=>'']))}"  <if  condition="isset($getq['attr_id']) eq false "> class="active" </if> >全部</a>
+                        <volist name="v.children" id="vo">
+                        <a href="{:U('project',array_merge($getq,['attr_id'=>$vo['id']]))}" <if  condition="$getq['attr_id'] eq $vo['id']"> class="active" </if> >{$vo.name}</a>
+                        </volist>
+                    </div>
+                </li>
+                </volist>
+
+                <li>
+                    <strong>年化利率</strong>
+                    <div class="search-tag-list">
+                        <a href="{:U('project',array_merge($getq,['income'=>'']))}"  <if  condition="isset($getq['income']) eq false "> class="active" </if>>全部</a>
+                        <a href="{:U('project',array_merge($getq,['income'=>'8']))}"  <if  condition="$getq['income'] eq '8' "> class="active" </if> >8%以上</a>
+                        <a href="{:U('project',array_merge($getq,['income'=>'10']))}" <if  condition="$getq['income'] eq '10' "> class="active" </if> >10%以上</a>
+                        <a href="{:U('project',array_merge($getq,['income'=>'13']))}" <if  condition="$getq['income'] eq '13' "> class="active" </if> >13%以上</a>
+                        <a href="{:U('project',array_merge($getq,['income'=>'15']))}" <if  condition="$getq['income'] eq '15' "> class="active" </if> >15%以上</a>
+                    </div>
+                </li>
+
+
+            </ul>
+        </div>
+        <!-- 搜索栏 end -->
+
+        <!-- 排序方式&分页 start -->
+        <div class="order-bar">
+            <span>排序方式：</span>
+            <ul class="order-list">
+                <li <if  condition="isset($getq['order']) eq false "> class="active" </if> >
+                    <a href="{:U('project',array_merge($getq,['order'=>'']))}">默认排序</a>
+                </li>
+                <li <if  condition="$getq['order'] eq 'income' "> class="active" </if>>
+                    <a href="{:U('project',array_merge($getq,['order'=>'income']))}">预期年化收益</a>
+                    <i class="icon-sort-graydown"></i>
+                </li>
+                <li <if  condition="$getq['order'] eq 'expression' "> class="active" </if>>
+                    <a href="{:U('project',array_merge($getq,['order'=>'expression']))}">投资期限</a>
+                    <i class="icon-sort-graydown"></i>
+                </li>
+            </ul>
+
+            <div class="pager-bar">
+                <a href="javascript:;" class="prev-page-btn">
+                    <i class="icon-prev-page"></i>
+                </a>
+                <div class="page-detail">
+                    <em class="page-now">1</em>
+
+                    /
+                    <em class="page-sum">1</em>
+                </div>
+                <a href="javascript:;" class="next-page-btn">
+                    <i class="icon-next-page"></i>
+                </a>
+            </div>
+        </div>
+        <!-- 排序方式&分页 end -->
+
+        <!-- 团标列表 -->
+        <div class="tag-list">
+            <volist name="pro_list" id="v">
+            <div class="invest-tag-bar">
+                <div class="tag-detail">
+                    <div class="tag-detail-header">
+                        <i class="tag-flag-all">团</i>
+                        <a href="{:U('pro_detail',['id'=>$v['id']])}" target="_blank">
+                            {$v.name}</a>
+                        <span>可投金额：<em class="red">{$v.surplus|number_format}</em>元</span>
+                    </div>
+                    <ul class="tag-info-list">
+                        <li class="tag-profit">
+                            <strong>
+                                {$v.annual_income}<sub>%</sub>
+
+                            </strong><br/>
+                            预期年化收益
+                        </li>
+                        <li class="tag-date">
+							<span class="red">
+								<em>{$v.expression}</em><small>天&nbsp;</small>
+							</span><br/>
+
+                            期限
+                        </li>
+                        <li class="tag-fund">
+
+                            <strong>
+                                {$v.item_total|number_format=2}</strong>
+                            <br>
+                            项目金额
+                        </li>
+                        <li class=tag-fund-sub">
+                            <div class="tag-progress">
+                                <div class="tag-progress-bar" progress="{:round(($v['item_total']-$v['surplus'])/$v['item_total']*100 ,2)}%">
+                                    <!--爽一发活动-->
+                                    <em class="tag-progress-finished" style="overflow: hidden; width: 100%;"></em>
+                                </div>
+                                <span> {:round(($v['item_total']-$v['surplus'])/$v['item_total']*100 ,2)}%</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <if condition="$v['item_status'] eq 3">
+                    <a href="javascript:;" class="invest-btn disabled" target="_blank">已售罄</a>
+                        <elseif condition="$v['item_status'] eq 2" />
+                            <a href="{:U('pro_detail',['id'=>$v['id']])}" target="_blank" class="invest-btn">立即投标</a>
+                            <elseif condition="$v['item_status'] eq 1"/>
+                                <a href="{:U('pro_detail',['id'=>$v['id']])}" class="invest-btn btn-status2" target="_blank">即将上标</a>
+                        <elseif condition="$v['item_status'] eq 3"/>
+                            <a href="javascript:;" class="invest-btn disabled" target="_blank">已还款</a>
+
+                    </if>
+                </div>
+            </div>
+            </volist>
+        </div>
+        <!-- 团标列表 -->
+
+        <div class="foot-pager-bar">
+            <div class="foot-pager-content">
+                <div class='main_c_list_page'>{$page}</div></div>
+        </div>
+
+        <!-- 再贴个大广告 start -->
+        <!--<a href="" target="_blank" class="bottom-ad-content">
+            <img src="" />
+        </a>-->
+        <!-- 再贴个大广告 end -->
+    </div>
+    <!-- 右边列表 end -->
+</div>
+<!-- 页面内容 end -->
+
+<!-- 热门推荐 start -->
+<div class="recommend-tags">
+    <h3>
+        <strong>热门推荐</strong>
+    </h3>
+    <div class="recommend-tag-content">
+        <ul class="recommend-tag-list clearfix">
+            <volist name="recom_list" id="v">
+            <li>
+                <a href="{:U('pro_detail',['id'=>$v['id']])}">
+                    <h4>
+                        <i class="tag-flag-all">优</i> {$v.name}</h4>
+
+                    <strong>
+                        {$v.annual_income}<sub>%</sub>
+                        <small>预期年化收益</small>
+                    </strong>
+                    <div class="recommend-left">
+                        <span><em>100.00</em>元</span>
+                        起投
+                    </div>
+                    <div class="recommend-right">
+						<span>
+						<!-- 不等于灵小猪 -->
+							<em>{$v.expression}</em>
+							天</span>
+                        期限
+                    </div>
+                </a>
+            </li>
+            </volist>
+        </ul>
+    </div>
+</div>
+<!-- 热门推荐 end -->
+</block>
+
+
+<block name="footer_js">
+<script type="text/javascript" src="__PUBLIC__website/js/jquery.investfy-1.0.js"></script>
+<script type="text/javascript" src="__PUBLIC__website/js/elemInScreen.js"></script>
+<script type="text/javascript">
+    $(function() {
+
+
+        // 左边tab切换&浮动导航
+        (function() {
+            var tab = $( '.nav-tab-list dd' );
+            var hover = $( '.nav-tab-hover' );
+            var pos = 0;
+            tab.each(function( index ) {
+                var $this = $(this);
+                if( $this.hasClass( 'active' ) ) {
+                    pos = index;
+                    console.log( pos );
+                }
+                $this.hover(function() {
+                    _moveTo( index );
+                } , function() {
+                    _moveTo( pos );
+                });
+            });
+            _moveTo( pos );
+
+            function _moveTo( index ) {
+                hover.attr( 'class' , 'nav-tab-hover hover' + ( index + 1 ) );
+                tab.removeClass( 'active' );
+                tab.eq( index ).addClass( 'active' );
+            }
+
+            var bar = $( '#left-nav-bar' );
+            var content = bar.parent();
+            var t = content.offset().top;
+            var h = content.height() - bar.height();
+            var timer;
+            $(window).scroll(function() {
+                var st = document.documentElement.scrollTop || document.body.scrollTop;
+                var pos = Math.max( st - t + 5 , 0 );
+                pos = Math.min( pos , h );
+                clearTimeout( timer );
+                timer = setTimeout(function() {
+                    bar.stop().animate({ 'top' : pos });
+                } , 300 );
+            });
+        })();
+    });
+
+    // 标进度条加载
+    function loadingProgress( elem ) {
+        elem.each(function() {
+            var progress = $(this).attr( 'progress' );
+            $(this).find( '.tag-progress-finished' ).animate({
+                width : progress
+            });
+        });
+    }
+
+    $( '.tag-progress-bar' ).showInPageOnce(function( inScreen ) {
+        if( inScreen ) {
+            loadingProgress( $(this) );
+        }
+    });
+</script>
+
+</block>
+

@@ -1,0 +1,156 @@
+<extend name="Public:base"/>
+
+
+<block name="content">
+
+<!-- 面包屑 start -->
+<div class="crumbs">
+    <i class="icon-home"></i>
+    <a href="https://www.xiaozhu168.com/">首页</a><i class="icon-gt"></i>
+    <a href="#">资金管理</a><i class="icon-gt"></i>充值提现
+</div>
+<!--/ 面包屑 end -->
+<div class="main">
+    <include file="Public:parent_list"/>
+    <div class="rightBox">
+    <div class="widget-h-75 bg-white widget-header-em"><em>充值提现</em></div>
+    <!--可用余额-->
+    <div class="bg-white bd per_right" style="width:800px;">
+        <!--可用余额-->
+        <div class="recharge-widget" style="height: 80px;">
+			<span class="per_sceen">
+				可用余额：<label>{$info.balance|number_format=2}</label>元
+			</span>
+            <span class="per_sceen1">
+				<a href="recharge.html" class="per_btngre">充值</a>
+				<a href="withdraw.html" class="per_btngre1" style="background: #00add7;">提现</a>
+			</span>
+        </div>
+        <!--可用余额结束-->
+        <ul>
+            <li class="per_moneypig" style="border-bottom:none;"><a href="newRechargeRecordList.html" style="color:#1eae58;">充值记录</a></li>
+            <li><a href="newPresentRecordList.html">提现记录</a></li>
+            <li style=" width:586px; float:right;"  class="per_cz_i"><span>累计充值：<label class="per_monred">
+            {$info.member_sum_draw|number_format=2}</label>&nbsp;元&nbsp;&nbsp;</span><i class="icon-recharge"></i></li>
+        </ul>
+        <!--日期时间选择-->
+        <div class="per_data" style="float:none;">
+            <ul>
+                <li style=" width:70px;">起止日期：</li><li><input type="text" class="laydate-icon" id="date_start" readonly="readonly" />&nbsp;-&nbsp;</li>
+                <li ><input type="text" class="laydate-icon" id="date_end" readonly="readonly" /></li>
+            </ul>
+            <span><a href="javascript:" class="per_jlyz hover" id="lateWeek">最近一周</a><a href="javascript:" class="per_jlyz" id="lateMouth">一个月</a><a href="javascript:" class="per_jlyz" id="lateThreeMouth">三个月</a></span>
+            <!-- <div><a href="javascript:"><label>导出Excel</label><i class="icon-download"></i></a></div> -->
+        </div>
+        <!--日期时间选择结束-->
+        <div id="_data">
+            <span class="loading-data"></span>
+        </div>
+    </div>
+</div>
+    <!--右侧div结束-->
+</div>
+</div>
+</div>
+</block>
+    <block name="footer_js">
+
+<script type="text/javascript" src="__PUBLIC__website/js/laydate/laydate.js"></script>
+<script type="text/javascript" src="__PUBLIC__website/js/per_rechargebank.js"></script>
+<script type="text/javascript" src="__PUBLIC__website/js/jquery.xz168-1.0.js"></script>
+<script type="text/javascript" src="__PUBLIC__website/js/dateskin.js"></script>
+<script type="text/javascript">
+    var startOpt = {
+        elem : '#date_start',
+        istime: true,
+        istoday: false,
+        format: 'YYYY-MM-DD hh:mm:ss',
+        max : laydate.now(),
+        choose : function( dates ){
+            endOpt.min = dates;
+            if (dates!="") {
+                //alert(dates);
+                param["pageBean.pageNum"] = 1;
+                param["paramMap.startTime"]=dates;
+                param["paramMap.type"]=null;
+                initListInfo(param);
+            }else{
+                //alert("没有数据");
+                param["pageBean.pageNum"] = 1;
+                param["paramMap.startTime"]=null;
+                param["paramMap.type"]=null;
+                initListInfo(param);
+            }
+        }
+    };
+    var endOpt = {
+        elem : '#date_end',
+        istime: true,
+        istoday: false,
+        format: 'YYYY-MM-DD hh:mm:ss',
+        max : laydate.now(),
+        choose : function( dates ){
+            //alert( dates );
+            var date_start=$("#date_start").val();
+            if(date_start!=""){
+                param["pageBean.pageNum"] = 1;
+                param["paramMap.startTime"]=date_start;
+                param["paramMap.endTime"]=dates;
+                param["paramMap.type"]=null;
+                initListInfo(param);
+            }else{
+                param["pageBean.pageNum"] = 1;
+                param["paramMap.startTime"]=null;
+                param["paramMap.endTime"]=dates;
+                param["paramMap.type"]=null;
+                initListInfo(param);
+            }
+        }
+    };
+
+    $("#lateWeek").click(function(){
+        $("#date_start").val( "");
+        $("#date_end").val( "");
+        param["paramMap.type"]=1;
+        param["pageBean.pageNum"] = 1;
+        initListInfo(param);
+    });
+    $("#lateMouth").click(function(){
+        $("#date_start").val( "");
+        $("#date_end").val( "");
+        param["paramMap.type"]=2;
+        param["pageBean.pageNum"] = 1;
+        initListInfo(param);
+    });
+    $("#lateThreeMouth").click(function(){
+        $("#date_start").val( "");
+        $("#date_end").val( "");
+        param["paramMap.type"]=3;
+        param["pageBean.pageNum"] = 1;
+        initListInfo(param);
+    });
+
+    laydate( startOpt );
+
+    laydate( endOpt );
+
+    $(".per_tab li a").removeClass("focus");
+    $(".per_tab li :eq(3)").find("a").addClass("focus");
+    $(".per_tab li a").find("i").each(function(){
+        $(this).attr( 'class' , $(this).attr('class').replace( '-focus' , '') );
+    });
+    var now = $(".per_tab li a:eq(3)").find("i");
+    now.attr( 'class' , now.attr( 'class' ) + '-focus' );
+    param = {};
+    param["pageBean.pageNum"] = 1;
+    initListInfo(param);
+
+    function initListInfo(param) {
+        $.post("newRechargeRecordListData", param, function(data) {
+            $("#_data").html(data);
+        });
+    }
+</script>
+
+</block>
+

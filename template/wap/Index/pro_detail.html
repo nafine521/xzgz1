@@ -1,0 +1,164 @@
+<extend name="Public:base"/>
+<block name="head_footer">
+      <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-left back">
+          <span class="icon icon-left"></span>
+          返回
+        </a>
+        <h1 class="title">产品详情</h1>
+      </header>
+      <nav class="bar bar-tab disable-router external">
+        <a href="javascript:location.href='{:U('invest_order',['id'=>$info['id']])}';" class="button button-fill" id="invest" >立即投资</a>
+      </nav>
+</block>
+      <block name="content">
+      <div class="content pull-up">
+
+          <div class="card demo-card-header-pic" style="margin:0">
+            <div valign="bottom" class="card-header color-white no-border no-padding" style="position:relative;">
+              <img class='card-cover' src="__ROOT__{$info.litpic}" alt="" style=" max-height:6rem;">
+                <div class="pro_titles">{$info.name}
+                    <p style="margin:0;font-size:0.5rem;color: #1f45d4;">担保机构：太平洋保险</p>
+                </div>
+            </div>
+
+            <div class="card-content">
+              <div class="card-content-inner">
+                <div class="content-padded grid-demo">
+                    <div class="row">
+                      <div class="col-25"><span>项目总额</span><p>{$info['item_total']|format_currency}元</p></div>
+                      <div class="col-25"><span>年化收益</span><p style="margin: 0.5rem 0;font-size: 1rem;color: red;">{$info['annual_income']}%</p></div>
+                      <div class="col-25"><span>起投资金</span><p>{$info['mintender']}元</p></div>
+                      <div class="col-25"><span>可投金额</span><p>{$info['surplus']|format_currency}元</p></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-25">投资进度:</div>
+                      <div class="col-60" style="padding-top: 0.18rem;">
+                        <div class="pro_jindu">
+                        <div class="pro_jindu1" style="width:{:progress($info['item_total'],$info['surplus'])}%;">{:progress($info['item_total'],$info['surplus'])}%</div>
+                      </div>
+                      </div> 
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-block">
+          <ul>
+            <li class="item-content">
+              <div class="item-media"><i class="icon icon-f7"></i></div>
+              <div class="item-inner">
+                <div class="item-title">发布时间</div>
+                <div class="item-after">{$info['pubdate']|date='Y-m-d',###}</div>
+              </div>
+            </li>
+            <li class="item-content">
+              <div class="item-media"><i class="icon icon-f7"></i></div>
+              <div class="item-inner">
+                <div class="item-title">返还类型</div>
+                <div class="item-after">
+                  <if condition="strchr($info['attr_id'],'8')">
+                    按日返利
+                  <elseif condition="strchr($info['attr_id'],'7')" />
+                    按月返利
+                  <elseif condition="strchr($info['attr_id'],'5')" />
+                    到期返利
+                  </if>
+
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul class="info-li">
+
+              <li class="item-content item-link open-detail"  data-popup=".popup-detail">
+                <div class="item-media"><i class="icon icon-f7"></i></div>
+                <div class="item-inner">
+                  <div class="item-title "><a href="#" >产品详情</a></div>
+                </div>
+              </li>
+
+
+              <li class="item-content item-link create-popup-fqa " >
+                <div class="item-media"><i class="icon icon-f7"></i></div>
+                <div class="item-inner">
+                  <div class="item-title"><a href="#" class="" >常见问题</a></div>
+                </div>
+              </li>
+
+
+              <li class="item-content item-link create-popup-record" data-popup=".popup-record">
+                <div class="item-media"><i class="icon icon-f7"></i></div>
+                <div class="item-inner">
+                    <div class="item-title"><a href="#" class="" >已投资客户</a></div>
+                </div>
+              </li>
+
+          </ul>
+        </div>      
+      </div>
+
+
+
+      </block>
+<block name="jsinit">
+    <div class="popup popup-detail">
+        <div class="content-block">
+            <div class="  bar bar-nav close-popup  buttons-tab " style="top:-44px;" ><a href="#" class=" title"><span class="icon icon-down"></span></a></div>
+            <div class="list-block" style="margin-top: -1.5rem; ">{$info.body|htmlspecialchars_decode}</div>
+        </div>
+
+    </div>
+
+
+
+    </div>
+  <script type="text/javascript">
+      $(function () {
+          $('.list-block table').css({'width':'100%','font-size':'.1rem'});
+      });
+
+      $(document).on('click tap scrollstart','.open-detail', function () {
+          $.popup('.popup-detail');
+      });
+      $(document).on('click tap scrollstart','.create-popup-fqa', function () {
+          $.get('{:U("fqa")}',function(res){
+              var pophtml='<div class="popup">\n' +
+                  '        <div class="content-block">\n' +
+                  '            <div class="title  bar bar-nav close-popup  buttons-tab " style="top:-44px;" ><a href="#" class="title"><span class="icon icon-down"></span></a></div>\n' +
+                  '            <div class="list-block" style="    margin-top: -2rem;margin-left: 1rem;">'+res.fqa+'</div>\n' +
+                  '        </div>\n' +
+                  '    </div>';
+              $.popup(pophtml);
+          });
+
+
+      });
+
+      $(document).on('click tap scrollstart','.create-popup-record', function () {
+          $.get('{:U("pro_record")}',{pro_id:"{$info['id']}"},function (res) {
+              if(res==null)return $.toast('暂无投资信息');
+              var pophtml='<div class="popup">\n' +
+                  '        <div class="content-block">\n' +
+                  '            <div class="title  bar bar-nav close-popup buttons-tab " style="top:-44px;"><a href="#" class=""><span class="icon icon-down"></span></a></div>\n' +
+                  '            <div class="list-block" style="margin-top: -1.5rem;">' +
+                  '<div class="buttons-row" style="margin: 0 0.5rem;">\n' +
+                  '            <span class="tab-link  button">投资人</span>\n' +
+                  '            <span  class="tab-link button">投入金额</span>\n' +
+                  '            <span class="tab-link button"> 交易时间</span>\n' +
+                  '          </div>'+
+                  '<ul class="list-container">' ;
+            $.each(res,function (index,item) {
+                pophtml+='<li class="item-content"><div class="item-inner"><span class="tab-link  ">'+item.uname+'</span><span  class="tab-link ">'+item.trans_price+'</span><span class="tab-link "> '+item.dealtime+'</span></div></li>';
+            });
+              pophtml+='</ul></div></div>';
+              $.popup(pophtml);
+          });
+
+      });
+      /*$(document).on('click',"#invest",function () {
+          location.href="{:U('invest_order',['id'=>$info['id']])}";
+      })*/
+  </script>
+</block>

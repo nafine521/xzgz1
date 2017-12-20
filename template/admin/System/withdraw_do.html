@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="__PUBLIC__lib/html5.js"></script>
+<script type="text/javascript" src="__PUBLIC__lib/respond.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__lib/PIE_IE678.js"></script>
+<![endif]-->
+<link href="__PUBLIC__css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>提现信息</title>
+</head>
+<body>
+<div class="pd-20">
+	<form action="" method="post" class="form form-horizontal" id="form-nav-add">
+		<input type="hidden" name="id" value="{$info.id}" />
+		<input type="hidden" name="uid" value="{$info.uid}" />
+		<input type="hidden" name="cash" value="{$info.cash}" />
+		<div class="row cl">
+			<label class="form-label col-3">结算账号：</label>
+			<div class="formControls col-5">
+				{$info.mobile}
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">提现：</label>
+			<div class="formControls col-5">
+				{$info.bank_name}
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">收款姓名：</label>
+			<div class="formControls col-5">
+				{$info.realname}
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">提现银行：</label>
+			<div class="formControls col-5">
+				{$info.account_number}
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">申请时间：</label>
+			<div class="formControls col-5">
+				{$info.ask_for_date|date='Y-m-d H:i:s',###}
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">支付金额：</label>
+			<div class="formControls col-5">
+				{$info.cash|number_format=2}元
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-3">操作状态：</label>
+			<div class="formControls col-5">（此次请求将无法再次操作） <span class="select-box " >
+				<select class="select " name="status" size="1" datatype="*" nullmsg="请选择位置！" <if condition="$info.status gt '0'">disabled class="btn-warning"</if> >
+					<option value="0" <if condition="$info.status eq '0'">selected</if> >未操作</option>
+					<option value="1" <if condition="$info.status eq '1'">selected</if> >已成功</option>
+					<option value="-1" <if condition="$info.status eq '-1'">selected</if> >撤销</option>
+				</select>
+				</span> </div>
+		</div>
+		
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript" src="__PUBLIC__lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__lib/icheck/jquery.icheck.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__lib/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__lib/layer/2.1/layer.js"></script> 
+<script type="text/javascript" src="__PUBLIC__js/H-ui.js"></script> 
+<script type="text/javascript" src="__PUBLIC__js/H-ui.admin.js"></script> 
+<script type="text/javascript">
+$(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
+	$("#form-nav-add").Validform({
+		tiptype:2,
+		ajaxPost:true,
+		callback:function(data){
+			if(data.status=="y"){
+				setTimeout(function(){
+					$.Hidemsg();
+					var index = parent.layer.getFrameIndex(window.name); //获取当前子页面的索引
+					parent.location.reload();//重新加载父页面
+					parent.layer.close(index); //通过索引关闭页面
+				},1000);
+			}
+		}
+	});
+});
+</script>
+</body>
+</html>

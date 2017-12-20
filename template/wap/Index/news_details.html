@@ -1,0 +1,43 @@
+<extend name="Public:base"/>
+<block name="content">
+  <style type="text/css">
+	.content{padding:0 1rem;}
+	.content h1{text-align:center;font-weight:300;font-size:1rem;margin-bottom:0;}
+	.content h5{text-align:center;margin-top:0rem;font-weight:unset;color:#b3abab;}
+  </style>
+
+      <div class="content" style="background:#fff;">
+			<h1>关于我们的小猪</h1>
+			<h5>2017-06-08 15:53</h5>
+			<p>      节目中郭总首次谈及个人公益经历，大学时期参与到贵州太阳乡扶贫支教活动，和那里的小朋友进行日常的互动交流，对小朋友进行课堂教育，并赠送书本，这十几天是生命中难忘而又愉快一段时光。回到学校后心里仍然惦念着那边的孩子，回想起他们艰苦的生活环境、求知若渴的眼睛，又通过组织校园捐款，对孩子们进行教育资助，帮助寒门学子圆读书梦。
+       随后，郭总谈起自己对公益的理解，她表示：“授人以鱼不如授人以渔，希望能够将责任意识和慈善公益意识有机结合起来，引导企业界、各社会团体和我们的员工及客户通过慈善公益承担更多的社会责任。在小猪罐子成立3周年之际，公益爱心行动也再度升级，我们了解到，深圳市广电公益基金会作为全国广电系统首家公募基金会，其所践行的公益文化与小猪罐子“以人为本，从心出发”的理念高度一致。所以，我们非常荣幸与深圳市广电公益基金会共同合作，联合发起爱小猪公益计划。“
+       “爱小猪公益计划”的主旨是致力公益慈善事业，推动社会和谐进步，帮助社会各个阶层的困难群体，大力推动中国公益事业的发展。在“爱小猪公益计划”中包含各类面向不同群体的公益项目，这些项目就像一个个充满爱心的小水滴，通过“爱小猪公益计划”汇聚成洋，小猪罐子通过这些项目帮助到社会各界有需要的人，最终实现小猪罐子“人人公益”的美好理想。</p>
+       <div style="padding:1rem;overflow:hidden;">
+	       <a href="" style="float:left;">上一篇</a>
+	       <a href="" style="float:right;">下一篇</a>
+       </div>
+      </div>
+
+</block>
+<block name="jsinit">
+    <script>
+      $(".pay-list>li>img").click(function(){
+         $(".pay-list li img").removeClass("selected");
+         $(this).addClass("selected");
+      });
+
+      $(function (){
+        $("#pay").click(function(){
+          var money = $("#money").val();
+          if(money == ""){
+            layer.msg("金额不能为空");
+            return false;
+          }
+          if(money < 100){
+            layer.msg("充值金额不得小于100");
+            return false;
+          }          
+        })
+      })
+    </script>
+</block>

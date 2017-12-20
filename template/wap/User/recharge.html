@@ -1,0 +1,61 @@
+<extend name="Public:base"/>
+<block name="content">
+      <style type="text/css">
+          .pay-title ul{padding:0;overflow:hidden;} 
+          .pay-title h5{text-align:center;} 
+          .pay-title ul li{float: left;width: 50%;text-align: center;height: 3rem;line-height: 3rem;}
+          .selected{border:1px solid red;}
+          .pay{text-align:center;padding:0 5%;}
+          .pay input{background:none;border-radius:5px;outline:none;width:100%;border:1px solid #ccc;height:1.8rem;line-height:1.8rem;padding:0 8px;margin-bottom:0.5rem;}
+      </style>
+      <div class="content">
+          <div class="pay-title">
+            <h5>支付方式</h5>
+            <ul class="pay-list">
+                <li><img class="selected" src="__PUBLIC__web/img/ddb.jpg" /></li>
+                <li><img src="__PUBLIC__web/img/ddb.jpg" /></li>
+                <li><img src="__PUBLIC__web/img/ddb.jpg" /></li>
+                <li><img src="__PUBLIC__web/img/ddb.jpg" /></li>
+            </ul>
+          </div>
+          <div class="pay">
+            <form>
+              <input type="text" name="" value="" id="money" placeholder="请输入要充值的金额">
+            </form>
+            <input type="button" class="button button-fill" name="" id="pay" value="立即充值" />
+          </div>
+      </div>
+</block>
+<block name="jsinit">
+    <script type="text/javascript">
+        $(function (){
+            $(".bar-tab .tab-item").eq(2).addClass('active').siblings().removeClass('active');
+            $(".pay-list>li>img").click(function(){
+            $(".pay-list li img").removeClass("selected");
+                $(this).addClass("selected");
+            });
+
+
+            $(document).on('click',"#pay",function(){
+                var money = $("#money").val();
+                if(money == ""){
+                    $.toast("金额不能为空");
+                    return false;
+                }
+                if(money < 100){
+                    $.toast("充值金额不得小于100");
+                    return false;
+                }
+                $.post('',{money:money},function(res){
+                    if(res.error==1){
+                        $.toast(res.msg);
+                        if(res.needlogin==1)location.href=='/wap/index/login';
+                        return;
+                    }else {
+                        $.toast(res.msg);
+                    }
+                });
+            });
+        });
+    </script>
+</block>

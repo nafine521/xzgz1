@@ -1,0 +1,166 @@
+  <extend  name="Public/base" />
+  <block name="content">
+
+      <div class="content">
+        <div class="swiper-container" data-space-between='10' data-pagination='.swiper-pagination' data-autoplay="1000"  >
+            <div class="swiper-wrapper">
+              <div class="swiper-slide"><img src="__PUBLIC__web/img/1.jpg" alt=""></div>
+              <div class="swiper-slide"><img src="__PUBLIC__web/img/3.jpg" alt=""></div>
+              <div class="swiper-slide"><img src="__PUBLIC__web/img/3.jpg" alt=""></div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <div class="content-block" style="margin-top: 0;">
+          <div class="content-padded grid-demo">
+            <div class="row" style="text-align: center;">
+              <div class="col-25">
+                <a href="/wap/index/login.html" class="head">
+                  <span class="icon icon-app" style="font-size: 1rem;"></span>
+                  <p style="font-size:0.5rem;color:#000;margin:0;">登录</p>
+                </a>
+              </div>
+              <div class="col-25">
+                <a href="/wap/index/reg.html" class="head">
+                  <span class="icon icon-browser" style="font-size: 1rem;"></span>
+                  <p style="font-size:0.5rem;color:#000;margin:0;">注册</p>
+                </a>
+              </div>
+              <div class="col-25">
+                <a href="/wap/index/" class="head">
+                  <span class="icon icon-card" style="font-size: 1rem;"></span>
+                  <p style="font-size:0.5rem;color:#000;margin:0;">签到</p>
+                </a>
+              </div>
+              <div class="col-25">
+                <a href="/wap/index/recharge.html" class="head">
+                  <span class="icon icon-cart" style="font-size: 1rem;"></span>
+                  <p style="font-size:0.5rem;color:#000;margin:0;">充值</p>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="buttons-row" style="margin: 0 0.5rem;">
+            <a href="#tab1" class="tab-link active button">短期</a>
+            <a href="#tab2" class="tab-link button">长期</a>
+            <a href="#tab3" class="tab-link button">综合</a>
+          </div>
+        </div>
+        <div class="tabs">
+        <div id="tab1" class="tab active">
+          <div class="content-block">
+          <volist name="short_list" id="v">
+            <a href="{:U('pro_detail',['id'=>$v['id']])}" style="color:#6d6d72">
+              <div class="card">
+                  <div class="card-header">{$v['name']}</div>
+                  <div class="card-content">
+                    <div class="list-block media-list">
+                      <ul>
+                        <li class="item-content">
+                          <div class="item-media">
+                            <img src="__ROOT__{$v['litpic']}" width="80">
+                          </div>
+                          <div class="item-inner">
+                            <div class="item-subtitle">投资总额：<span style="color:#e80e0e">{$v['item_total']|format_currency}</span></div>
+                            <div class="item-subtitle">项目期限：<span style="color:#e80e0e">{$v['expression']}天</span></div>
+                            <div class="item-subtitle">年化收益：<span style="color:#e80e0e">{$v['annual_income']}%</span></div>
+                            <div class="item-subtitle">进度:<span>
+                              <em><i style="width:{:progress($v['item_total'],$v['surplus'])}%;"></i></em>
+                              <span>{:progress($v['item_total'],$v['surplus'])}%</span>
+                              </span>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <span>发布时间：{$v['pubdate']|date='Y-m-d',###}</span>
+                  </div>           
+            </div>
+          </a>
+          </volist>
+          </div>
+        </div>
+        <div id="tab2" class="tab">
+          <div class="content-block">
+          <volist name="long_list" id="v">
+              <a href="{:U('pro_detail',['id'=>$v['id']])}" style="color:#6d6d72">
+                <div class="card">
+                  <div class="card-header">{$v['name']}</div>
+                  <div class="card-content">
+                    <div class="list-block media-list">
+                      <ul>
+                        <li class="item-content">
+                          <div class="item-media">
+                            <img src="__ROOT__{$v['litpic']}" width="80">
+                          </div>
+                          <div class="item-inner">
+                            <div class="item-subtitle">投资总额：<span style="color:#e80e0e">{$v['item_total']|format_currency}</span></div>
+                            <div class="item-subtitle">项目期限：<span style="color:#e80e0e">{$v['expression']}天</span></div>
+                            <div class="item-subtitle">年化收益：<span style="color:#e80e0e">{$v['annual_income']}%</span></div>
+                            <div class="item-subtitle">进度:<span>
+                              <em><i style="width:{:progress($v['item_total'],$v['surplus'])}%;"></i></em>
+                              <span>{:progress($v['item_total'],$v['surplus'])}%</span>
+                              </span>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <span>发布时间：{$v['pubdate']|date='Y-m-d',###}</span>
+                  </div>
+                </div>
+              </a>
+          </volist>
+          </div>
+        </div>
+        <div id="tab3" class="tab">
+          <div class="content-block">
+            <!--开始-->
+          <volist name="list" id="v">
+
+              <a href="{:U('pro_detail',['id'=>$v['id']])}" style="color:#6d6d72">
+                <div class="card">
+                  <div class="card-header">{$v['name']}</div>
+                  <div class="card-content">
+                    <div class="list-block media-list">
+                      <ul>
+                        <li class="item-content">
+                          <div class="item-media">
+                            <img src="__ROOT__{$v['litpic']}" width="80">
+                          </div>
+                          <div class="item-inner">
+                            <div class="item-subtitle">投资总额：<span style="color:#e80e0e">{$v['item_total']|format_currency}</span></div>
+                            <div class="item-subtitle">项目期限：<span style="color:#e80e0e">{$v['expression']}天</span></div>
+                            <div class="item-subtitle">年化收益：<span style="color:#e80e0e">{$v['annual_income']}%</span></div>
+                            <div class="item-subtitle">进度:<span>
+                              <em><i style="width:{:progress($v['item_total'],$v['surplus'])}%;"></i></em>
+                              <span>{:progress($v['item_total'],$v['surplus'])}%</span>
+                              </span>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <span>发布时间：{$v['pubdate']|date='Y-m-d',###}</span>
+                  </div>
+                </div>
+              </a>
+              <!--结束-->
+
+          </volist>
+          </div>
+        </div>
+        </div>        
+        </div>
+  </block>
+  <block name="jsinit">
+    <script type="text/javascript">
+        $.init();
+    </script>
+  </block>

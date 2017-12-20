@@ -1,0 +1,111 @@
+<html>
+<head>
+    <title>电子合同</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <script>
+
+        function objects(x,y,i,color){
+            var obj = document.getElementById("Layer2");
+            with(obj){
+                id="Div_"+i;
+
+            }
+            return obj;
+
+        }
+
+
+        function moveObj(obj) {
+            obj.style.pixelLeft+=30;
+            if(obj.style.pixelLeft>document.body.clientWidth){obj.style.pixelLeft=0;}
+        }
+    </script>
+    <style type="text/css">
+        <!--
+        .STYLE1 {font-size: 12px}
+        -->
+    </style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+
+
+
+<table width="740" border="0" align="center" cellpadding="2" cellspacing="2">
+    <tr>
+        <td height="63" align="center" valign="bottom" style="font-family: 宋体;">
+            <b><font size="6">理财电子合同
+
+            </font></b>            </td>
+    </tr>
+    <tr>
+        <td style="font-family: 宋体; font-size: 16px">
+            {$body}
+        </td>
+    </tr>
+    <tr>
+        <td>
+
+            <div style="position: relative; left: 0px; top: 0px;">
+                <div id="Layer1" style="position: absolute; width: 197px; height: 29px; z-index: 2;
+            left: 69px; top: -60px;">
+                    <img src="{$seal}"></div>
+            </div>
+            <div style="position: relative; left: 0px; top: 0px;">
+                <div id="Layer2" style="position: absolute; width: 197px; height: 29px; z-index: 2;
+            left: 600px; top: 47px;">
+                    <img src="__PUBLIC__web/img/yz.gif"></div>
+            </div>
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="66%" style="font-family: 宋体; font-size: 16px">
+                        甲方：{$company}（公章）
+                        <br>
+                        代表签字： <span style="font-family: 楷体_GB2312;
+                                font-weight: bold; font-size: 28px">{$web_postal}</span> <br>
+                        签约日期：{$dealtime}</td>
+                    <td width="34%" style="font-family: 宋体; font-size: 16px">
+                        乙方：{$uname}<br>
+
+                        <table>
+                            <tr>
+                                <td>
+                                    签字：</td>
+                                <td>
+                                    <div id="haha" style="font-family: 楷体_GB2312; font-weight: bold; font-size: 28px">
+                                        {$uname}
+                                    </div>
+
+                                </td>
+
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>   <p class="noprint"> <table width="322" height="89" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+        <td align="center"><a href="javascript:;" id="print" target="_blank">打印电子合同</a></td>
+    </tr>
+</table></p>
+<script type="text/javascript" src="__PUBLIC__website/js/jquery-1.8.3.min.js" ></script>
+<script>
+    $("#print").click(function () {
+        $(this).css("display","none");
+        window.print();
+        $(this).css("display","block");
+    });
+</script>
+</body>
+</html>

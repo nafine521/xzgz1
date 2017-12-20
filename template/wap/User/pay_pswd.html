@@ -1,0 +1,72 @@
+<extend name="Public:base"/>
+<block name="content">
+      <div class="content">
+      <div class="list-block" style="margin:0">
+          <ul>
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-name"></i></div>
+                <div class="item-inner">
+                  <div class="item-title label">原密码</div>
+                  <div class="item-input">
+                    <input type="password" placeholder="请输入原密码">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                <div class="item-inner">
+                  <div class="item-title label">新密码</div>
+                  <div class="item-input">
+                    <input type="password" placeholder="请输入新密码">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-password"></i></div>
+                <div class="item-inner">
+                  <div class="item-title label">确认密码</div>
+                  <div class="item-input">
+                    <input type="password" placeholder="请确认密码">
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+  </div>
+  <div class="content-block">
+    <div class="row">
+      <div class="col-100"><a href="#" class="button button-fill button-danger">确认修改</a></div>
+    </div>
+  </div>
+</div>
+
+      </div>
+
+</block>
+<block name="jsinit">
+    <script>
+      $(".pay-list>li>img").click(function(){
+         $(".pay-list li img").removeClass("selected");
+         $(this).addClass("selected");
+      });
+
+      $(function (){
+        $("#pay").click(function(){
+          var money = $("#money").val();
+          if(money == ""){
+            layer.msg("金额不能为空");
+            return false;
+          }
+          if(money < 100){
+            layer.msg("充值金额不得小于100");
+            return false;
+          }          
+        })
+      })
+    </script>
+</block>

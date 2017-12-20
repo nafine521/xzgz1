@@ -1,0 +1,36 @@
+<div class="quiet_div">
+    <table cellspacing="0" cellpadding="0" border="0">
+        <!--title部分-->
+        <tr class="per_tr">
+            <td style="width:20px;" class="per_left_top"></td>
+            <td style="width:218px; text-align:left;">时间</td>
+            <td style=" width:130px;">充值流水号</td>
+            <td style="width:120px;text-align:right;">充值金额</td>
+            <td style=" width:170px;">充值方式</td>
+            <td style="width:130px;" class="per_right_top">状态</td>
+        </tr>
+        <!--title部分结束-->
+        <!--白色背景数据结束-->
+        <!--灰色背景数据-->
+        <volist name="list" id="v" key="k" empty="$empty">
+            <tr height="50" class="per_tr2">
+                <td class="per_left_down"></td>
+                <td style="text-align:left;">{$v.create_time|date='Y-m-d H:i:s',###}</td>
+                <td>{$v.out_trade_no}</td>
+                <td style="text-align:right;"><label>{$v.recharge_money}</label></td>
+                <td>{$v.charge_type}</td>
+                <td class="per_right_down">
+                    <if condition="$v['status'] eq 1">
+                        <label style=" color:#1eae58;">成功</label>
+                        <elseif condition="$v['status'] eq -1"/>
+                        <label style=" color:#ff1c63;">失败</label>
+                        <else />
+                        <label style=" color:#0f0f0f;">等待处理</label>
+                    </if>
+                </td>
+            </tr>
+        </volist>
+
+    </table>
+</div>
+<div class="per_pages" style="margin-bottom:40px;"></div>

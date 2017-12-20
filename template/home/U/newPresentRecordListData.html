@@ -1,0 +1,39 @@
+<div class="quiet_div">
+    <table cellspacing="0" cellpadding="0" border="0">
+        <!--title部分-->
+        <tr class="per_tr">
+            <td style="width:20px;" class="per_left_top"></td>
+            <td style="width:218px; text-align:left;">时间</td>
+            <td style=" width:130px;">银行</td>
+            <td style="width:120px;">提现账户</td>
+            <td style=" width:150px;text-align:right;">提现金额</td>
+            <td style="width:150px;" class="per_right_top">状态</td>
+        </tr>
+        <!--title部分结束-->
+
+
+
+        <volist name="list" id="v" key="k" empty="$empty">
+            <tr height="50" class="per_tr2">
+                <td class="per_left_down"></td>
+                <td style="text-align:left;">{$v.ask_for_date|date='Y-m-d H:i:s',###}</td>
+                <td>{$v.bank_name}</td>
+                <td>{$v.account_number}</td>
+                <td style="text-align:right;"><label>{$v.cash}</label></td>
+
+                <td class="per_right_down">
+                    <if condition="$v['status'] eq 1">
+                    <label style=" color:#1eae58;">已同意</label>
+                        <elseif condition="$v['status'] eq -1"/>
+                        <label style=" color:#ff1c63;">拒绝</label>
+                        <else />
+                        <label style=" color:#0f0f0f;">等待处理</label>
+                    </if>
+                </td>
+            </tr>
+        </volist>
+    </table>
+</div>
+<div class="per_pages">
+    <div class="main_c_list_page" style="float: right;">{$page}</div>
+</div>

@@ -1,0 +1,47 @@
+<extend name="Public:base"/>
+<block name="content">
+      <div class="content">
+   <div class="list-block info-li" style="margin:0">
+      <ul>
+          <li class="item-content">
+            <div class="item-media"><i class="icon icon-phone"></i></div>
+            <div class="item-inner">
+              <div class="item-title">手机号</div>
+              <div class="item-after">{$user_info['user_tel']}</div>
+            </div>
+          </li>
+          <li class="item-content">
+            <div class="item-media"><i class="icon icon-friends"></i></div>
+            <div class="item-inner">
+              <div class="item-title">昵称</div>
+              <div class="item-after">{$user_info['user_name']}</div>
+            </div>
+          </li>
+
+              <li class="item-content item-link">
+                  <div class="item-media"><i class="icon icon-card"></i></div>
+                  <div class="item-inner">
+                      <div class="item-title">修改个人信息</div>
+                  </div>
+              </li>
+
+
+            <li class="item-content item-link" onclick="location.href='/wap/index/login_pswd.html';">
+              <div class="item-media"><i class="icon icon-edit"></i></div>
+              <div class="item-inner">
+                <div class="item-title">修改登录密码</div>
+              </div>
+            </li>
+
+
+      </ul>
+
+    </div>
+
+      </div></block>
+<block name="jsinit">
+    <script type="text/javascript">
+        $(".button-link.back").show();
+        $.init();
+    </script>
+</block>

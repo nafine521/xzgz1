@@ -1,0 +1,134 @@
+
+<extend name="Public:base"/>
+<block name="content">
+    <style>
+        body{ background:#eaedf4;}
+    </style>
+
+<!-- 面包屑start -->
+<div class="crumbs">
+    <div class="crumbs-content">
+        <i class="icon-house"></i>
+        <a href="/">首页</a>
+        <i class="icon-leftarrow"></i>
+        <a href="/index/help">帮助中心</a>
+    </div>
+</div>
+<!-- 面包屑end -->
+
+<!-- 页面内容start -->
+<div class="help-page">
+    <!-- 左侧导航start -->
+    <!-- 左边导航start -->
+    <div class="help-nav clearfix">
+        <ul class="nav-list" id="nav-list">
+            <volist name="subnav" id="v" key="k">
+            <li>
+                <a href="javascript:" class="nav_list_a{$k} nav_list_a"><i class="icon_piggz"></i>{$v.name}</a>
+                <ul class="child-nav-list">
+                    <volist name="v.child" id="vo" key="ko">
+                    <li><a href="{:U('',['aid'=>$vo['aid']])}">{$vo.title}</a></li>
+                        <if condition="$info['id'] eq $vo['aid']">
+                            <script>
+                                window.onload=function () {
+                                    navControl( {$k-1} , {$ko-1} );
+                                }
+                            </script>
+                        </if>
+                    </volist>
+                </ul>
+            </li>
+            </volist>
+
+        </ul>
+    </div>
+    <!-- 左边导航end -->
+
+
+
+
+
+
+
+<!-- 左边导航end -->
+
+<!--右侧问答-->
+<div class="help-content">
+    <div class="xz-widget">
+        <div class="xz-widget-header">
+            <h3><em>{$info.title}</em></h3>
+        </div>
+        <div class="xz-widget-body">
+            {$info["body"]|htmlspecialchars_decode}
+        </div>
+
+    </div>
+</div>
+<!--右侧问答结束-->
+</div>
+</block>
+ <block name="footer_js">
+
+     <script type="text/javascript">
+         // 左侧导航
+         var navControl = function(){
+
+             var nav = $( '#nav-list' );
+             var list = nav.find( '>li' );
+             var now = last = 0;
+
+             function _slide( nav1 , nav2 ){
+                 var lastNav = list.eq(last);
+                 var currentNav = list.eq(nav1);
+                 var currentList = currentNav.find( 'li' );
+                 lastNav.removeClass('active');
+                 lastNav.find('.child-nav-list').removeClass('active').slideUp();
+                 currentNav.addClass('active');
+                 currentNav.find('.child-nav-list').slideDown();
+                 if( nav2 !== undefined ){
+                     currentList.removeClass('active').eq(nav2).addClass('active');
+                 }
+                 last = nav1;
+             }
+
+             list.click(function(){
+                 if( last === $(this).index())return;
+                 now = $(this).index();
+                 _slide( now );
+             });
+
+             list.find( 'li' ).click(function( ev ){
+                 ev.stopPropagation();
+                 list.find('li').removeClass( 'active' );
+                 $(this).addClass( 'active' );
+             });
+
+             return function( nav1 , nav2 ){
+                 _slide( nav1 || 0 , nav2 );
+             }
+
+         }();
+
+         // 用法，navControl( 3 --> 一级目录位置[可省略,默认为0], 0 --> 二级目录位置[可省略] );
+
+         $(function(){
+             $('.question-list>li').click(function(){
+                 var div = $(this).find('.q-answer');
+                 var icon = $(this).find('.helpicon-plus');
+                 if( div.css( 'display' ) === 'none' ){
+                     icon.addClass('reverse');
+                     div.slideDown();
+                 }else{
+                     icon.removeClass('reverse');
+                     div.slideUp();
+                 }
+             });
+         });
+
+
+
+     </script>
+</block>
+
+
+

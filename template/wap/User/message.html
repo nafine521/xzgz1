@@ -1,0 +1,78 @@
+<extend name="Public:base"/>
+<block name="content">
+      <div class="content">
+        <div class="card-container">
+            <volist name="list" id="v">
+        <div class="card ">
+          <div class="card-header">{$v.title}<i class="icon icon-menu create-actions" data-status="{$v.status}" data-content-id="{$v.id}"></i></div>
+          <div class="card-content">
+            <div class="card-content-inner">{$v.message|htmlspecialchars_decode|strip_tags}</div>
+          </div>
+        </div>
+            </volist>
+
+        </div>
+      </div>      
+
+</block>
+<block name="jsinit">
+    <script type="text/javascript">
+        function _ajax(parma,obj){
+            $.get('{:U("message_do")}',parma,function (res) {
+                if(res.error==1) {
+                    smssave=false;
+                    if(res.needlogin==1) location.href="{:U('index/login')}";
+                    return $.toast(res.msg);
+                } else {
+                    $.alert(res.msg);
+                    if(parma['delete']==1)  obj.parents('.card').remove();
+                    else{
+                        if(parma['status']==1)  obj.attr('data-status',1);
+                        if(parma['status']=='0')  obj.attr('data-status',0);
+                    }
+
+                }
+            })
+        }
+        $(".button-link.back").show();
+        $(".bar-tab .tab-item").eq(2).addClass('active').siblings().removeClass('active');
+        $(document).on('click','.create-actions', function () {
+            var $this=$(this)
+            var parma= {
+                id: $this.attr('data-content-id'),
+
+            };
+            var buttons1 = [
+                {
+                    text: '请选择',
+                    label: true
+                },
+                {
+                    text: '标记为'+($this.attr('data-status')==1?'未读':'已读'),
+                    bold: true,
+                    onClick: function() {
+                        parma['status']=$this.attr('data-status')==1?0:1;
+                        _ajax(parma)
+                    }
+                },
+                {
+                    text: '删除',
+                    color: 'danger',
+                    onClick: function() {
+                        parma['delete']=1;
+                        _ajax(parma,$this)
+                    }
+                }
+            ];
+            var buttons2 = [
+                {
+                    text: '取消',
+                    bg: 'danger'
+                }
+            ];
+            var groups = [buttons1, buttons2];
+            $.actions(groups);
+        });
+        $.init();
+    </script>
+</block>

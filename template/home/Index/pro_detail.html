@@ -1,0 +1,394 @@
+<extend name="Public/base"/>
+<block name="content">
+    <style type="text/css">
+        .tag-data{ position: relative;}
+        .cool-tag{ position: absolute; right: 0;top: 0; background: url(http://mer.xiaozhu168.com/static/website/images/cool_tag.png) no-repeat;width: 100px;height: 80px;}
+        .cool-time{ margin-right: 88px}
+        .cool{ background: #ff6235 !important;}
+    </style>
+
+<!-- 面包屑start -->
+<div class="crumbs">
+    <div class="crumbs-content">
+        <i class="icon-house"></i>
+        <a href="/">首页</a>
+        <i class="icon-leftarrow"></i>
+        <a href="{:U('project')}">投资理财</a>
+        <i class="icon-leftarrow"></i>
+        <a href="javascript:;">产品详情</a>
+    </div>
+</div>
+<!-- 面包屑end -->
+
+<!-- 标数据 start -->
+<div class="tag-data">
+    <div class="tag-data-content">
+
+        <!-- 标名称&开标时间 start -->
+        <div class="tag-type clearfix">
+            <div class="tag-name float-l">
+                <i class="tag-flag-all">优</i>
+                {$info.name}
+                <!--<em class="tag-flag">可使用红利</em>  -->
+
+            </div>
+
+            <div class="tag-time float-r">
+                <input  type="hidden"  value="{:date('Y-m-d H:i:s',$info['exp_start'])}"   id="tenderTime"   />
+                <em class=" ">
+                <if condition="$info['item_status'] neq 1">
+                    <i class="icon-time"></i>
+                开标时间：{:date('Y-m-d H:i:s',$info['exp_start'])}
+                <else/>
+                    <img src="__PUBLIC__website/images/dynamic_clock.gif">
+                    <span class="countdown-tag" id="dateTime">{$info['exp_start']-time()}</span>
+                </if>
+                </em>
+
+            </div>
+
+            <!-- 爽一发 活动 -->
+        </div>
+        <!-- 标名称&开标时间 end -->
+
+        <div class="tag-data-detail clearfix">
+            <div class="tag-data-view">
+                <!-- 年化收益&期限&总额 start -->
+                <ul class="tag-data-list clearfix">
+                    <li class="tag-profit">
+                        <strong>
+                            {$info.annual_income}<sub>%</sub>
+                            <em class="vip-profit">
+                                +VIP
+                            </em>
+                        </strong><br />
+                        预期年化收益
+                    </li>
+                    <li class="tag-limit">
+                        <strong>{$info.expression}<sub>
+                            天</sub></strong><br />
+                        期限
+                    </li>
+                    <li class="tag-count">
+                        <strong>{$info.item_total|number_format=2}<sub>元</sub></strong><br />
+                        项目金额
+                    </li>
+                </ul>
+                <!-- 年化收益&期限&总额 end -->
+
+                <!-- 进度条 start -->
+                <div class="tag-progress">
+                    <div class="tag-progress-bar" progress="{:round(($info['item_total']-$info['surplus'])/$info['item_total']*100 ,2)}%">
+
+                        <!-- 爽一发-->
+                        <em class="tag-progress-finished"></em>
+                    </div>
+                    <span>{:round(($info['item_total']-$info['surplus'])/$info['item_total']*100 ,2)}%</span>
+                </div>
+                <!-- 进度条 end -->
+
+                <hr class="dashed" />
+
+                <!-- 标特征 start -->
+                <div   class="tag-features">
+                    <volist name="attr" id="v">
+                        <i class="icon-hook"></i>
+                        <span class="popTip" title="{$v.tips}">{$v.name}</span>
+                    </volist>
+                </div>
+                <!-- 标特征 end -->
+
+                <!-- 合作机构&活动 start -->
+                <div class="tag-data-more clearfix">
+
+                    合作机构：万邦小额贷款有限责任公司 <!--<div class="tag-avt">
+						<i class="icon-hot"></i>
+						活动：限时投资送好礼，逢万必返现金券
+					</div> -->
+                </div>
+                <!-- 合作机构&活动 end -->
+            </div>
+
+            <!-- 投标区域 start -->
+            <div class="tag-invest">
+                <ul class="invest-count clearfix">
+                    <li class="invest-residue">
+                        可投金额<em>(元)</em><br />
+                        <span class="blue">{$info.surplus|number_format=2}</span>
+                    </li>
+                    <if condition="empty($user_info)">
+                        <!-- 未登录 start -->
+                        <li class="user-residue">
+                            账户余额<em>(元)</em><br />
+                            <span class="user-count dark">
+							请<a href="javascript:loginWin('{:U('pro_detail',['id'=>$info['id']])}')" class="login">登录</a>查看
+						</span>
+                        </li>
+                        <!-- 未登录 end -->
+                        <else/>
+                    <!-- 已登录 start -->
+                    <li class="user-residue">
+                        账户余额<em>(元)</em><br>
+                        <span class="user-count dark" user-account="{:balance($user_info["uid"])}">{:balance($user_info["uid"])}</span>
+                        <a href="javascript:;" class="hide-money">
+                            <i class="icon-eyes"></i>
+                        </a>
+                        <a href="/U/recharge" class="recharge-btn">充值</a>
+                    </li>
+                    <!-- 已登录 end -->
+                    </if>
+
+                </ul>
+
+                <form id="form" name="form" action="" target="_blank" method="post"><div class="invest-area">
+                    <div class="invest-form-line">
+                        <input type="text" id="borrowSum{$info.id}"  maxlength="8" name="paramMap.amount" preValue="0" class="invest-ipt" placeholder="起投金额{$info.mintender}元" />
+
+                    </div>
+                    <div class="ticket-status">
+
+                    </div>
+                </div>
+                    <input type="hidden" id="annualRate" name="paramMap.annualRate" value="{$info.annual_income}" />
+                    <input type="hidden" id="deadline" name="paramMap.deadline" value="{$info.expression}" />
+                    <input type="hidden" id="minTenderedSum" name="paramMap.minTenderedSum" value="{$info.mintender}" />
+                    <input type="hidden" id="maxTenderedSum" value="{$info.surplus}" />
+                    <input type="hidden" id="useableSum" value="" />
+                    <input type="hidden" id="blue" value="{$info.surplus}" />
+                    <input type="hidden" id="isDayThe" name="paramMap.isDayThe" value="1" />
+                    <input type="hidden" id="paymentMode" name="paramMap.paymentMode" value="3" />
+                    <input type="hidden" id="borrowId" name="paramMap.id" value="{$info.id}" />
+                    <input type="hidden" id="voucherIds{$info.id}" name="paramMap.voucherIds"/>
+                    <input type="hidden" id="voucherAmt{$info.id}"/>
+                    <input type="hidden" id="bonusIds{$info.id}" name="paramMap.bonusIds"/>
+                    <input type="hidden" id="bonusAmt{$info.id}"/>
+                    <input type="hidden" id="interestIds{$info.id}" name="paramMap.interestIds"/>
+                    <input type="hidden" id="borrowWay"  name="paramMap.borrowWay"  value="1">
+                    <input type="hidden" id="isSync"  name="paramMap.isSync"  value="1">
+                </form>
+
+
+                <hr class="dashed" />
+
+                <!-- 到期收益 start -->
+                <ul class="invest-feedback clearfix">
+                    <li>
+                        预计到期收益<em>(元)</em>
+                        <span class="invest-income">0.00</span>
+                    </li>
+                    <li>
+                        额外收益<em>(元)</em>
+                        <span class="vip-income">0.00</span>
+                    </li>
+
+                </ul>
+                <!-- 到期收益 end -->
+
+                <!-- 投标按钮 start -->
+                <!-- 爽一发活动 -->
+                <if condition="$info['item_status'] eq 1">
+                <!-- 即将上线 -->
+                    <a href="javascript:loginWin('{:U("pro_detail",['id'=>$info['id']])}');" class="invest-btn btn-status2">即将上标</a>
+                <!-- 招标中 -->
+                    <elseif condition="$info['item_status'] eq 2"/>
+                    <a href="javascript:;" class="invest-btn btn-status1 " id="btnsave">立即投标</a>
+                <!-- 卖完 -->
+                    <elseif condition="$info['item_status'] eq 3"/>
+                    <a href="javascript:loginWin('{:U("pro_detail",['id'=>$info['id']])}');"  class="invest-btn btn-status3" >已售完</a>
+                <!-- 收益中 -->
+                <!-- 已还款 -->
+                <elseif condition="$info['item_status'] eq 4"/>
+                <a href="javascript:loginWin('{:U("pro_detail",['id'=>$info['id']])}');"  class="invest-btn btn-status3" >已还款</a>
+                <!-- 爽一发活动 -->
+                </if>
+                <!-- 投标按钮 end -->
+
+                <div class="invest-area-more">
+                    <label class="checkbox">
+                        <input type="checkbox" checked  id="agre"/>
+                        同意《<a href="javascript:;" class="contract-link" id="contract" style="color:#1eae58">合同</a>》
+                    </label>
+                    <i class="icon-invest-warnning"></i>
+                    提醒：投资有风险，理财需谨慎
+                </div>
+
+            </div>
+            <!-- 投标区域 end -->
+        </div>
+
+    </div>
+
+</div>
+<!-- 标数据 end -->
+
+<!-- 项目详情 start -->
+<div class="project-detail clearfix">
+
+    <div class="project-nav">
+        <ul>
+            <li class="active">
+                <em>○</em>项目介绍
+            </li>
+            <li>
+                <em>○</em>项目资质
+            </li>
+            <li>
+                <em>○</em>投资记录
+            </li>
+            <li>
+                <em>○</em>常见问题
+            </li>
+        </ul>
+    </div>
+
+    <div class="project-info">
+        <!-- 项目介绍 start -->
+        <div class="info-section info-section1">
+            <h3>
+                <span>项目介绍</span>
+            </h3>
+
+            {$info.body|htmlspecialchars_decode}
+        </div>
+        <!-- 项目介绍 end -->
+
+        <!-- 项目资质 start -->
+        <div class="info-section info-section2">
+            <h3>
+                <span>项目资质</span>
+            </h3>
+
+            <div class="product-banner" id="imgBanner">
+                <ul class="product-banner-list">
+                    <volist name="piclist" id="v">
+                    <li>
+                        <p class="clearfix">
+                            <img src="{$v.imgsrc}">
+                        </p>
+                        {$v.imgtitle}</li>
+                    </volist>
+                </ul>
+            </div>
+
+        </div>
+        <!-- 项目资质 end -->
+
+        <!-- 投资记录 start -->
+        <div class="info-section info-section3">
+            <h3>
+                <span>投资记录</span>
+            </h3>
+
+            <div class="invest-record-box clearfix">
+
+
+            </div>
+
+        </div>
+        <!-- 投资记录 end -->
+
+        <!-- 常见问题 start -->
+        <div class="info-section info-section4">
+            <h3>
+                <span>常见问题</span>
+            </h3>
+
+            <div class="question-box">
+                {$info['qaa']|htmlspecialchars_decode}
+            </div>
+
+            <a href="/index/help" class="view-more-q">查看更多问题</a>
+        </div>
+        <!-- 常见问题 end -->
+
+    </div>
+
+</div>
+
+</block>
+
+<block name="footer_js">
+<script type="text/javascript" src="__PUBLIC__website/js/ticket-box.js?v=2.0"></script>
+<script type="text/javascript" src="__PUBLIC__website/js/tag-detail.js?v=2.2"></script>
+<script type="text/javascript" src="__PUBLIC__website/js/jquery.xz168-1.0.js"></script>
+<script type="text/javascript">
+    //头部导航
+    $(".common-nav-list li").removeClass("active");
+    $(".common-nav-list li").eq(1).addClass("active");
+
+
+    $(document).ready(function(){
+//合同弹窗
+        var contrastWin = popOut({
+            title : '合同',
+            width : '800px',
+            height : '650px',
+            content : ''
+        });
+        var content = contrastWin.box.find( '.popout-content' );
+        $( '#contract' ).click(function(){
+            content.html( '<iframe style="border:none;overflow:auto;width:800px;height:600px;" src="{:U('newRegAgreement',['pro_id'=>$info['id']])}"></iframe>' );
+                contrastWin.show();
+
+        });
+        param = {};
+        param["pageBean.pageNum"] = 1;
+
+        initListInfo(param);
+
+
+    });
+
+
+    function initListInfo(param){
+        param["paramMap.id"] = $("#borrowId").val();
+        $.get("{:U('newBorrowInvestRecordList')}", param, function(data) {
+            $(".invest-record-box").html(data);
+        });
+
+    }
+
+    // 项目信息浮动导航
+    (function(){
+        var nav = $( '.project-nav' );
+        var navList = $( '.project-nav li' );
+        var sections = $( '.info-section' );
+        var content = nav.parent();
+        var t = content.offset().top;
+        var h = content.height() - nav.height();
+        var index;
+        $(window).on( 'scroll resize' , function(){
+            var st = document.documentElement.scrollTop || document.body.scrollTop;
+            var pos = Math.max( st - t , 36 );
+            pos = Math.min( pos , h );
+            nav.stop().animate({ 'top' : pos } , _autoNav );
+        });
+        navList.click(function(){
+            var index = $(this).index();
+            $( 'html,body' ).stop().animate({
+                scrollTop : sections.eq( index ).offset().top
+            } , _autoNav );
+        });
+        // 自动导航
+        function _autoNav(){
+            for(var i=0;i<sections.length;i++){
+                if( !_sectionNotInScreen( sections.eq( i ) ) ){
+                    navList.removeClass( 'active' );
+                    navList.eq( i ).addClass( 'active' );
+                    return;
+                }
+            }
+        }
+        // 判断某一项是否不在屏幕内
+        function _sectionNotInScreen( section ){
+            var h = $(window).height();
+            var st = document.documentElement.scrollTop || document.body.scrollTop;
+            var sh = section.height();
+            var pt = section.offset().top;
+            return pt + sh < st || pt > st + h;
+        }
+    })();
+
+
+</script>
+</block>

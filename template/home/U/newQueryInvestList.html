@@ -1,0 +1,199 @@
+<extend name="Public:base"/>
+
+<block name="content">
+
+<!-- 面包屑 start -->
+<div class="crumbs">
+    <i class="icon-home"></i>
+    <a href="/">首页</a><i class="icon-gt"></i>
+    <a href="#">理财管理</a><i class="icon-gt"></i>投资记录
+</div>
+<!--/ 面包屑 end -->
+
+<div class="main">
+    <include file="Public:parent_list"/>
+    <div class="rightBox">
+    <div class="widget-h-75 bg-white widget-header-em"><em>投资记录</em></div>
+
+    <div class="datas-widget bg-white">
+        <!-- 筛选 -->
+        <div class="tab-widget w-740 m-t-20">
+            <ul class="date-tab">
+                <li class="active" index="1" value="0">回款中</li>
+                <li index="2" value="1">已回款</li>
+            </ul>
+        </div>
+        <!--/ 筛选 -->
+        <div class="investrecord"></div>
+    </div>
+</div>
+</div>
+</block>
+<block name="footer_js">
+<script type="text/javascript"  src="__PUBLIC__website/js/jquery.xz168-1.0.js"></script>
+<script type="text/javascript">
+    var param = {};
+    $(function(){
+        param["p"] = 1;
+        param["return_status"]=0
+        var tab = $('.tab-widget li');
+        (function(){
+            initListInfo();
+            tab.click(function(event) {
+                tab.removeClass('active');
+                $(this).addClass('active');
+                var index = $(this).attr('index');
+                param["p"] = 1;
+                param["return_status"] = $(this).val();
+                initListInfo();
+            })
+        })();
+    })
+
+    function initListInfo(){
+        $.get("queryInvestListDate", param, function(data) {
+            $(".investrecord").html(data);
+
+            var fixed;
+            $('table tr td[class="earnings"]').hover(function() {
+                var index = $(this).attr('index');
+
+                fixed = $('.fixed-widget-'+index);
+                // 查询每条投资记录使用的优惠券
+                $(this).append(fixed);
+                fixed.show(300);
+            }, function() {
+                fixed.hide();
+            });
+
+        });
+    }
+
+    var pageNum = 1, //当前页码
+        pageCount,//总页码
+        pageLen,//总条数
+        count,//当页显示条数
+        data, //数据
+        name;//弹窗标题
+
+    function getPeriods( title , index ,borrowId){
+        name = title;
+        param["paramMap.investId"] = index;
+        param["paramMap.borrowId"] = borrowId;
+        $.post("queryRepaymentInfoList", param, function(Rows) {
+
+            data = Rows.list;
+            pageCount = Math.ceil( data.length / 6 );
+            pageLen = data.length;
+            RepaymentInfo( pageNum );
+        });
+    }
+
+    var contrast;
+    function RepaymentInfo( pageNum ){
+        contrast = popOut({
+            title : name,
+            width : '580px',
+            height : '422px',
+            content : ''
+        });
+        var content = contrast.box.find( '.popout-content' );
+        var html='<table width="520" class="m-t-20" id="periods" cellspacing="0" cellpadding="0" border="0" lay-skin="row">';
+        html += '<thead><tr><td width="70">期数</td><td width="150">回款本金</td><td width="150">回款利息</td><td width="150">剩余回款金额</td></tr></thead>';
+        html += '<tbody>';
+
+        count = (pageLen > (pageNum * 6)) ? pageNum * 6 : pageLen;
+        if(count < 1){
+            html += '<tr class="pig_nothing"><td colspan="4"><div></div></td></tr>';
+
+        }else{
+            var i = pageNum > 1 ? (pageNum * 6 - 6) : 0;
+            for (i; i < count; i++) {
+                console.log(data[i])
+                html += '<tr><td>'+data[i].repayPeriod+'</td><td>'+data[i].stillPrincipal+'</td><td>'+data[i].stillInterest+'</td><td>'+data[i].hasrecivedPrincipal+'</td></tr>';
+            }
+
+            if( pageCount > 1){
+                html += '<tfoot><tr><td colspan="4" align="left">'+
+                    '<a href="javascript:pageNumCallback(\'1\',\''+pageNum+'\');" class="prev">上一页</a>'+
+                    '<a class="next" href="javascript:pageNumCallback(\'2\',\''+pageNum+'\');">下一页</a></td></tr></tfoot>';
+            }
+        }
+
+        html += '</tbody></table>';
+
+        content.html( html );
+        contrast.show();
+    }
+
+    //翻页控制.解决翻页跳屏的问题
+    function openPage( pageNum ){
+        count = (pageLen > (pageNum * 6)) ? pageNum * 6 : pageLen;
+        var i = pageNum > 1 ? (pageNum * 6 - 6) : 0;
+        var html = '';
+        html += '<thead><tr><td width="70">期数</td><td width="150">回款本金</td><td width="150">回款利息</td><td width="150">剩余回款金额</td></tr></thead>';
+        html += '<tbody>';
+        for (i; i < count; i++) {
+            html += '<tr><td>'+data[i].repayPeriod+'</td><td>'+data[i].stillPrincipal+'</td><td>'+data[i].stillInterest+'</td><td>'+data[i].hasrecivedPrincipal+'</td></tr>';
+        }
+
+        if( pageCount > 1){
+            html += '<tfoot><tr><td colspan="4" align="left">'+
+                '<a href="javascript:pageNumCallback(\'1\',\''+pageNum+'\');" class="prev">上一页</a>'+
+                '<a class="next" href="javascript:pageNumCallback(\'2\',\''+pageNum+'\');">下一页</a></td></tr></tfoot>';
+        }
+
+        $('#periods').html(html);
+    }
+
+    //分页控制,
+    function pageNumCallback(click_name, pageNum){
+
+        if(click_name == 1){
+            if(pageNum > 1){
+                pageNum--;
+                $('.prev').css('color','#333333');
+            }else{
+                pageNum = 1;
+                $('.prev').css('color','#999999');
+                return false;
+            }
+        }else{
+            if(pageNum < pageCount){
+                pageNum++;
+                $('.next').css('color','#333333');
+            }else{
+                pageNum = pageCount;
+                $('.next').css('color','#999999');
+                return false;
+            }
+        }
+        openPage( pageNum );
+    }
+
+
+    var contrastWin = popOut({
+        title : '合同',
+        width : '900px',
+        height : '725px',
+        content : ''
+    });
+    var content = contrastWin.box.find( '.popout-content' );
+
+    function transformDate( str ){
+        var temp = str.split( /\s+/ );
+        var date = temp[0].split( '-' );
+        var time = temp[1].split( ':' );
+        return new Date( date[0] , +date[1] - 1 , date[2] , time[0] , time[1] , time[2] );
+    }
+
+
+    function  newShowContract(borrowId,investId,investTime){
+        var html ='<iframe style="border:none;overflow:auto;width:100%;height:610px;" src="showInvestContract?borrowid='+ borrowId+'&investid='+investId+'"></iframe>';
+        content.html(html);
+        contrastWin.show();
+    }
+
+</script>
+</block>
+

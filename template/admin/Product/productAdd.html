@@ -1,0 +1,314 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="__PUBLIC__lib/html5.js"></script>
+<script type="text/javascript" src="__PUBLIC__lib/respond.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__lib/PIE_IE678.js"></script>
+<![endif]-->
+<link href="__PUBLIC__css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="__PUBLIC__lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>新增产品</title>
+</head>
+<body>
+<div class="pd-20">
+	<form action="" method="post" class="form form-horizontal" id="form-product-add">
+		<input type="hidden" name="id" value="{$info.id}" />
+
+		<div class="row cl">
+			<label class="form-label col-2"><span class="c-red">*</span>项目名称：</label>
+			<div class="formControls col-7">
+				<input type="text" class="input-text" value="{$info.name}" placeholder="请输入项目名称" name="name" datatype="*" nullmsg="项目名称不能为空">
+			</div>
+			<div class="col-3"> </div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-2"><span class="c-red">*</span>项目类型：</label>
+			<div class="formControls col-7"> <span class="select-box">
+				<select name="type_id" class="select" datatype="*" nullmsg="请选择项目类型">
+					<option value="">请选择项目类型</option>
+					<volist name="category" id="v">
+					<option value="{$v.id}" <if condition="$info.type_id eq $v['id']">selected</if> >{$v.level|str_repeat="├",###}{$v.name}</option>
+					</volist>
+				</select>
+				</span> </div>
+			<div class="col-3"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-2">属性：</label>
+			<div class="formControls col-7">
+				<volist name="tree" id="v">
+				<dl class="permission-list">
+					<dt>
+						<label>
+							<input type="checkbox" disabled value="" name="user-Character-0" id="user-Character-0">
+							{$v.name}</label>
+					</dt>
+					<dd>
+						<dl class="cl permission-list2">
+							<volist name="v.children" id="vo">
+							<dt style="width: auto;">
+								<label class="form-label">
+									<input type="radio" value="{$vo.id}" <if condition="in_array($vo['id'],$info['attr_id'])">checked</if> name="attr[]" id="user-Character-0-0">
+									{$vo.name}</label>
+							</dt>
+							</volist>
+						</dl>
+						
+					</dd>
+				</dl>
+				</volist>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-2"><span class="c-red">*</span>年化收益：</label>
+			<div class="formControls col-7">
+				<input type="text" class="input-text" value="{$info.annual_income}" placeholder="请输入数字" name="annual_income"  datatype="*" nullmsg="请输入年化收益">
+			</div>
+			<div class="col-3"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-2"><span class="c-red">*</span>项目总额：</label>
+			<div class="formControls col-6">
+				<input type="text" class="input-text" value="{$info.item_total}" placeholder="" id="" name="item_total"  datatype="*" nullmsg="请输入项目总额">
+			</div>元
+
+
+
+		</div>
+
+		
+		<div class="row cl">
+			<label class="form-label col-2">剩余额度：</label>
+			<div class="formControls col-7">
+				<input type="text" class="input-text" value="{$info.surplus}" placeholder="" id="" name="surplus">
+			</div>
+			<div class="col-3"> </div>
+		</div>
+
+		<div class="row cl">
+
+			<label class="form-label col-2"><span class="c-red">*</span>项目周期：</label>
+			<div class="formControls col-7">
+				<input type="text" name="expression"  placeholder="请输入天数" value="{$info['expression']}" class="input-text" style="width:90%"  datatype="*" nullmsg="请输入项目天数">
+				</div>
+			<div class="col-3"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-2"><span class="c-red">*</span>开始投标时间：</label>
+			<div class="formControls col-2">
+				<input type="text" name="exp_start" value="{$info['exp_start']?$info['exp_start']|date='Y-m-d H:i:s',###:''}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="datemin" class="input-text Wdate" style="width:180px;" data datatype="*" nullmsg="请选择项目开始时间">
+			</div>
+			<label class="form-label col-2"><span class="c-red">*</span>结束投标时间：</label>
+			<div class="formControls col-2">
+				<input type="text" name="exp_stop" value="{$info['exp_stop']?$info['exp_stop']|date='Y-m-d H:i:s',###:''}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{ $dp.$D(\'datemin\')}'})" id="datemax" class="input-text Wdate" style="width:180px;" datatype="*" nullmsg="请选择项目结束时间">
+			</div>
+			<div class="col-3"> </div>
+		</div>
+		<div class="row cl">
+
+			<label class="form-label col-2">是否上线：</label>
+
+			<div class="formControls col-5 skin-minimal">
+				<div class="radio-box">
+					<input type="radio" id="sex-1" name="item_status" datatype="*" nullmsg="请选择！" value="1" <if condition="$info.item_status eq 1">checked</if> >
+					<label for="sex-1">是</label>
+				</div>
+				<div class="radio-box">
+					<input type="radio" id="sex-2" name="item_status" value="0" <if condition="$info.item_status eq '0'">checked</if> >
+					<label for="sex-2">否</label>
+				</div>
+				<div class="radio-box">
+					<input type="radio" id="sex-3" name="item_status" value="2" <if condition="$info.item_status eq '2'">checked</if> >
+					<label for="sex-3">投标中</label>
+				</div>
+				<div class="radio-box">
+					<input type="radio" id="sex-4" name="item_status" value="3" <if condition="$info.item_status eq '3'">checked</if> >
+					<label for="sex-4">卖完了</label>
+				</div>
+				<div class="radio-box">
+					<input type="radio" id="sex-5" name="item_status" value="4" <if condition="$info.item_status eq '3'">checked</if> >
+					<label for="sex-5">已还款</label>
+				</div>
+
+			</div>
+			<div class="col-1"> </div>
+
+
+			<label class="form-label col-1">推荐：</label>
+			<div class="formControls col-2 skin-minimal">
+				<div class="check-box">
+					<input type="checkbox" id="checkbox-1" name="refer" value="1" <if condition="$info.refer eq 1">checked</if> >
+					<label for="checkbox-1">&nbsp;</label>
+				</div>
+			</div>
+			<div class="col-2"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-2">项目关键字：</label>
+			<div class="formControls col-7">
+				<input type="text" name="keyword" id="" placeholder="多个关键字用英文逗号隔开，限10个关键字" value="{$info.keyword}" class="input-text">
+			</div>
+			<div class="col-3"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-2"><span class="c-red">*</span>图片：</label>
+			<div class="formControls col-7"> 
+			    <img id="thumb_url" src='<if condition="$info['litpic']" >__ROOT__{$info.litpic}<else/>__PUBLIC__/nopic.jpg</if>' style="height:100px;width:150">
+			  	<input type="hidden"  id="picurl" name="litpic" value="{$info.litpic}" datatype="*" nullmsg="请选择缩略图"/>
+			  	<input type="hidden" name="oldpic" value="{$info.litpic}" >
+			  	<button class="btn btn-success" id="image"  type="button" >选择图片</button>
+			</div>
+			<div class="col-3"> </div>
+		</div>
+
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">项目简介：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea name="description" cols="" rows="" class="textarea valid" > {$info.description}</textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/500</p>
+			</div>
+		</div>
+		<div class="row cl">
+                <label class="form-label col-2">内容介绍：</label>
+            <div class="formControls col-7">
+                <script id="editor" type="text/plain" style="width:100%;height:400px;">{$info.body|htmlspecialchars_decode}</script>
+			</div>
+			<div class="col-3"> </div>
+		</div>
+                <div class="row cl">
+                <label class="form-label col-2">合同介绍：</label>
+            <div class="formControls col-7">
+                <span class="c-red">不填写将使用默认合同范本</span>
+                <script id="editor1" type="text/plain" style="width:100%;height:auto;">{$info.contract|htmlspecialchars_decode}</script>
+
+			</div>
+			<div class="col-3"> </div>
+		</div>
+		<div class="row cl">
+			<div class="col-10 col-offset-2">
+				<button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+				<button onClick="layer_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+			</div>
+		</div>
+	</form>
+</div>
+</div>
+<script type="text/javascript" src="__PUBLIC__lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__lib/layer/2.1/layer.js"></script> 
+<script type="text/javascript" src="__PUBLIC__lib/My97DatePicker/WdatePicker.js"></script> 
+<script type="text/javascript" src="__PUBLIC__lib/icheck/jquery.icheck.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__lib/Validform/5.3.2/Validform.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__lib/webuploader/0.1.5/webuploader.min.js"></script> 
+<script type="text/javascript" src="__PUBLIC__lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="__PUBLIC__lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" src="__PUBLIC__js/H-ui.js"></script> 
+<script type="text/javascript" src="__PUBLIC__js/H-ui.admin.js"></script> 
+<!-- 新增编辑器引入文件 -->
+<link rel="stylesheet" href="__PUBLIC__kindeditor/themes/default/default.css" />
+<script src="__PUBLIC__kindeditor/kindeditor-min.js"></script>
+<script src="__PUBLIC__kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
+	$("#form-product-add").Validform({
+		tiptype:2,
+		ajaxPost:true,
+		callback:function(data){
+			if(data.status=="y"){
+				setTimeout(function(){
+					$.Hidemsg();
+					var index = parent.layer.getFrameIndex(window.name); //获取当前子页面的索引
+					parent.location.reload();//重新加载父页面
+					parent.layer.close(index); //通过索引关闭页面
+				},1000);
+			}
+		}
+	});
+});
+</script>
+<script>
+$(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	var ue = UE.getEditor('editor',{textarea:"body"});
+    var ue = UE.getEditor('editor1',{textarea:"contract"});
+
+});
+KindEditor.ready(function(K) {
+	var editor = K.editor({
+	    allowFileManager : true,       
+	    uploadJson : "{:U('Base/uploadImg',['path'=>'project','w'=>150,'h'=>80])}", //上传功能
+	    fileManagerJson : '__ROOT____PUBLIC__kindeditor/php/file_manager_json.php?dirpath=product', //网络空间
+	  });  
+	//上传背景图片
+	K('#image').click(function() {
+	  editor.loadPlugin('image', function() {
+	    editor.plugin.imageDialog({
+	    	//showRemote : false, //网络图片不开启
+	    	//showLocal : false, //不开启本地图片上传
+	     	imageUrl : K('#picurl').val(),
+	        clickFn : function(url, title, width, height, border, align) {
+	        
+	        K('#picurl').val(url);
+	        $('#thumb_url').attr("src","__ROOT__"+url);
+	        editor.hideDialog();
+	      }
+	    });
+	  });
+	});
+	
+	
+	
+});
+</script> 
+<script>
+$(function(){
+	$(".permission-list dt input:checkbox").click(function(){
+		$(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
+	});
+	$(".permission-list2 dd input:checkbox").click(function(){
+		var l =$(this).parent().parent().find("input:checked").length;
+		var l2=$(this).parents(".permission-list").find(".permission-list2 dd").find("input:checked").length;
+		if($(this).prop("checked")){
+			$(this).closest("dl").find("dt input:checkbox").prop("checked",true);
+			$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",true);
+		}
+		else{
+			if(l==0){
+				$(this).closest("dl").find("dt input:checkbox").prop("checked",false);
+			}
+			if(l2==0){
+				$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",false);
+			}
+		}
+		
+	});
+});
+</script>
+
+</body>
+</html>

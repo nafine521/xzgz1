@@ -1,0 +1,77 @@
+<extend name="Public:base"/>
+<block name="head_footer">
+</block>
+<block name="content">
+	    <div class="content login-back">
+			<div class="login-logo" style="background: url('{:getSysConfigs('wap_logo')['wap_logo']}') no-repeat center center;"></div>
+			<form>
+				<div class="content-padded grid-demo">
+	            <div class="row" style="padding:0 0.5rem;">
+	              <div class="col-100">
+					<input class="login-input"  id="username" placeholder="请输入手机号" value="">
+	              </div>
+	              <div class="col-100">
+					<input class="login-input" type="password"  id="password" placeholder="请输入密码">
+	              </div>
+					<div class="col-100">
+						<input class="button button-fill button-success" id="show-toast" type="button" name="" value="立即登录" style="height:2rem;margin-bottom:1rem;">
+					</div>
+				</div>
+				</div>
+	        </form>                         
+
+
+
+			<div class="row">
+		          <div class="col-33">
+					<a href="{:U('reg')}" class="login-link">立即注册</a>
+		          </div>
+		          <div class="col-33" style="text-align:center;">
+					<a href="/wap" class="login-link">首页</a>
+		          </div>		          
+		          <div class="col-33" style="text-align: right;">
+					<a href="{:U('login_pswd')}" class="login-link">忘记密码</a>
+		          </div>
+			</div>
+	            </div>
+
+        <div class="login-foot" style="">{:getSysConfigs('company')['company']}</div>
+	</div>
+</block>
+<block name="jsinit">
+    <script type="text/javascript">
+    	$(function (){
+    		$("#show-toast").click(function (){
+    			var username = $("#username").val();
+    			var password = $("#password").val();
+    			if(username == ""){
+    				$.toast('手机号不能为空');
+    				return false;
+    			}
+     			if(password == ""){
+    				$.toast('密码不能为空');
+    				return false;
+    			}
+    			$.ajax({
+    				type: "POST",
+    				url: '{:U('logining')}',
+    				data:{username:username,password:password},
+    				dataType: "json",
+    				success: function(res){
+						if(res.error==1){
+						    $.toast(res.msg);
+						}else {
+						    $.alert(res.msg);
+						    //location.href='/wap'
+							<if condition="strchr($_SERVER['HTTP_REFERER'],'login') ">
+								location.href='/wap'
+							<else/>
+								location.href="{$_SERVER['HTTP_REFERER']}";
+							</if>
+						}
+    				}
+    			}) 			
+    		})
+    	})
+    </script>
+</block>

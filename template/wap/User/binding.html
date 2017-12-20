@@ -1,0 +1,82 @@
+<extend name="Public:base"/>
+<block name="content">
+      <div class="content">
+        <div class="list-block" style="margin:0">
+          <ul>
+            <!-- Text inputs -->
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-name"></i></div>
+                <div class="item-inner">
+                  <div class="item-title label">银行名称</div>
+                  <div class="item-input">
+                    <input type="text" placeholder="请输入银行名称" id="bank_name">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                <div class="item-inner">
+                  <div class="item-title label">开户姓名</div>
+                  <div class="item-input">
+                    <input type="text" placeholder="请输入开户姓名" value="{$user_info['realname']}" disabled readonly id="uname">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-form-password"></i></div>
+                <div class="item-inner">
+                  <div class="item-title label">银行卡号</div>
+                  <div class="item-input">
+                    <input type="text" placeholder="请输入银行账号" id="card_number">
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="content-block">
+          <div class="row">
+            <div class="col-100"><a href="#" class="button button-big button-fill button-success" id="save_bank">提交</a></div>
+          </div>
+        </div>
+      </div>
+
+</block>
+<block name="jsinit">
+    <script>
+
+
+      $(function (){
+          var rname=$("#uname").val();
+
+          $(".button-link.back").show();
+          $(document).on('click',"#save_bank",function(){
+              if (rname==''){
+                  $.toast("请先前往个人中心，填写真实个人信息！");
+                  return false;
+              }
+          var name = $("#bank_name").val();
+          if(name == ""){
+            $.toast("请填写银行名称");
+            return false;
+          }
+          var bank_number=$("#card_number").val();
+          $.post('',{bank_name: name,account_number:bank_number,uname:rname},function (res) {
+              if(res.error==1) {
+                  btnsave=false;
+                  if(res.needlogin==1) location.href="{:U('index/login')}";
+                  return $.toast(res.msg);
+              } else {
+                  $.alert(res.msg);
+                  location.href='/wap/user/withdraw';
+              }
+          });
+        })
+      })
+    </script>
+</block>

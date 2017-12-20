@@ -1,0 +1,250 @@
+<extend name="Public:base"/>
+
+<block name="content">
+
+<!-- 面包屑 start -->
+<div class="crumbs">
+    <i class="icon-home"></i>
+    <a href="/">首页</a><i class="icon-gt"></i>
+    <a href="#">百宝箱</a><i class="icon-gt"></i>风险评估
+</div>
+<!--/ 面包屑 end -->
+
+<div class="main">
+    <include file="Public:parent_list"/>
+    <div class="rightBox">
+    <div class="widget-h-75 bg-white widget-header-em"><em>风险评估</em></div>
+    <input type="hidden" id="riskQuestionList" value="true">
+    <!-- 风险评估 开头 -->
+    <div class="datas-widget bg-white  <if condition='$user_info["riskable"] neq 0' >hide</if>" id="risk-start">
+
+        <div class="risk-widget-start w-740 mt100">
+            <em>测测你的理财偏好类型</em>
+            <div style="margin: 120px auto 0; width: 185px">
+                <img src="__PUBLIC__website/images/special_subject/user_info/risk_start.png" width="165" alt="类型">
+            </div>
+            <div class="button-widget mt60" style="padding-bottom: 10px;">
+                <a href="javascript:start();">开始测试</a>
+            </div>
+            <p>根据监管部门的要求，为更好地了解您的风险偏好和风险承受能力，建议您进行风险测试。</p>
+        </div>
+
+    </div>
+    <!--/ 风险评估 开头 -->
+    <!-- 风险评估 结尾 -->
+    <div class="datas-widget bg-white <if condition='$user_info["risktest"] eq 0' >hide</if> " id="risk-end">
+
+        <div class="risk-widget-end w-740 mt100">
+            <em style="width:375px; color:#999;">您的出借人类型为：
+                <if condition="$user_info['riskable'] elt 10">
+                <i id="type">保守型</i><small>对应的风险承受能力为：<i id="ability">低</i></small>
+                <elseif condition="$user_info['riskable'] elt 22"/>
+                    <i id="type">稳重型</i><small>对应的风险承受能力为：<i id="ability">偏低</i></small>
+                <elseif condition="$user_info['riskable'] elt 34"/>
+                    <i id="type">风险型</i><small>对应的风险承受能力为：<i id="ability">中等</i></small>
+                <elseif condition="$user_info['riskable'] elt 50"/>
+                    <i id="type">激进型</i><small>对应的风险承受能力为：<i id="ability">高</i></small>
+                </if>
+            </em>
+            <div class="risk-img" style="margin: 100px auto 0;width: 172px">
+                <img src="__PUBLIC__website/images/special_subject/user_info/ico_risk_01.png" width="100%" alt="类型">
+            </div>
+            <div class="button-widget mt60" style="padding-bottom: 10px;">
+                <a href="/index/project">前往理财页面</a>
+            </div>
+            <div class="button-widget mt10" style="padding-bottom: 10px;">
+                <if condition="($userinfo['risktest'] + 72*3600) lt time()">
+                <a href="javascript:;" style="background:#ccc;" id="riskTip"><?php echo date("Y年m月d日 H:i:s i", $user_info["risktest"] + 72*3600)?>后可重新测试</a>
+
+                    <else/>
+                    <a href="javascript:refreshRisk();" id="riskTip">重新测试</a>
+                </if>
+            </div>
+        </div>
+
+    </div>
+    <!--/ 风险评估  结尾 -->
+    <!-- 风险评估 内容 -->
+    <div class="datas-widget bg-white hide" id="risk-content">
+        <div class="risk-widget w-740 m-t-20">
+            <input type="hidden" id="riskQuestionId" name="riskQuestionId" value="1">
+            <dl class="topic_1"><dt>1.&nbsp;您的年龄是?<i></i></dt>
+                <dd><label><input type="radio" akey='11'  name="key_1" value="A">20岁及以下</dd></label>
+                <dd><label><input type="radio" akey='11'  name="key_1" value="B">21-50岁</dd></label>
+                <dd><label><input type="radio" akey='11'  name="key_1" value="C">51-59岁</dd></label>
+                <dd><label><input type="radio" akey='11'  name="key_1" value="D">60岁及以上</dd></label>
+            </dl>
+            <dl class="topic_2"><dt>2.&nbsp;您的家庭年收入为(折合人民币)?<i></i></dt>
+                <dd><label><input type="radio" akey='12'  name="key_2" value="A">5万元以下</dd></label>
+                <dd><label><input type="radio" akey='12'  name="key_2" value="B">5-20万元</dd></label>
+                <dd><label><input type="radio" akey='12'  name="key_2" value="C">20-50万元</dd></label>
+                <dd><label><input type="radio" akey='12'  name="key_2" value="D">50万以上</dd></label>
+            </dl>
+            <dl class="topic_3"><dt>3.&nbsp;在您每年的家庭收入中，可用于金融投资的比例为?<i></i></dt>
+                <dd><label><input type="radio" akey='13'  name="key_3" value="A">小于10%</dd></label>
+                <dd><label><input type="radio" akey='13'  name="key_3" value="B">10%-25%</dd></label>
+                <dd><label><input type="radio" akey='13'  name="key_3" value="C">25%-50%</dd></label>
+                <dd><label><input type="radio" akey='13'  name="key_3" value="D">大于50%</dd></label>
+            </dl>
+            <dl class="topic_4"><dt>4.&nbsp;以下哪项最能说明您的投资经验?<i></i></dt>
+                <dd><label><input type="radio" akey='14'  name="key_4" value="A">除存款、国债外，我几乎不投资其他金融产品</dd></label>
+                <dd><label><input type="radio" akey='14'  name="key_4" value="B">较少投资于股票、基金等风险产品</dd></label>
+                <dd><label><input type="radio" akey='14'  name="key_4" value="C">资产均衡地分布于存款、国债、银行理财产品、信托产品、股票、基金等</dd></label>
+                <dd><label><input type="radio" akey='14'  name="key_4" value="D">大部分投资于股票、基金、外汇等高风险产品，较少投资于存款、国债</dd></label>
+            </dl>
+            <dl class="topic_5"><dt>5.&nbsp;您有多少年投资的经验?<i></i></dt>
+                <dd><label><input type="radio" akey='15'  name="key_5" value="A">没有经验</dd></label>
+                <dd><label><input type="radio" akey='15'  name="key_5" value="B">少于2年</dd></label>
+                <dd><label><input type="radio" akey='15'  name="key_5" value="C">2至5年</dd></label>
+                <dd><label><input type="radio" akey='15'  name="key_5" value="D">5至8年</dd></label>
+                <dd><label><input type="radio" akey='15'  name="key_5" value="E">8年以上</dd></label>
+            </dl>
+            <dl class="topic_6"><dt>6.&nbsp;以下哪项描述最符合您的投资态度?<i></i></dt>
+                <dd><label><input type="radio" akey='16'  name="key_6" value="A">厌恶风险，不希望本金损失，希望获得稳定回报</dd></label>
+                <dd><label><input type="radio" akey='16'  name="key_6" value="B">保守投资，不希望本金损失，愿意承担一定幅度的收益波动</dd></label>
+                <dd><label><input type="radio" akey='16'  name="key_6" value="C">寻求资金的较高收益和成长性，愿意为此承担有限本金损失</dd></label>
+                <dd><label><input type="radio" akey='16'  name="key_6" value="D">希望赚取高回报，愿意为此承担较大本金损失</dd></label>
+            </dl>
+            <dl class="topic_7"><dt>7.&nbsp;以下情况，您会选择哪一种?<i></i></dt>
+                <dd><label><input type="radio" akey='17'  name="key_7" value="A">有100%的机会赢取1000元现金</dd></label>
+                <dd><label><input type="radio" akey='17'  name="key_7" value="B">有50%的机会赢取5万元现金</dd></label>
+                <dd><label><input type="radio" akey='17'  name="key_7" value="C">有25%的机会赢取50万元现金</dd></label>
+                <dd><label><input type="radio" akey='17'  name="key_7" value="D">有10%的机会赢取100万元现金</dd></label>
+            </dl>
+            <dl class="topic_8"><dt>8.&nbsp;您计划的投资期限是多久?<i></i></dt>
+                <dd><label><input type="radio" akey='18'  name="key_8" value="A">6个月及以下</dd></label>
+                <dd><label><input type="radio" akey='18'  name="key_8" value="B">7-12个月</dd></label>
+                <dd><label><input type="radio" akey='18'  name="key_8" value="C">1-2年</dd></label>
+                <dd><label><input type="radio" akey='18'  name="key_8" value="D">2年以上</dd></label>
+            </dl>
+            <dl class="topic_9"><dt>9.&nbsp;您的投资目的是?<i></i></dt>
+                <dd><label><input type="radio" akey='19'  name="key_9" value="A">确保资产安全性，同时获得固定收益</dd></label>
+                <dd><label><input type="radio" akey='19'  name="key_9" value="B">希望投资能获得一定的增值，同时获得波动适度的年回报</dd></label>
+                <dd><label><input type="radio" akey='19'  name="key_9" value="C">倾向于长期的成长，较少关心短期的回报与波动</dd></label>
+                <dd><label><input type="radio" akey='19'  name="key_9" value="D">只关心长期的高回报，能够接受短期的资产价值波动</dd></label>
+            </dl>
+            <dl class="topic_10"><dt>10.&nbsp;您进行投资时所能承受的最大亏损比例?<i></i></dt>
+                <dd><label><input type="radio" akey='20'  name="key_10" value="A">出现轻微本金损失</dd></label>
+                <dd><label><input type="radio" akey='20'  name="key_10" value="B">本金10%以内的损失</dd></label>
+                <dd><label><input type="radio" akey='20'  name="key_10" value="C">本金20-50%的损失</dd></label>
+                <dd><label><input type="radio" akey='20'  name="key_10" value="D">本金50%以上损失</dd></label>
+            </dl>
+        </div>
+
+        <div class="button-widget m-t-100" id="submit">
+            <a href="javascript:;">提交测试结果</a>
+        </div>
+    </div>
+    <!--/ 风险评估 内容 -->
+</div>
+</div>
+</block>
+
+    <block name="footer_js">
+<script type="text/javascript" src="__PUBLIC__website/js/lib/jquery.scrollTo.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__website/js/accountCentral.js"></script>
+<script type="text/javascript">
+    var state="-2";
+
+    function refreshRisk(){
+        if("true"!=$("#riskQuestionList").val()){
+            xzalert('暂无风险评估问卷');
+            return;
+        }
+        if(state==-1){
+            xzalert($("#riskTip").html());
+            return;
+        }
+        $("#risk-content").show();
+        $("#risk-end").hide();
+    }
+
+    function riskSuccess(){
+        $("#risk-content").hide();
+        $("#risk-end").show();
+    }
+
+    $(function(){
+
+        (function(){
+            var tab = $('.risk-widget');
+            var button = $(".button-widget[id='submit'] a");
+            var tab_dl = tab.find('dl');
+            button.click(function(event) {
+                for (var i = 1; i < tab_dl.length+1; i++) {
+                    var value = $('input[name="key_'+ i +'"]:checked').val();
+                    var topic = $('.topic_'+i);
+
+                    // 如果没有填完就禁止提交
+                    if (value == undefined) {
+                        topic.find('dt').css('color', '#ff6235');
+                        topic.find('i').addClass('icon-warning');
+                        $.scrollTo(topic,500);
+                        return ;
+                    }else{
+                        topic.find('dt').css('color', '#333');
+                        topic.find('i').removeClass('icon-warning');
+                    }
+
+                }
+
+                //提交风险测试
+                var bjson="{";
+                $('input[type="radio"]:checked').each(function(index,target){
+                    var key=$(target).attr("akey");
+                    var value=$(target).val();
+                    if(bjson!="{"){
+                        bjson+=",";
+                    }
+                    bjson+="'"+key+"':'"+value+"'";
+                });
+                bjson+="}";
+                var questionId=$("#riskQuestionId").val();
+                $.post('replyRiskAssess',{'answerJson':bjson,'questionId':questionId},function(bjson){
+                    if(bjson.result==-1){
+                        xzalert(bjson.msg );
+                    }else{
+                        setTimeout("goRiskHome()",2000);
+
+                    }
+                });
+            });
+        })();
+    });
+
+    function goRiskHome(){
+        document.location.reload();
+
+    }
+
+    function cb(){
+        var _len = $('input[type="radio"]:checked').length;
+        var str = '';
+        for (var i = 1; i < _len + 1; i++) {
+            var value = $('input[name="key_'+ i +'"]:checked').val();
+            if(str != undefined){
+                if(i == _len){
+                    str += value;
+                }else{
+                    str += value + ',';
+                }
+            }else{
+                xzalert(' 第 '+ i +' 项 为必填项!');
+                return ;
+            }
+        };
+        xzalert(str);
+    }
+
+    // 风险评估
+    function start(){
+        if("true"==$("#riskQuestionList").val()){
+            $('#risk-start').hide();
+            $('#risk-content').show();
+        }else{
+            xzalert('暂无风险评估问卷');
+        }
+    }
+</script>
+</block>
+

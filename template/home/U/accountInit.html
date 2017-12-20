@@ -1,0 +1,277 @@
+<extend name="Public/base"/>
+<block name="content">
+<!-- 面包屑 start -->
+<div class="crumbs">
+    <i class="icon-home"></i>
+    <a href="/">首页</a><i class="icon-gt"></i>
+    <a href="#">我的账户</a><i class="icon-gt"></i>账户总览
+</div>
+<!--/ 面包屑 end -->
+
+<div class="main">
+    <include file="Public/parent_list"/>
+    <div class="rightBox">
+    <div class=" widget-header-em hide"><em>账户总览</em></div>
+
+    <div class="user-info-widget bg-white bd">
+        <div class="w-740">
+            <em class="portrait f-l">
+                <div class="ico"><img src="{$user_info['user_headimg']?$user_info['user_headimg']:getSysConfigs('default_headimg')['default_headimg']}" width="90"></div>
+            </em>
+            <ul class="f-l" style="width: 320px">
+                <li>Hi，<span>
+						 {$user_info['uname']}</span>
+                    <b id="viplevel">
+                        VIP{$account["level"]}</b><a href="/U/myVipInterest" class="f-r">查看特权</a></li>
+                <li class="hover-icon-widget">
+                    <a href="/u/acctModify" style="display: none;">
+                        <i class="icon-user-3"></i>
+                    </a>
+
+                    <if condition="$user_info['user_email_bind'] eq 1">
+                        <i class="icon-user-5-1"></i>
+                        <else/>
+                        <a href="/U/customerInfo.html">
+                            <i class="icon-user-5">
+                            </i>
+                        </a>
+                    </if>
+                    <a href="/U/customerInfo.html">
+                        <i class="icon-user-2-1">
+                        </i>
+                    </a>
+                    <if condition="$user_info['user_tel_bind'] eq 1">
+                    <i class="icon-user-4-1"></i>
+                        <else/>
+                        <a href="/U/customerInfo.html">
+                            <i class="icon-user-4">
+                            </i>
+                        </a>
+                    </if>
+                </li>
+                <li class="line">
+                    <div class="view-line"></div>
+                    <div class="empirical bd"></div>
+                </li>
+            </ul>
+
+            <ul class="f-r recharge">
+                <li>可用余额<small style="font-size: 12px">(元)</small></li>
+                <li><i class="font_size24" style="color:#ff6235">{:balance($user_info["uid"])}</i></li>
+                <li>
+                    <a href="/U/rechargeInit" class="f-l m-l-30">充值</a>
+                    <a href="/U/withdraw.html" class="f-l m-l-20 bg-1eae58">提现</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 累计充值 -->
+    <div class="recharge-widget bg-white bd">
+        <div class="w-740">
+            <div class="recharge-widget-1">
+                <div class="icon-recharge icon-recharge-1"></div>
+                <div>
+                    <em>累计充值<small>(元)</small></em>
+                    <span>{:balance($user_info["uid"],"member_sum_recharge")}</span>
+                </div>
+            </div>
+            <div class="recharge-widget-2">
+                <div class="icon-recharge icon-recharge-2"></div>
+                <div>
+                    <em>累计提现<small>(元)</small></em>
+                    <span>{:balance($user_info["uid"],"member_sum_draw")}</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--/ 累计充值 -->
+
+    <!-- 日历以及回款日期start -->
+    <div class="payment-widget">
+        <div class="payment-content clearfix">
+            <div class="xz-calendar bg-white f-l bd">
+                <div class="calendar-tools">
+                    <div class="pre-month" id="pre-month"><i class="icon-preMonth"></i></div>
+                    <div class="next-month" id="next-month"><i class="icon-nextMonth"></i></div>
+                    <select class="month-select" id="date-select"></select>
+                </div>
+                <div class="calendar-content" id="calendar-box">
+                </div>
+                <div class="ms">
+                    <div><i style="background: #ccc; width: 4px; height: 4px;"></i>已回款</div>
+                    <div><i style="background: #34b668; border: 1px solid #23b05c;width: 2px; height: 2px;"></i>今天</div>
+                    <div><i style="background: #23b05c; width: 4px; height: 4px;"></i>回款</div>
+                </div>
+            </div>
+
+            <div class="payment-date bd bg-white f-r">
+                <div class="payment-header">
+                    <em>
+                        2017-08-25</em>回款详情<i class="icon-tip-n" id="ico-tip"></i>
+                    <ul class="ms">
+                        <li>当天无回款</li>
+                    </ul>
+                    <a href="/U/newQueryInvestList.html" class="f-r">前往查看投资记录<span>&gt;</span></a>
+                </div>
+                <div class="payment-body" id="date-banner">
+                    <table cellpadding="0" cellspacing="0" width="415">
+                        <thead>
+                        <tr>
+                            <td width="50%">项目名称</td>
+                            <td width="50%">回款金额(元)</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr class="pig_nothing">
+                            <td colspan="2"><div></div></td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 日历以及回款日期end -->
+
+
+</div>
+</div>
+
+</block>
+<block name="footer_js">
+
+
+<script type="text/javascript" src="__PUBLIC__website/js/xz-calendar.js?v=5.1.9"></script>
+<script type="text/javascript">
+    $(function(){
+        //经验值进度条
+        (function(){
+            var empirical = [100,1000,10000,100000,500000,1000000,5000000,10000000,20000000,50000000],
+                level = '{$account["level"]}',
+                wUsableAmt = '{$account["empirical"]}',
+                line = $('.view-line'),
+                _w;
+
+            if(level == -1){
+                _w = 100;
+                $('.empirical').remove();
+            }else{
+                _w = wUsableAmt / empirical[level] * 100;
+                _w = (_w > 100) ? 100 : _w;
+                $('.empirical').html('经验值  '+wUsableAmt+'<span>/'+empirical[level]+'</span>');
+            }
+            line.animate({
+                    'width': _w +'%',
+                },
+                500);
+        })();
+
+        // 底部广告轮播
+        (function(){
+            var adContent = $( '.per-ad-content' );
+            var adList = $( '.per-ad-list' );
+            var w = adContent.width();
+            var index = 0;
+            var len = adList.find( 'a' ).length;
+            var timer;
+            adList.css( 'width' , w * len + 100 + 'px' );
+            moveAd();
+            adContent.hover( function(){
+                clearInterval( timer );
+            } , moveAd );
+            function moveAd(){
+                clearInterval( timer );
+                timer = setInterval(function(){
+                    index++;
+                    index = index % len;
+                    adList.animate({
+                        left : -index * w + 'px'
+                    });
+                } , 4000 );
+            }
+        })();
+
+        (function(){
+            var ico_tip = $(".payment-header i");
+            var _ul = $(".payment-header ul.ms");
+            ico_tip.hover(function() {
+                _ul.show();
+
+            }, function() {
+                _ul.hide();
+            });
+
+            var hover_icon = $('.hover-icon-widget i');
+            // 实名认证：已实名认证、未实名认证
+            // 修改邮箱：已绑定邮箱、未绑定邮箱
+            // 修改密码：修改密码
+            // 绑定手机：绑定手机
+            var datas = ['已实名认证','未实名认证','已绑定邮箱','未绑定邮箱','修改密码','已绑定手机','未绑定手机'];
+
+            $.each(hover_icon, function(i) {
+                var _class = $(this).attr('class');
+                var str = '';
+                switch(i){
+                    case 0 :
+                        str = _class.length > 11 ? datas[0] : datas[1] ;
+                        break;
+                    case 1 :
+                        str = _class.length > 11 ? datas[2] : datas[3] ;
+                        break;
+                    case 2 :
+                        str = datas[4];
+                        break;
+                    case 3 :
+                        str = _class.length > 11 ? datas[5] : datas[6] ;
+                        break;
+                }
+                $(this).append('<div class="hide bd tips-icon">'+str+'</div>');
+                $(this).hover(function() {
+                    $(this).find('div').show();
+                }, function() {
+                    $(this).find('div').hide();
+                });
+
+            });
+        })();
+
+    })
+    function hideAndShow( type ){
+        var total_1 = $("#total-1");
+        var total_2 = $("#total-2");
+        var account_1 = $('#account-1');
+        var account_2 = $('#account-2');
+        if(type==1){
+            total_1.hide();
+            total_2.show();
+            $('.open-account-widget .view-line').hide();
+            account_1.hide();
+            $('.view-line-2').hide();
+        }else if(type==2){
+            total_1.show();
+            total_2.hide();
+            $('.open-account-widget .view-line').show();
+            account_1.show();
+            $('.view-line-2').show();
+        }else if (type==3) {
+            total_1.hide();
+            $('.open-account-widget .view-line').hide();
+            account_2.show();
+            account_1.hide();
+            $('.view-line-2').hide();
+        }else{
+            total_1.show();
+            account_2.hide();
+            account_1.show();
+            $('.open-account-widget .view-line').show();
+            $('.view-line-2').show();
+        }
+    }
+</script>
+</block>

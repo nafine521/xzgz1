@@ -1,0 +1,54 @@
+<extend name="Public:base"/>
+    <block name="content">
+<div class="active_banner"></div>
+<div class="container active_container">
+    <div class="active_bread pl25 mt30">
+        <a href="https://www.xiaozhu168.com/" class="font_size18 gray6">网站首页</a><img src="https://mer.xiaozhu168.com/static/website/images/active_bread.png" alt="活动" class="pl5 pr5"><span class="font_size18">精彩活动</span>
+    </div>
+    <div class="active_content clearfix pt20" id="activelist"></div>
+</div>
+</block>
+<block name="footer_js">
+<script type="text/javascript" src="__PUBLIC__website/js/jquery.xz168-1.0.js"></script>
+
+<!--[if lt IE 9]>
+<script>
+    $(function(){
+        setTimeout(function(){
+            $('.pt20').css('paddingTop','21px');
+        },500);
+    })
+</script>
+<![endif]-->
+</body>
+<script type="text/javascript">
+    //top-menu
+    // 	$("#top-nav li").removeClass("on");
+    // 	$("#top-nav li").eq(5).find("a").addClass("on");
+    $('.item_wrap:even').addClass('mr20');
+    $(function() {
+        var param = {};
+        param["paramMap.status"] = -1;
+        initListInfo(param);
+        +function() {
+            $('.active_classify li').click(function(event) {
+                event.preventDefault();
+                $(this).addClass('active');
+                $(this).siblings().removeClass('active');
+                $(this).siblings().find('a').addClass('gray6');
+                $(this).siblings().addClass('active_line_bg');
+                $(this).prev().removeClass('active_line_bg');
+                $('.active_classify_last').removeClass('active_line_bg');
+                param["paramMap.status"] = $(this).val();
+                //$('#myform').submit();
+                initListInfo(param);
+            });
+        }();
+    });
+    function initListInfo(param) {
+        $.post("{:U('activity')}", param, function(data) {
+            $("#activelist").html(data);
+        });
+    }
+</script>
+</block>

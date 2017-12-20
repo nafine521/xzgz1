@@ -1,0 +1,44 @@
+<table class="w-740 m-t-20" cellspacing="0" cellpadding="0" border="0" lay-skin="row">
+    <!--title部分-->
+    <colgroup>
+        <col width="130" align="left">
+        <col width="87" >
+        <col width="87">
+        <col width="87">
+        <col width="87">
+        <col width="87">
+        <col width="87">
+        <col width="90">
+        <col>
+    </colgroup>
+
+    <thead>
+    <tr >
+        <th align="" >用户名</th>
+        <th>用户头像</th>
+        <th>注册时间</th>
+        <th>邀请人数</th>
+
+    </tr>
+    </thead>
+    <!--title部分结束-->
+    <volist name="list" id="v" key="k" empty="$empty">
+        <tr height="50" class="per_tr2">
+            <td class="">{$v['user_name']?$v['user_name']:$v['user_tel']}</td>
+            <td style="text-align:center;"><img src="{$v['user_headimg']?$v['user_headimg']:getSysConfigs('default_headimg')['default_headimg']}"/> </td>
+            <td class="">{$v.reg_time|date='Y-m-d H:i:s',###}</td>
+            <td>
+                <eq name="v['num']" value="0">
+
+                    <label style=" color:#ff1c63;">未邀请</label>
+                    <else />
+                    <label style=" color:#0f0f0f;">{$v['num']}人</label>
+                </eq>
+            </td>
+        </tr>
+    </volist>
+</table>
+
+<div class="per_pages w-740"><div class="main_c_list_page" style="float: right;">{$page}</div>
+</div>
+

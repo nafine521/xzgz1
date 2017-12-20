@@ -1,0 +1,186 @@
+<extend name="Public:base"/>
+<block name="head_footer">
+</block>
+<block name="content">
+	    <div class="content login-back">
+			<header class="bar bar-nav" style="background-color: transparent;">
+				<a class=" button-link button-nav pull-left back">
+					<span class="icon icon-left"></span>
+					返回
+				</a>
+				<div class="content-padded grid-demo">
+					<div class="row" style="padding:0 0.5rem;">
+
+						<div class="col-80" style="text-align:center;height:100%;"><span style="color:#fff;font-size:0.7rem;">注册中心</span></div>
+						<div class="col-20" style="text-align:right;height:100%"><a href="login.html" style="color:#fff;font-size:0.7rem;">登录</a></div>
+					</div>
+				</div>
+			</header>
+			<div class="login-logo" style="height:20%">
+
+			</div>
+			<form action="">
+				<div class="content-padded grid-demo">
+	            <div class="row" style="padding:0 0.5rem;">
+					<div id="regtel">
+	              <div class="col-100">
+					<input class="login-input" type="text" name="" id="phone" placeholder="请输入手机号码">
+	              </div>
+	              <div class="col-100" style="position:relative;">
+					<input class="login-input" type="text" name="" id="code" placeholder="请输入验证码">
+					<input class="button button-fill button-success"  style="position:absolute;top:0.1rem;right:0.1rem;height:1.8rem;border-radius:1rem" id="getcode" value="获取验证码" />
+	              </div>
+					<div class="col-100">
+						<input class="button button-fill button-success open-next" type="button" id="next_step" name="" value="下一步" style="height:2rem;margin-bottom:1rem;">
+					</div>
+					</div>
+
+				</div>
+
+				</div>
+			</form>
+
+		          
+		</div>
+            
+
+
+</block>
+<block name="jsinit">
+	<div id="next" class="popup popup-next">
+		<div class="  bar bar-nav close-popup  buttons-tab " ><a href="#" class=" title"><span class="icon icon-down"></span></a></div>
+		<div class="content-block row">
+
+		<div class="col-100">
+			<input class="login-input" type="password" name="password" id="password" placeholder="请输入密码" value="">
+		</div>
+		<div class="col-100">
+			<input class="login-input" type="password" name="password1" id="password1" placeholder="请确认密码" value="">
+		</div>
+		<div class="col-100">
+
+			<input class="login-input" type="text" name="fff" placeholder="请输入推广人手机号" value="{$invite[1]}" id="invite"  <if condition="$invite[1] != false">disabled</if> >
+
+		</div>
+		<div class="col-100">
+			<input class="button button-fill button-success" type="button" id="reg" name="" value="立即注册" style="height:2rem;margin-bottom:1rem;">
+		</div>
+		</div>
+	</div>
+    <script type="text/javascript">
+     $(function (){
+         var regsave=true,smssave=false;
+         $(document).on('click','#getcode',function () {
+             if(smssave)return;
+             var $this=$(this);
+             var phone = $('#phone').val();
+             if(phone==''){
+                 return $.toast('请先填写手机号！')
+             }
+             smssave=true;
+
+             $.get('{:U("smsreg")}',{phone:phone},function (res) {
+                 if(res.error==1) {
+                     smssave=false;
+                     if(res.needlogin==1) location.href="{:U('index/login')}";
+                     return $.toast(res.msg);
+                 } else {
+                     $.alert(res.msg);
+                     var count = 120;
+                     var countdown=setInterval(function () {
+                         $this.attr("disabled", true);
+                         $this.val("Please wait " + count + " seconds!");
+                         if (count == 0) {
+                             $this.val("获取验证码").removeAttr("disabled");
+                             clearInterval(countdown);
+                         }
+                         count--;
+                     }, 1000);
+                 }
+             })
+         });
+         var parma={};
+         $(document).on('click',"#next_step",function (){
+             var phone = $('#phone').val();
+             var pattern = /^1[0-9]{10}$/;
+             var code=$("#code").val();
+             if(code == ""){
+                 $.toast('验证码不能为空');
+                 return false;
+             }
+             if(phone == ""){
+                 $.toast('手机号不能为空');
+                 return false;
+             }
+             if(!pattern.test(phone)){
+                 $.toast('请输入正确的手机号码');
+                 return false;
+             }
+             $.post('{:U("smsreg")}',{phone:phone,code:code},function (res) {
+                 if(res.error==1) {
+                     if(res.needlogin==1) location.href="{:U('index/login')}";
+                     return $.toast(res.msg);
+                 } else {
+                     regsave=false;
+                     $.alert(res.msg);
+                     $.popup('.popup-next');
+                     parma['phone']=phone;
+                     parma['code']=code;
+                 }
+             })
+		 });
+
+     	$(document).on('click',"#reg",function (){
+            if(regsave)return;
+            regsave=true;
+     		var phone = parma['phone'];
+     		var pattern = /^1[0-9]{10}$/;
+            var code=$(this).val();
+            if(code == ""){
+                $.toast('验证码不能为空!');
+                return false;
+            }
+     		var password = $("#password").val();
+            var password1 = $("#password1").val();
+     		if(phone == ""){
+     			$.toast('手机号不能为空!');
+    			return false;
+     		}
+
+     		if(!pattern.test(phone)){
+                $.toast('请输入正确的手机号码!');
+    			return false;
+     		}
+     		if(password!=password1 ){
+                $.toast('两次输入密码不相同!');
+                return false;
+			}
+			var invite=$("#invite").val();
+     		if(invite!=""){
+				if(!pattern.test(invite)){
+					$.toast('请输入正确的手机号码!');
+					return false;
+            	}
+     		}
+            parma['password']=password;
+            parma['invite']=invite;
+     		$.post('',parma,function (res) {
+                if(res.error==1) {
+                    regsave=false;
+                    if(res.needlogin==1) location.href="{:U('index/login')}";
+                    return $.toast(res.msg);
+                } else { regsave=false;
+                    $.alert(res.msg);
+                    location.href='{:U("user/index")}';
+
+                }
+            });
+     	});
+     });
+
+
+
+
+
+	</script>
+</block>

@@ -1,0 +1,65 @@
+<table class="record-table">
+    <colgroup>
+        <col />
+    </colgroup>
+    <tr class="gray-tr">
+        <td>
+            序号
+        </td>
+        <td>
+            投资人
+        </td>
+        <td>
+            投标金额<em>(元)</em>
+        </td>
+        <!--<td>
+            投标类型
+        </td>-->
+        <td>
+            投标时间
+        </td>
+    </tr>
+
+
+
+    <volist name="list" id="v" key="k" empty="$empty">
+        <tr <if condition="$k%2 eq 0">class="gray-tr"</if> >
+        <td>
+            {$count-$k+1}</td>
+        <td>
+            {$v.uname}</td>
+        <td>
+            {$v.trans_price}</td>
+        <!--<td>
+								<span class="green">
+									 	<span style="color: #90c320">APP投标</span>
+										</span>
+        </td>-->
+        <td>
+            {$v["dealtime"]|date="Y-m-d H:i:s",###}</td>
+    </tr>
+    </volist>
+
+
+
+
+</table>
+<div class="record-pager float-r">	<div class='main_c_list_page'>
+
+    <!--<a href="javascript:doJumpPage(1);" class="previousPage"></a>
+    <a class="mr_a" href="javascript:doJumpPage(1);">1</a>
+    <a class="" href="javascript:doJumpPage(2);">2</a>
+    <a class="" href="javascript:doJumpPage(3);">3</a>
+    <em>...</em><a class="" href="javascript:doJumpPage(7);">7</a>
+    <a href="javascript:doJumpPage(2);" class="nextPage"></a>-->
+    {$page}
+
+</div></div>
+<script>
+    $(function(){
+        $("#tendernow").click(function(){
+            $("#amount").focus();
+            $("html,body").animate({scrollTop: $(".topbg").offset().top}, 800);
+        });
+    });
+</script>

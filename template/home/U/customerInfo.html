@@ -1,0 +1,188 @@
+<extend name="Public/base"/>
+<block name="content">
+
+<!-- 面包屑 start -->
+
+<div class="crumbs">
+    <i class="icon-home"></i>
+    <a href="/">首页</a><i class="icon-gt"></i>
+    <a href="#">我的账户</a><i class="icon-gt"></i>个人资料
+</div>
+<!--/ 面包屑 end -->
+
+<div class="main">
+
+    <include file="Public:parent_list"/>
+    <div class="rightBox">
+    <div class="widget-h-75 bg-white widget-header-em"><em>个人资料</em></div>
+
+    <div class="datas-widget bg-white">
+        <div class="w-740 userSetData">
+            <ul>
+                <li>
+
+                    <div class="f-l title"><i class="icon-user-1-1"></i>您的昵称</div>
+                    <div class="f-l description">昵称是您在本平台重要标识，只能设置一次
+                        <if condition="empty($user_info['user_name']) ">
+                        <em onclick="popout(1);">未设置</em>
+
+                        </if>
+                    </div>
+                </li>
+                <li>
+                    <div class="f-l title"><i class="icon-user-2-1"></i>登录密码</div>
+                    <div class="f-l description"><i>已设置</i>建议您定期更改密码以保护账户安全
+                        <em class="status_1" onclick="popout(2)">修&nbsp;&nbsp;改</em></div>
+
+                </li>
+
+                <li>
+                    <div class="f-l title"><i class="icon-user-4-1"></i>绑定手机</div>
+                    <div class="f-l description"><i>{$user_info['mobilePhone']}</i>
+                        <a href="javascript:;" id="change-tel">
+                            <em class="status_1" onclick="popout(3)">修&nbsp;&nbsp;改</em>
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <if condition="$user_info['user_email_bind'] gt 0">
+                        <div class="f-l title"><i class="icon-user-5-1"></i>绑定邮箱</div>
+                        <div class="f-l description"><i>{$user_info['user_email']}</i>
+                            <a href="javascript:;" id="change-mail">
+                                <em class="status_1" onclick="popout(5)">修&nbsp;&nbsp;改</em>
+                            </a>
+                        </div>
+                        <else/>
+                    <div class="f-l title"><i class="icon-user-5"></i>绑定邮箱</div>
+
+                    <div class="f-l description">
+                        方便接收我们的活动信息
+                        <a href="javascript:bingSkip()" id="change-mail"><em>未设置</em></a>
+                    </div>
+                    </if>
+                </li>
+                <li>
+                    <if condition="empty($user_info['realname'])">
+                        <div class="f-l title"><i class="icon-user-3-1"></i>个人信息</div>
+                        <div class="f-l description"><i>{$user_info['realname']}</i>
+                            <a href="javascript:;" id="">
+                                <em class="status_1" onclick="popout(7)">修&nbsp;&nbsp;改</em>
+                            </a>
+                        </div>
+                        <else/>
+                        <div class="f-l title"><i class="icon-user-3"></i>个人信息</div>
+
+                        <div class="f-l description">
+                            请如实填写，且与银行卡信息保持一致
+                            <a href="javascript:popout(7)" id=""><em>未设置</em></a>
+                        </div>
+                    </if>
+                </li>
+                <li>
+
+
+
+                    <div class="f-l title"><i class="icon-user-6"></i>风险评估测试</div>
+                    <div class="f-l description">
+                        <if condition="$user_info['riskable'] elt 10">
+                            <i style="color: #333;">保守型(<small>默认</small>)</i>
+                            <elseif condition="$user_info['riskable'] elt 22"/>
+                            <i style="color: #0a6999;">稳重型</i>
+                            <elseif condition="$user_info['riskable'] elt 34"/>
+
+                            <i style="color: #ff1c63;">风险型</i>
+                            <elseif condition="$user_info['riskable'] elt 50"/>
+                            <i style="color: red;">激进型</i>
+                        </if>
+                        测试您的投资类型<a href="/U/riskAssessHome"><em >去评估</em></a>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- 消息提醒设置 -->
+            <!--<div class="setMessage">
+                <div class="f-l title">消息提醒设置</div>
+                <div class="f-l description">
+                    <label>
+                        <input type="checkbox" onchange="addNoteSetting()" id="noteEmail" checked     />邮件
+                    </label>
+                    <label>
+                        <input type="checkbox" onchange="addNoteSetting()" id="noteNote" checked     />站内信
+                    </label>
+                    <label>
+                        <input type="checkbox" onchange="addNoteSetting()" id="noteSms" checked     />短信
+                    </label>
+                </div>
+            </div>-->
+            <!--/ 消息提醒设置 -->
+        </div>
+    </div>
+</div>
+</div>
+</block>
+<block name="footer_js">
+
+<script type="text/javascript" src="__PUBLIC__website/js/accountCentral.js?v=1.7"></script>
+<script type="text/javascript">
+    var mobilePhone = '{$user_info['mobilePhone']}';
+    var phone = '{$user_info['user_tel']}';
+    //通知设置
+    function addNoteSetting() {
+        var param={};
+        param["paramMap.noteEmail"] = $("#noteEmail").attr("checked");//邮件
+        param["paramMap.noteNote"] = $("#noteNote").attr("checked");//站内信
+        param["paramMap.noteSms"] = $("#noteSms").attr("checked"); //短信
+        param["paramMap.noteWechat"] = $("#noteWechat").attr("checked");//微信
+        $.post("updateNotesSetting", param,function(data) {
+            if (data==1) {
+                pop.alert("通知设置失败");
+            }
+        });
+    }
+    var  basePath="/";
+
+    $(document).ready(function(){
+        var verifyType=$("#verifyType").val();//由于需要点击发送给邮箱的邮件里面链接才能完成验证，而页面又是一个页面js控制多层，所以只能这样判断◑﹏◐
+        if(verifyType!=""){
+            if(verifyType=="login"){
+                location.href=basePath;
+            }else{
+                console.log('getUrlParam = '+getUrlParam('feature'))
+                if(getUrlParam('feature') == 'BIND_EMAIL') return;
+                //bingSkip('newBindEmail');
+            }
+        }
+
+    })
+    /*function getAction(type){
+    //根据类型获得对应action
+        var  skipAction="";
+        if(type=="emailUpdate"||type=="emailUpdate1"){
+            //修改邮箱
+            skipAction="newSetEmailInit";
+        }else if(type=="emailBing"){
+            //绑定邮箱
+            skipAction="newBindEmail";
+        }else if(type=="phoneBing"){
+            //绑定手机
+            skipAction="newSetPhoneInit";
+        }
+        return skipAction;
+    }*/
+
+    function bingSkip(){
+        //根据选择显示不同页面
+        //console.log(getAction(type));
+        $.get("newBindEmail",function(data){
+            $(".rightBox").html(data);
+        });
+    }
+
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+</script>
+</block>

@@ -1,0 +1,246 @@
+<extend name="Public:base"/>
+<block name="content">
+      <div class="content native-scroll">
+        <!-- 默认的下拉刷新层 -->
+        <!--<div class="pull-to-refresh-layer">
+          <div class="preloader"></div>
+          <div class="pull-to-refresh-arrow"></div>
+        </div>-->
+        <div class="buttons-tab fixed-tab" data-offset="44">
+          <a href="#tab1" class="tab-link active button">优质</a>
+          <a href="#tab2" class="tab-link button">稳健</a>
+          <a href="#tab3" class="tab-link button">超高</a>
+        </div>
+
+          <div class="tabs ">
+            <div id="tab1" class="tab active  infinite-scroll" data-distance="{$count[3]}">
+              <div class="content-block card-container list-block">
+                <div class="list-container">
+                <volist name="hq_list" id="v">
+
+                  <div class="card" onclick="location.href='{:U('pro_detail',['id'=>$v['id']])}'">
+                    <div class="card-header">{$v['name']}</div>
+                    <div class="card-content">
+                      <div class="list-block media-list">
+                        <ul>
+                          <li class="item-content">
+                            <div class="item-media">
+                              <img src="__ROOT__{$v['litpic']}" width="80">
+                            </div>
+                            <div class="item-inner">
+                              <div class="item-subtitle">投资总额：<span style="color:#e80e0e">{$v['item_total']|format_currency}</span></div>
+                              <div class="item-subtitle">项目期限：<span style="color:#e80e0e">{$v['expression']}天</span></div>
+                              <div class="item-subtitle">年化收益：<span style="color:#e80e0e">{$v['annual_income']}%</span></div>
+                              <div class="item-subtitle">进度:<span>
+                              <em><i style="width:{:progress($v['item_total'],$v['surplus'])}%;"></i></em>
+                              <span>{:progress($v['item_total'],$v['surplus'])}%</span>
+                              </span>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <span>发布时间：{$v['pubdate']|date='Y-m-d',###}</span>
+                    </div>
+                  </div>
+
+                </volist>
+                </div>
+              </div>
+                <!-- 加载提示符 -->
+                <div class="infinite-scroll-preloader">
+                  <div class="preloader">
+                  </div>
+                </div>
+
+            </div>
+            <div id="tab2" class="tab  infinite-scroll"  data-distance="{$count[5]}">
+              <div class="content-block card-container list-block">
+                <div class="list-container">
+                <!--开始-->
+                <volist name="safe_list" id="v">
+
+                  <div class="card" onclick="location.href='{:U('pro_detail',['id'=>$v['id']])}'">
+                    <div class="card-header">{$v['name']}</div>
+                    <div class="card-content">
+                      <div class="list-block media-list">
+                        <ul>
+                          <li class="item-content">
+                            <div class="item-media">
+                              <img src="__ROOT__{$v['litpic']}" width="80">
+                            </div>
+                            <div class="item-inner">
+                              <div class="item-subtitle">投资总额：<span style="color:#e80e0e">{$v['item_total']|format_currency}</span></div>
+                              <div class="item-subtitle">项目期限：<span style="color:#e80e0e">{$v['expression']}天</span></div>
+                              <div class="item-subtitle">年化收益：<span style="color:#e80e0e">{$v['annual_income']}%</span></div>
+                              <div class="item-subtitle">进度:<span>
+                              <em><i style="width:{:progress($v['item_total'],$v['surplus'])}%;"></i></em>
+                              <span>{:progress($v['item_total'],$v['surplus'])}%</span>
+                              </span>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <span>发布时间：{$v['pubdate']|date='Y-m-d',###}</span>
+                    </div>
+                  </div>
+
+                </volist>
+                </div>
+
+              </div>
+              <!-- 加载提示符 -->
+              <div class="infinite-scroll-preloader">
+                <div class="preloader">
+                </div>
+              </div>
+            </div>
+            <div id="tab3" class="tab   infinite-scroll"  data-distance="{$count[6]}">
+              <div class="content-block card-container list-block">
+                <div class="list-container">
+                <volist name="hy_list" id="v">
+
+                  <div class="card" onclick="location.href='{:U('pro_detail',['id'=>$v['id']])}'">
+                    <div class="card-header">{$v['name']}</div>
+                    <div class="card-content">
+                      <div class="list-block media-list">
+                        <ul>
+                          <li class="item-content">
+                            <div class="item-media">
+                              <img src="__ROOT__{$v['litpic']}" width="80">
+                            </div>
+                            <div class="item-inner">
+                              <div class="item-subtitle">投资总额：<span style="color:#e80e0e">{$v['item_total']|format_currency}</span></div>
+                              <div class="item-subtitle">项目期限：<span style="color:#e80e0e">{$v['expression']}天</span></div>
+                              <div class="item-subtitle">年化收益：<span style="color:#e80e0e">{$v['annual_income']}%</span></div>
+                              <div class="item-subtitle">进度:<span>
+                              <em><i style="width:{:progress($v['item_total'],$v['surplus'])}%;"></i></em>
+                              <span>{:progress($v['item_total'],$v['surplus'])}%</span>
+                              </span>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <span>发布时间：{$v['pubdate']|date='Y-m-d',###}</span>
+                    </div>
+                  </div>
+
+                </volist>
+                </div>
+              </div>
+                <!-- 加载提示符 -->
+                <div class="infinite-scroll-preloader">
+                  <div class="preloader">
+                  </div>
+                </div>
+
+            </div>
+
+          </div>
+      </div>
+</block>
+<block name="jsinit">
+  <script type="text/javascript">
+      $(function() {
+          $(".bar-tab .tab-item").eq(1).addClass('active').siblings().removeClass('active');
+          $(document).on("pageInit",  function(e, id, page) {
+
+              //多个标签页下的无限滚动
+              var loading = false;
+              // 每次加载添加多少条目
+              var itemsPerLoad = 2;
+              // 最多可加载的条目
+              var maxItems = {
+                  0:"{$count[3]}",1:"{$count[5]}",2:"{$count[6]}"
+              },lastIndex = {
+                  0:$('.list-container').eq(0).find('div.card').length,
+                  1:$('.list-container').eq(1).find('div.card').length,
+                  2:$('.list-container').eq(2).find('div.card').length,
+              };
+
+              $(page).on('infinite', function() {
+
+                  // 如果正在加载，则退出
+                  if (loading) return;
+                  // 设置flag
+                  loading = true;
+                  var tabIndex = 0;
+                  if($(this).find('.infinite-scroll.active').attr('id') == "tab1"){
+                      tabIndex = 0;
+                  }
+                  if($(this).find('.infinite-scroll.active').attr('id') == "tab2"){
+                      tabIndex = 1;
+                  }
+                  if($(this).find('.infinite-scroll.active').attr('id') == "tab3"){
+                      tabIndex = 2;
+                  }
+
+
+                  if (lastIndex[tabIndex] >= maxItems[tabIndex]) {
+                      // 重置加载flag
+                      loading = false;
+                      // 加载完毕，则注销无限加载事件，以防不必要的加载
+                      //$.detachInfiniteScroll($('#tab'+(tabIndex+1)));
+                      // 删除加载提示符
+                      $('.infinite-scroll-preloader').eq(tabIndex).hide();
+                      return;
+                  }
+                  function addItems(number, last,tabIndex) {
+                      var html = '';
+                      $.get('',{tabIndex:tabIndex,p:Math.ceil((number+last)/number)},function (res) {
+                          $.each(res,function(index,item){
+                              html += '<div class="card" onclick="location.href=\'pro_detail?id='+item.id+'\'">\n' +
+                                  '                    <div class="card-header">'+item.name+'</div>\n' +
+                                  '                    <div class="card-content">\n' +
+                                  '                      <div class="list-block media-list">\n' +
+                                  '                        <ul>\n' +
+                                  '                          <li class="item-content">\n' +
+                                  '                            <div class="item-media">\n' +
+                                  '                              <img src="__ROOT__'+item.litpic+'" width="80">\n' +
+                                  '                            </div>\n' +
+                                  '                            <div class="item-inner">\n' +
+                                  '                              <div class="item-subtitle">投资总额：<span style="color:#e80e0e">'+item.item_total+'</span></div>\n' +
+                                  '                              <div class="item-subtitle">项目期限：<span style="color:#e80e0e">'+item.expression+'天</span></div>\n' +
+                                  '                              <div class="item-subtitle">年化收益：<span style="color:#e80e0e">'+item.annual_income+'%</span></div>\n' +
+                                  '                              <div class="item-subtitle">进度:<span>\n' +
+                                  '                              <em><i style="width:'+item.progress+'%;"></i></em>\n' +
+                                  '                              <span>'+item.progress+'%</span>\n' +
+                                  '                              </span>\n' +
+                                  '                              </div>\n' +
+                                  '                            </div>\n' +
+                                  '                          </li>\n' +
+                                  '                        </ul>\n' +
+                                  '                      </div>\n' +
+                                  '                    </div>\n' +
+                                  '                    <div class="card-footer">\n' +
+                                  '                      <span>发布时间：'+item.pubdate+'</span>\n' +
+                                  '                    </div>\n' +
+                                  '     </div>';
+
+                          });
+                          $('.infinite-scroll.active .list-container').append(html);
+                          // 重置加载flag
+                          loading = false;
+                            // 更新最后加载的序号
+                          lastIndex[tabIndex] =  $('.list-container').eq(tabIndex).find('div.card').length;
+                          $.refreshScroller();
+                      });
+
+                  }
+                  addItems(itemsPerLoad,lastIndex[tabIndex],tabIndex);
+
+              });
+          });
+          $.init();
+      });
+
+  </script>
+</block>

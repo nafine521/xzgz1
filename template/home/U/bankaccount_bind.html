@@ -1,0 +1,162 @@
+<extend name="Public:base"/>
+<block name="content">
+    <style>
+        input[type=text]{   padding: 0.5em;    font-size: 1.6rem;    line-height: 1.2;    color: #555555;    vertical-align: middle;    background-color: #fff;    background-image: none;    border: 1px solid #ccc;    border-radius: 0;    -webkit-appearance: none;    -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;    transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;font-size: 1.2rem;width: 95%        }
+        .am-u-sm-10 {
+            width: 83.33333333%;
+            float: right;
+        }
+        .am-form-label{
+            width:100px;
+
+        }
+        .am-form-group{
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        .am-g {
+            padding: 20px;
+        }
+        hr {
+            margin: 5px 0px;
+            display: block;
+            padding: 0;
+            border: 0;
+            height: 0;
+            border-top: 1px solid #eeeeee;
+            -webkit-box-sizing: content-box;
+            box-sizing: content-box;
+        }
+    </style>
+<!-- 面包屑 start -->
+<div class="crumbs">
+    <i class="icon-home"></i>
+    <a href="/">首页</a><i class="icon-gt"></i>
+    <a href="#">资金管理</a><i class="icon-gt"></i>银行卡
+</div>
+<!--/ 面包屑 end -->
+
+<div class="main">
+    <include file="Public:parent_list"/>
+    <div class="rightBox">
+    <div class="widget-h-75 bg-white widget-header-em"><em>银行卡</em></div>
+    <div class="datas-widget per-page-content bd">
+
+        <div class="count-page-content">
+            <!--开通提示-->
+            <div class="user-news">
+
+                <!--标题 -->
+
+                <hr/>
+
+                <div class="am-tabs am-tabs-d2" data-am-tabs>
+
+                    <!--支付方式-->
+                    <div class="logistics" >
+                        <div class="am-g "  style="margin:0 auto;width: 70%">
+                            <div class="am-u-md-8 am-u-sm-centered">
+
+
+                                <form class="am-form am-form-horizontal" method="post" id="form">
+
+                                    <div class="am-form-group">
+                                        <label for="makecash_bank" class=" am-form-label">开户银行</label>
+                                        <div class="am-u-sm-10">
+                                            <input type="text" name="makecash_bank" id="makecash_bank" placeholder="输入你的开户银行" value="{$info.branch_bank_name}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="am-form-group">
+                                        <label for="makecash_bankno" class="  am-form-label">银行账号</label>
+                                        <div class="am-u-sm-10">
+                                            <input type="text" name="makecash_bankno" id="makecash_bankno" placeholder="输入你的开户银行账号" value="{$info.account_number}" maxlength="19"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="am-form-group">
+                                        <label for="makecash_bankname" class="  am-form-label">开户姓名</label>
+                                        <div class="am-u-sm-10">
+                                            <input type="text" name="makecash_bankname" id="makecash_bankname" placeholder="输入你的开户姓名"  disabled value="{$user_info.realname}" />
+                                        </div>
+                                    </div>
+
+                                    <div class="am-form-group">
+                                        <label class="am-form-label">默认提现账号</label>
+                                        <div class="am-u-sm-10">
+                                        <label for="tixianprice" >是</label>
+
+                                            <input type="checkbox" id="tixianprice" placeholder=""name="is_default" <eq name="info.is_default" value="1">checked disabled</eq> value="1"  />
+
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                    <div class="am-form-group">
+                                        <div class="am-u-sm-10 am-u-sm-offset-2">
+                                            <button type="button" class=" invest-btn" onclick="bindbank()" style="width: 250px;margin-left: 20px;    height: 35px;    display: block;        text-align: center;    margin-top: 46px;    margin-right: 30px;    line-height: 35px;    color: #ffffff;    font-size: 14px;    border-radius: 3px;    transition: all 0.3s;    -webkit-transition: all 0.3s;border: none;">保存</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="clear"></div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</block>
+<block name="footer_js">
+    <script src="/Public/Admin/lib/layer/2.1/layer.js"></script>
+    <script>
+            function bindbank() {
+                var tixianprice = $("input[name=is_default]:checked").val();
+                var makecash_bank = $("#makecash_bank").val();
+                var makecash_bankno = $("#makecash_bankno").val();
+                var makecash_bankname = $("#makecash_bankname").val();
+                if (makecash_bank == '' || makecash_bankno == '' || makecash_bankname == '') {
+                    layer.msg("账号信息不能为空")
+                    return false;
+                }
+
+                layer.confirm("请核对好账号信息！",function (index) {
+                    $.ajax({
+                        url: "",
+                        type: "POST",
+                        data: {
+                            id:" {$_GET['id']?$_GET['id']:0}",
+                            is_default: tixianprice,
+                            branch_bank_name: makecash_bank,
+                            account_number: makecash_bankno
+                        },
+                        success: function (rel) {
+                            layer.msg(rel.info);
+                            if (rel.status == 'y') {
+                                setTimeout(function () {
+                                    location.href="/U/withdraw";
+                                }, 2000);
+                            }
+                        }
+                    });
+                });
+            }
+
+
+    </script>
+
+</block>

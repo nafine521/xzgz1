@@ -1,0 +1,107 @@
+<extend name="Public:base"/>
+<block name="content">
+
+<!--banner-->
+<div class="news_banner">
+    <img src="http://mer.xiaozhu168.com/static/website/images/news/new_banners.jpg" />
+</div>
+<!--banner结束-->
+
+<!--包裹内容div-->
+<div class="new_center">
+    <!--指引条div-->
+    <div class="news_bar">
+        <ul>
+            <li><i class="icon-house"></i></li>
+            <li class="news_index"><a href="/">首页</a></li>
+            <li class="news_jt"><i class="icon-leftarrow"></i></li>
+            <li class="news_notice">
+                <a href="{:U('/index/news')}">新闻中心</a>
+            </li>
+
+            <li class="news_jt"><i class="icon-leftarrow"></i></li>
+            <li><label><a
+                    href="{:U('/index/news',['tid'=>$info['class_id']])}">{$cname}</a></label></li>
+        </ul>
+    </div>
+    <!--指引条div结束-->
+
+    <!--中间包裹div-->
+    <div class="not_center">
+        <!--左边通知正文-->
+        <div class="not_text">
+            <!--标题-->
+            <p class="not_title">{$info.title}</p>
+            <p class="not_titletime">{$info.pubdate|date='Y-m-d H:i:s',###}</p>
+            <!--标题结束-->
+
+            <!--通知内容-->
+            <div class="not_write">
+                <p>
+                {$info.body|htmlspecialchars_decode}
+                </p>
+                <div>
+                    <!--分享-->
+                    <div style="float:right" data-tag="share_1" class="bdsharebuttonbox"><span style="float:left;margin-top:10px;">果断分享到：</span>
+                        <a class="bds_tsina" data-cmd="tsina"></a>
+                        <a class="bds_qzone" data-cmd="qzone"></a>
+                        <a class="bds_tqq" data-cmd="tqq"></a>
+                        <a class="bds_sqq" data-cmd="sqq"></a>
+                        <a class="bds_weixin" data-cmd="weixin"></a>
+                        <a class="bds_renren" data-cmd="renren"></a>
+                        <a class="bds_more" data-cmd="more"></a>
+                    </div>
+                    <!--分享结束-->
+                    <div style="float:left; line-height: 36px;">
+                    </div>
+                </div>
+                <p class="not_flip">
+                <div style="height:40px; line-height:40px;">
+
+                <volist name="prenext" id="v">
+                    <span <if condition="$v['id'] gt $info['id']">class="not_span" style="float:right;"</if> ><if condition="$v['id'] gt $info['id']">下一篇：<else/>上一篇：</if><a	href="{:U('/index/news_detail',['aid'=>$v['id']])}">{$v.title}</a></span>
+                </volist>
+
+                </div>
+                </p>
+            </div>
+            <!--通知内容结束-->
+        </div>
+        <!--左边通知正文结束-->
+
+        <!--右边服务通知列表-->
+        <div class="not_right">
+            <p>
+                <span><i class="icon-smallhorn"></i></span> <span class="not_tz">最新消息</span>
+                <span class="not_more"><a href="/index/news">更多>></a></span>
+            </p>
+            <ul>
+                <volist name="list" id="v">
+                <li class="not_li"><a href="{:U('/index/news_detail',['aid'=>$v['id']])}">{$v.title}</a></li>
+                </volist>
+            </ul>
+        </div>
+        <!--右边服务通知列表结束-->
+    </div>
+    <!--中间包裹div结束-->
+</div>
+<!--包裹内容div结束-->
+<!--清除浮动-->
+<div class="news_clear"></div>
+<!--清除浮动结束-->
+<script type="text/javascript">
+    // 分享参数设置
+    window._bd_share_config = {
+        common : {
+            bdText : '自定义分享内容',
+            bdDesc : '自定义分享摘要'
+            // ,bdPic : '自定义图片路径'
+        },
+        share : [{
+            "bdSize" : 24
+        }]
+    }
+    //以下为js加载部分
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+</block>

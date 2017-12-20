@@ -1,0 +1,325 @@
+<extend name="Public:base"/>
+
+
+
+<block name="content">
+
+    <style>
+        .xz-alert .dis-no {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #000000;
+            opacity: .7;
+            -webkit-opacity: .7;
+            -moz-opacity: .7;
+            filter:alpha(opacity=70);
+            -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(opacity=70)";
+            z-index: 24;
+        }
+        .xz-alert .xz-content {
+            width: 1080px;
+            min-height: 100px;
+            background: #1b76c9;
+            border-radius: 5px;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            /*   transform: translate(-50% , -50%);
+              -o-transform: translate(-50% , -50%);
+              -ms-transform: translate(-50% , -50%);
+              -moz-transform: translate(-50% , -50%);
+              -webkit-transform: translate(-50% , -50%); */
+            z-index: 25;
+        }
+        .xz-alert .xz-content a {
+            width: 22px;
+            height: 22px;
+            background: url('__PUBLIC__website/images/activity/icon-close.png') no-repeat;
+            display: block;
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            -moz-transition: all 0.8s ease-in-out;
+            -webkit-transition: all 0.8s ease-in-out;
+            -o-transition: all 0.8s ease-in-out;
+            -ms-transition: all 0.8s ease-in-out;
+            transition: all 0.8s ease-in-out;
+        }
+        .xz-alert .xz-content a:hover {
+            -moz-transform: rotate(360deg);
+            -webkit-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+        .xz-alert .xz-content ul {
+            color: #dfeffd;
+            font-size: 16px;
+            margin: 60px 0 80px 56px;
+        }
+        .xz-alert .xz-content ul li {
+            margin-top: 20px;
+        }
+        .xz-alert .xz-content ul li span {
+            display: inline-block;
+            width: 950px;
+        }
+        .xz-alert .xz-content ul li table {
+            width: 700px;
+            margin: 40px auto;
+            border-collapse: collapse;
+            border: 1px solid #ffea5f;
+        }
+        .xz-alert .xz-content ul li table thead td {
+            color: #fff;
+        }
+        .xz-alert .xz-content ul li table th {
+            font-size: 16px;
+            line-height: 40px;
+            text-align: center;
+        }
+        .xz-alert .xz-content ul li table td {
+            color: #ffea5f;
+            font-size: 16px;
+            line-height: 40px;
+            text-align: center;
+        }
+        .xz-alert .xz-content ul li i {
+            float: left;
+            font-size: 14px;
+            width: 16px;
+            line-height: 16px;
+            display: inline-block;
+            text-align: center;
+            background: #115fa7;
+            color: #bbdfff;
+            margin-right: 15px;
+            border-radius: 3px;
+            margin-top: 4px;
+        }
+        .xz-alert .xz-content p {
+            text-align: center;
+            font-size: 16px;
+            color: #a4d0f8;
+            margin-bottom: 50px;
+        }
+    </style>
+<!-- 面包屑 start -->
+<div class="crumbs">
+    <i class="icon-home"></i>
+    <a href="/">首页</a><i class="icon-gt"></i>
+    <a href="#">百宝箱</a><i class="icon-gt"></i>老友帮
+</div>
+<!--/ 面包屑 end -->
+
+<div class="main">
+    <!--左侧菜单栏-->
+    <include file="Public:parent_list"/>
+
+    <div class="rightBox">
+    <div class="widget-h-75 bg-white widget-header-em"><em>老友帮</em></div>
+
+    <div class="bg-white ad-widget">
+        <div class="per-ad-content bg-white">
+            <div class="per-ad-list">
+                <a target="_blank" href="javascript:openView(2);">
+                    <img src="__PUBLIC__website/images/special_subject/user_info/old-friend-group-ad.jpg" alt="老友帮">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white invite-friend-widget">
+        <em>想要拿奖励，邀请需给力！</em>
+        <div class="w-740 overflow_h mb30">
+            <div class="pos-station-1">
+                <em>方式1</em>
+                <small>专属二维码面对面邀请</small>
+                <div class="qrcode" src="{$info.inviteurl}" ></div>
+                <p>扫一扫</p>
+            </div>
+            <div class="pos-station-2">
+                <em>方式2</em>
+                <small>注册时，邀请人手机号/邀请码栏填写您的注册手机号码</small>
+                <div class="share"></div>
+            </div>
+            <div class="pos-station-3">
+                <em>方式3</em>
+                <small>多种方式邀请</small>
+                <ul class="overflow_h bdsharebuttonbox" data-tag="share_1">
+                    <li>
+                        <a class="bds_qzone" data-cmd="qzone" href="#"></a>
+                        QQ空间
+                    </li>
+                    <li>
+                        <a class="bds_tsina" data-cmd="tsina" href="#"></a>
+                        微博
+                    </li>
+                </ul>
+            </div>
+            <div class="pos-station-4">
+                <em>方式4</em>
+                <small>专属链接邀请</small>
+                <div class="ml20 mt20">
+                    <input type="text" value="{$info.inviteurl}" id="copy-content" />
+                    <button onclick="copyContent();">复制链接</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="bg-white invite-data-widget datas-widget">
+            <div class="investrecord" style="height: auto; border: 1px #dfdfdf solid;  border-radius: 10px; font-size: 14px; margin-left: 10px; margin-top: 10px;border-collapse: separate;">
+
+            </div>
+        </div>
+</div>
+
+</div>
+</block>
+ <block name="footer_js">
+
+<script type="text/javascript" src="__PUBLIC__website/js/lib/jquery.qrcode.min.js"></script>
+
+<script type="text/javascript" src="__PUBLIC__website/js/accountCentral.js"></script>
+     <!--<script type="text/javascript" src="__PUBLIC__website/js/old-friend-group.js"></script>-->
+<script type="text/javascript">
+    /*Copy function implementation */
+    function copyContent() {
+        var copyobject=document.getElementById("copy-content");
+        copyobject.select();
+        document.execCommand("Copy");
+        xzalert( '<p class="big">复制成功</p>' , 2 );
+    };
+
+    $('.qrcode').qrcode({
+        width : 94,
+        height : 94,
+        text : $('.qrcode').attr( 'src' )
+    });
+
+    var param = {};
+    $(function(){
+        param["p"] = 1;
+        var tab = $('.tab-widget li');
+        (function(){
+            initListInfo();
+            tab.click(function(event) {
+                tab.removeClass('active');
+                $(this).addClass('active');
+                var index = $(this).attr('index');
+                param["p"] = 1;
+                initListInfo();
+            })
+        })();
+    })
+
+    function initListInfo(){
+        $.get("myInvitedata", param, function(data) {
+            $(".investrecord").html(data);
+
+            var fixed;
+            $('table tr td[class="earnings"]').hover(function() {
+                var index = $(this).attr('index');
+
+                fixed = $('.fixed-widget-'+index);
+                // 查询每条投资记录使用的优惠券
+                $(this).append(fixed);
+                fixed.show(300);
+            }, function() {
+                fixed.hide();
+            });
+
+        });
+    }
+
+    //邀请说明
+    (function(){
+        window.xz = {
+            closeView : _closeView
+        }
+        openView = function ( id ){
+            if(id == 1){
+                el ='<ul>';
+                el +='<li><i>1</i>邀请人每邀请1位好友在小猪罐子完成首投金额，邀请人即可获得30元现金券奖励，有效期为60天；</li>';
+                el +='<li><i>2</i>现金券奖励由系统实时发放至邀请人的小猪罐子账户；</li>';
+                el +='<li><i>3</i>现金券可在投资时使用，使用金额与投资金额比例为1:100 ;</li>';
+                el +='<li><i>4</i>债权转让标不参与本活动；</li>';
+                el +='</ul>';
+            }else if(id == 2){
+
+                el=' {$info['body']|htmlspecialchars_decode}';
+            }else if(id == 3){
+                el ='<ul style="margin-bottom:0 !important;">';
+                el +='<li><i>1</i>债权转让标不参与本活动；</li>';
+                el +='<li><i>2</i>邀请人基础条件：本人总资产（待收本金+可用余额+冻结金额）大于等于1万元、邀请人名下投资客户数不少于3个；</li>';
+                el +='<li><i>3</i>邀请人满足邀请人基础条件后，可享受名下好友待收本金的佣金收益；</li>';
+                el +='<li><i>4</i>邀请人基础条件在每日计算佣金前核查，如不满足基础条件(规则2)，则不享受当天佣金收益，满足条件后恢复佣金收益；</li>';
+                el +='<li><i>5</i><span>邀请人佣金根据每日邀请人名下好友（待收本金+冻结金额）总额和佣金率计算佣金计算公式如下：<br>邀请人每日获得佣金 = 邀请人名下好友（待收本金+冻结金额）×邀请人佣金率/360（低于0.01元的佣金，平台不发放）</span></li>';
+                el +='<li><i>6</i><span>邀请人佣金率由邀请人等级决定，等级越高，佣金率越高。等级由邀请人本人总资产（待收本金+可用余额+冻结金额）确定，<br>具体规则如下所示：</span></li>';
+                el +='<li>'+
+                    '<table cellpadding="0" cellspacing="0" border="1">'+
+                    '<thead><tr><td>邀请人本人总资产</td><td>佣金率</td><td>邀请人本人总资产</td><td>佣金率</td></tr></thead>'+
+                    '<tbody><tr><td>总资产＜1万</td><td>0%</td><td>1万≤总资产＜5万</td><td>0.8%</td></tr>'+
+                    '<tr><td>5万≤总资产＜20万</td><td>1.1%</td><td>20万≤总资产＜50万</td><td>1.5%</td></tr>'+
+                    '<tr><td>50万≤总资产＜100万</td><td>1.6%</td><td>100万≤总资产＜200万</td><td>1.7%</td></tr>'+
+                    '<tr><td>总资产≥200万</td><td>1.8%</td><td>/</td><td>/</td></tr>'+
+                    '</tbody></table>'+
+                    '</li>';
+                el +='</ul>';
+            }else{
+                el ='<ul>';
+                el +='<li><i>1</i><span>被邀好友通过邀请人邀请链接注册或在注册时填写邀请人手机号，被邀请好友除新手福利288元奖励外，还可额外获得20+30+50元现金券，现金券有效期60天；</span></li>';
+                el +='<li><i>2</i>现金券奖励由系统实时发放至被邀请人的小猪罐子账户；</li>';
+                el +='<li><i>3</i>通过非邀请人分享的邀请链接或邀请码注册，好友将不能获得100元现金券奖励；</li>';
+                el +='</ul>';
+            }
+
+            var html = '<div class="xz-alert">';
+            html +='<div class="dis-no"></div>';
+            html +='<div class="xz-content">';
+            html +='<a href="javascript:xz.closeView();"></a>';
+            html += el ;
+            html +='<p>本公司保留在法律允许范围内对本活动的解释权</p>';
+            html +='</div>';
+            html +='</div>';
+
+            $(document.body).append( html );
+
+            var _w = $(window).width();
+            var _h = $(window).height();
+            var xz = $('.xz-content');
+            console.log( _h )
+            xz.css({
+                top: (_h - xz.height()) / 2+'px',
+                left: (_w - xz.width()) / 2+'px',
+            });
+        }
+
+        function _closeView(){
+            $('.xz-alert').fadeOut(500,function(){
+                $(this).remove();
+            });
+        }
+    })();
+
+</script>
+<script type="text/javascript">
+    // 分享参数设置
+    window._bd_share_config = {
+        common : {
+            bdText : 'Hey，教你一招加薪秘诀：快和我一起来理财，1个月就能赚够3年银行利息，100元起投，妥妥的！邀请链接：{$info.inviteurl}',
+            bdDesc : 'Hey，教你一招加薪秘诀：快和我一起来理财，1个月就能赚够3年银行利息，100元起投，妥妥的！',
+            bdUrl : '{$info.inviteurl}',
+            bdPic : 'http://{$_SERVER["HTTP_HOST"]}{$basic.web_logo}'
+        },
+        share : [{
+            "bdSize" : 16
+        }]
+    }
+    //以下为js加载部分
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+</block>

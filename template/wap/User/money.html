@@ -1,0 +1,81 @@
+<extend name="Public:base"/>
+<block name="content">
+  <style type="text/css">
+    .content-block tr{max-height:2rem;line-height:2rem;}
+    .content-block th{font-size:0.5rem}
+    .content-block td{font-size:0.5rem;text-align:center;}
+  </style>
+
+      <div class="content" style="background:#fff;">
+		<div class="buttons-tab">
+		    <a href="#tab1" class="tab-link active button">充值</a>
+		    <a href="#tab2" class="tab-link button">提现</a>
+		  </div>
+		  <div class="content-block">
+		    <div class="tabs">
+		      <div id="tab1" class="tab active">
+		        <div class="content-block">
+		          <table width="100%">
+                <tr style="border-bottom:1px solid #ccc;">
+                  <th width="20%">时间</th>
+                  <th width="20%">流水号</th>
+                  <th width="20%">充值金额</th>
+
+                  <th width="20%">状态</th>
+                </tr>
+                      <volist name="list.recharge" id="v">
+                          <tr <if condition="$key % 2 eq 0">style="background:#f1efef;"</if> >
+                  <td>{$v.create_time|date='m-d H:i',###}</td>
+                  <td>{$v.out_trade_no}</td>
+                  <td>{$v.recharge_money}</td>
+
+                  <td><if condition="$v['status'] eq 1">成功
+                  <elseif condition="$v['status'] eq 2"/>正在处理
+                      <elseif condition="$v['status'] eq 3"/>处理失败
+                      <else />等待系统确认
+                  </if></td>
+                </tr>
+                      </volist>
+
+              </table>
+		        </div>
+		      </div>
+		      <div id="tab2" class="tab">
+		        <div class="content-block">
+              <table width="100%">
+                <tr style="border-bottom:1px solid #ccc;">
+                  <th width="20%">时间</th>
+                  <th width="20%">银行</th>
+
+                  <th width="20%">提现金额</th>
+                  <th width="20%">状态</th>
+                </tr>
+                  <volist name="list.withdraw" id="v">
+                <tr <if condition="$key % 2 eq 0">style="background:#f1efef;"</if>>
+                  <td>{$v.ask_for_date|date='m-d H:i',###}</td>
+                  <td>{$v.bank_name}</td>
+
+                  <td>{$v.cash}</td>
+
+                  <td><if condition="$v['status'] eq 1">成功
+                      <elseif condition="$v['status'] eq 2"/>正在处理
+                      <elseif condition="$v['status'] eq 3"/>处理失败
+                      <else />等待系统确认
+                  </if></td>
+                </tr>
+                  </volist>
+              </table>       
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+      </div>
+
+    </div>
+</block>
+<block name="jsinit">
+    <script>
+        $(".button-link.back").show();
+        $(".bar-tab .tab-item").eq(2).addClass('active').siblings().removeClass('active');
+    </script>
+</block>

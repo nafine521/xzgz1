@@ -1,0 +1,44 @@
+<table class="w-740 m-t-20" cellspacing="0" cellpadding="0" border="0" lay-skin="row">
+    <!--title部分-->
+    <colgroup>
+        <col width="130" align="left">
+        <col width="87" >
+        <col width="87">
+        <col width="87">
+        <col width="87">
+        <col width="87">
+        <col width="87">
+        <col width="90">
+        <col>
+    </colgroup>
+
+    <thead>
+    <tr >
+        <th align="left" style="text-indent: 19px" >项目名称</th>
+        <th>投资期限</th>
+        <th>预期年化<br>收益</th>
+        <th>投资金额</th>
+        <th>预期收益</th>
+        <th>合同</th>
+        <th>到期时间</th>
+
+    </tr>
+    </thead>
+    <!--title部分结束-->
+    <volist name="list" id="v" key="k" empty="$empty">
+        <tr height="50" class="per_tr2">
+            <td class=""><a href="/index/pro_detail?id={$v['pro_id']}"><span style="font-size: 10px;  text-overflow: ellipsis;    white-space: nowrap;">{$v.pro_name}</span></a></td>
+            <td style="text-align:center;">{$v.expression} 天</td>
+            <td>{$v.annual_income}%</td>
+            <td>{$v.trans_price}元</td>
+            <td ><label>{$v['earnings'] - $v['trans_price'] |round=2}元</label></td>
+
+            <td><a href="javascript:newShowContract('{$v.pro_id}','{$v.id}','{:time()}');">查看</a></td>
+            <td class="">{$v.repaytime|date='Y-m-d H:i:s',###}</td>
+        </tr>
+    </volist>
+</table>
+
+<div class="per_pages w-740"><div class="main_c_list_page" style="float: right;">{$page}</div>
+</div>
+

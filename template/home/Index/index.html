@@ -1,0 +1,414 @@
+<extend  name="Public/base" />
+
+
+<block name="content">
+    <link rel="stylesheet" href="__PUBLIC__web/css/index.css"/>
+<!-- banner start -->
+<div class="banner-box">
+    <include file="Public:banner"/>
+
+    <!-- 用户信息 start -->
+    <div class="banner-tag-box">
+
+        <if condition="empty($user_info)">
+        <!-- 未登录 start -->
+        <div class="banner-tag visitor-banner-tag">
+            <ul class="clearfix">
+                <li class="float-l"  style="display: none;">
+                    已有<strong>148,289</strong>投资者选择
+                </li>
+                <li class="float-r" style="display: none;">
+                    <a href="/index/guide.html" target="_blank" rel="nofollow" class="guide-new">新手引导</a>
+                </li>
+            </ul>
+            <div class="topest-profit">
+                <strong>12.2<sub>%</sub></strong><br />
+                预期年化收益率
+            </div>
+            <a href="/index/reg.html" class="red-link-btn" target="_blank">
+                <i class="icon-money"></i>
+                领取288元新人大礼包
+            </a>
+            <a href="javascript:loginWin();" class="login-now">
+                立即登录
+            </a>
+        </div>
+        <!-- 未登录 end -->
+            <else/>
+            <!-- 已登录 start -->
+            <div class="banner-tag login-banner-tag">
+                <div class="user-base">
+                    <a href="/U/accountInit" class="user-img">
+                        <img src="{$user_info['user_headimg']?$user_info['user_headimg']:getSysConfigs('default_headimg')['default_headimg']}" alt="用户头像">
+                    </a>
+                    <span class="user-base-sp">
+
+                	Hi,<a href="/U/accountInit.html" target="_blank">{$user_info['uname']}</a>
+                </span>
+                    <em class="user-level">VIP{$user_info["level"]}</em>
+                </div>
+                <ul class="clearfix">
+                    <li class="float-l" style="display: none;">
+                        投资者选择（人）
+                        <strong>148,471</strong>
+                    </li>
+                    <li class="float-r">
+                        <a href="/U/recharge" target="_blank" class="yellow">前往充值&gt;&gt;</a>
+                    </li>
+                </ul>
+                <a href="/U/accountInit" target="_blank" class="green-link-btn">我的账户</a>
+                <a href="/U/myInvite" target="_blank" class="transparent-link-btn">
+                    <i class="icon-hot-tag"></i>
+                    推荐好友乐享三重好礼
+                </a>
+            </div>
+            <!-- 已登录 end -->
+        </if>
+    </div>
+    <!-- 用户信息 end -->
+</div>
+<!-- banner end -->
+
+<!-- 平台数据 start -->
+<div class="web-data">
+    <div class="data-content">
+        <ul class="data-list">
+            <li>
+                累计投资金额
+                <span class="increment">
+                <em class="red">15</em>亿
+                    <em class="red">4956</em>万
+                    <em class="red">3629</em>元
+                </span>
+            </li>
+            <li>
+                为投资人赚取收益
+                <span class="increment">
+                <em class="red">5224</em>万
+                    <em class="red">0767</em>元
+                </span>
+            </li>
+            <li class="last-li">
+                注册人数
+                <span style="width: 138px; visibility: visible;">
+                    <em class="red">148,289</em>人
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- 平台数据 end -->
+
+<!-- 安全保障 start -->
+<div class="safe-ensure">
+
+    <div class="safe-ensure-content">
+        <ul class="safe-ensure-list">
+            <li>
+                <em class="bank-ensure em-mask"></em>
+                <em class="bank-ensure-hover"></em>
+                <p>
+                    <strong>融资背景</strong>
+                    获A轮融资，光谷创投战略入股
+                </p>
+            </li>
+            <li>
+                <em class="sunshine-ensure em-mask"></em>
+                <em class="sunshine-ensure-hover"></em>
+                <p>
+                    <strong>资金托管</strong>
+                    与徽商银行签订战略合作协议，资金由汇付天下托管
+                </p>
+            </li>
+            <li>
+                <em class="msg-ensure em-mask"></em>
+                <em class="msg-ensure-hover"></em>
+                <p>
+                    <strong>资产多样</strong>
+                    引入达飞金控、恒胜车贷等资产
+                </p>
+            </li>
+
+            <li class="last-li">
+                <em class="risk-ensure em-mask"></em>
+                <em class="risk-ensure-hover"></em>
+                <p>
+                    <strong>风控体系</strong>
+                    专业的风控体系，三大原则、8大审核流程、36道严格工序
+                </p>
+            </li>
+        </ul>
+
+        <!-- 扫描下载 app start -->
+        <div class="app-download">
+            <em class="app-download-qrcode" style="background-image: url({$basic.wap_qrcode});"></em>
+            <p>
+                <strong>扫描
+                    <span class="red">左侧二维码</span>
+                </strong><br />
+                下载APP<br />
+                <i class="icon-iphone"></i><em class="bold">IOS</em>
+                <i class="icon-android"></i><em class="bold"> Android</em>
+                <a href="javascript:;" target="_blank" class="more-about-app">
+                    了解详情
+                    <i class="icon-arrow-right"></i>
+                </a>
+            </p>
+        </div>
+        <!-- 扫描下载 app end -->
+    </div>
+
+</div>
+<!-- 安全保障 end -->
+
+<!-- 标列表 start -->
+
+<!-- 标列表 end -->
+    <div class="tag-box clearfix ">
+        <div class="index_tzlc clearfix">
+            <!--优质产品-->
+            <div>
+                <div class="index_tzlc_yzcp" >
+                    <span style="font-size: 20px;">优质产品</span>
+                    <p>门槛低</p>
+                    <p>活期理财 ，灵活随取</p>
+                    <p>方便快捷</p>
+                    <p style="margin-bottom:50px;">短期理财利器</p>
+                    <a  class="index_tzlc_gd" href="/index/project"><span>更多产品>></span></a>
+                </div>
+                <volist name="pro_list.hq" id="v">
+                    <div class="index_tzcp_yzcp">
+                        <div class="index_tzcp_yzcp1">
+                            <a class="index_tzcp_01" href="">{$v['name']}</a>
+                            <p class="index_tzcp_02">项目总额</p>
+                            <p class="index_tzcp_03">{$v['item_total']|format_currency}</p>
+                            <p class="index_tzcp_04">
+                                <span>进度:</span>
+                                <em><i style="width:{:round(($v['item_total']-$v['surplus'])/$v['item_total']*100 ,2)}%;"></i></em>
+                                <span>{:round(($v['item_total']-$v['surplus'])/$v['item_total']*100 ,2)}%</span>
+                            </p>
+
+                            <p>
+                                起投金额：
+                                <span>100元</span>
+                            </p>
+                            <div class="index_tzcp_05">
+                                <p class="index_tzcp_06">
+                                    年化收益率<br>
+                                    <span>{$v.annual_income}%</span>
+                                </p>
+                                <p class="index_tzcp_07">
+                                    项目期限<br>
+                                    <span>{$v.expression}天</span>
+                                </p>
+                            </div>
+                            <div class="index_tzcp_08">
+                                <span>还款方式 :
+                                    <foreach name="attr" item="vo">
+                                        <in name="vo.id" value="$v.attr_id">{$vo.name}</in>
+                                    </foreach>
+                                </span>
+                                <em><img src="__PUBLIC__web/img/b.png"></em>
+
+                            </div>
+                        </div>
+                        <a class="index_tzcp_09" href="/index/pro_detail?id={$v.id}">立即投资</a>
+                    </div>
+                </volist>
+
+            </div>
+        </div>
+
+        <!--安全稳健-->
+        <div class="index_tzlc clearfix">
+            <div>
+                <div class="index_tzlc_aqwj" >
+                    <span style="font-size: 20px;">安全稳健</span>
+                    <p>门槛低</p>
+                    <p>活期理财 ，灵活随取</p>
+                    <p>方便快捷</p>
+                    <p style="margin-bottom:50px;">短期理财利器</p>
+                    <a  class="index_tzlc_gd" href="/index/project"><span>更多产品>></span></a>
+                </div>
+            </div>
+            <volist name="pro_list.safe" id="v">
+                <div class="index_tzcp_yzcp">
+                    <div class="index_tzcp_yzcp1">
+                        <a class="index_tzcp_01" href="">{$v['name']}</a>
+                        <p class="index_tzcp_02">项目总额</p>
+                        <p class="index_tzcp_03">{$v['item_total']|format_currency}</p>
+                        <p class="index_tzcp_04">
+                            <span>进度:</span>
+                            <em><i style="width:{:round(($v['item_total']-$v['surplus'])/$v['item_total']*100 ,2)}%;"></i></em>
+                            <span>{:round(($v['item_total']-$v['surplus'])/$v['item_total']*100 ,2)}%</span>
+                        </p>
+
+                        <p>
+                            起投金额：
+                            <span>100元</span>
+                        </p>
+                        <div class="index_tzcp_05">
+                            <p class="index_tzcp_06">
+                                年化收益率<br>
+                                <span>{$v.annual_income}%</span>
+                            </p>
+                            <p class="index_tzcp_07">
+                                项目期限<br>
+                                <span>{$v.expression}天</span>
+                            </p>
+                        </div>
+                        <div class="index_tzcp_08">
+                            <span>还款方式 :
+                                    <foreach name="attr" item="vo">
+                                        <in name="vo.id" value="$v.attr_id">{$vo.name}</in>
+                                    </foreach>
+                                </span>
+                            <em><img src="__PUBLIC__web/img/b.png"></em>
+                        </div>
+                    </div>
+                    <a class="index_tzcp_09" href="/index/pro_detail?id={$v.id}">立即投资</a>
+                </div>
+            </volist>
+        </div>
+        <!--超高收益-->
+        <div class="index_tzlc clearfix">
+            <div>
+                <div class="index_tzlc_cgsy" >
+                    <span style="font-size: 20px;">超高收益</span>
+                    <p>门槛低</p>
+                    <p>活期理财 ，灵活随取</p>
+                    <p>方便快捷</p>
+                    <p style="margin-bottom:50px;">短期理财利器</p>
+                    <a  class="index_tzlc_gd" href="/index/project"><span>更多产品>></span></a>
+                </div>
+
+            </div>
+            <volist name="pro_list.hy" id="v">
+                <div class="index_tzcp_yzcp">
+                    <div class="index_tzcp_yzcp1">
+                        <a class="index_tzcp_01" href="">{$v['name']}</a>
+                        <p class="index_tzcp_02">项目总额</p>
+                        <p class="index_tzcp_03">{$v['item_total']|format_currency}</p>
+                        <p class="index_tzcp_04">
+                            <span>进度:</span>
+                            <em><i style="width:{:round(($v['item_total']-$v['surplus'])/$v['item_total']*100 ,2)}%;"></i></em>
+                            <span>{:round(($v['item_total']-$v['surplus'])/$v['item_total']*100 ,2)}%</span>
+                        </p>
+
+                        <p>
+                            起投金额：
+                            <span>100元</span>
+                        </p>
+                        <div class="index_tzcp_05">
+                            <p class="index_tzcp_06">
+                                年化收益率<br>
+                                <span>{$v.annual_income}%</span>
+                            </p>
+                            <p class="index_tzcp_07">
+                                项目期限<br>
+                                <span>{$v.expression}天</span>
+                            </p>
+                        </div>
+                        <div class="index_tzcp_08">
+                            <span>还款方式 :
+                                    <foreach name="attr" item="vo">
+                                        <in name="vo.id" value="$v.attr_id">{$vo.name}</in>
+                                    </foreach>
+                                </span>
+                            <em><img src="__PUBLIC__web/img/b.png"></em>
+                        </div>
+                    </div>
+                    <a class="index_tzcp_09" href="/index/pro_detail?id={$v.id}">立即投资</a>
+                </div>
+            </volist>
+        </div>
+    </div>
+
+
+    <!--新闻-->
+<div class="index_news mt20">
+    <!--媒体报道行业新闻-->
+    <div class="index_media ml35 mt10">
+        <ul class="index_media_ul index_media_me">
+            <li class="index_media_li active">热门推荐<!-- <em>|</em> --></li>
+
+            <li class="index_media_li1"><a href="/index/news" target="_blank">更多+</a></li>
+        </ul>
+        <div class="index_media_con">
+            <div class="index_media_tab">
+                <volist name="hot_list" id="v" offset="1" length='2'>
+            	<span class="index_media_span mt20">
+                    <a href="/index/news_detail?aid={$v.id}" target="_blank"><img src="{$v['litpic']?$v['litpic']:getSysConfigs('defaultimg')['defaultimg']}"/></a>
+                    <em><a href="/index/news_detail?aid={$v.id}" target="_blank">{$v.title}</a></em>
+                </span>
+                </volist>
+
+                <ul class="index_media_ul1">
+                    <volist name="hot_list" id="v" offset="3" length='3'>
+                    <li class="index_media_li7"><i class="index_media_gt">&gt;</i>
+                        <a href="/index/news_detail?aid={$v.id}" target="_blank" class="index_media_a">{$v.title}</a>
+                        <label>{$v.pubdate|date='Y-m-d',###}</label>
+                    </li>
+                        </volist>
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <!--媒体报道行业新闻结束-->
+
+    <!--最新公告公司动态-->
+    <div class="index_media index_media1 ml35 mt10">
+        <ul class="index_media_ul index_media_ul2">
+            <li class="index_media_li active">最新公告<!-- <em>|</em> --></li>
+            <li class="index_media_li1 index_media_li3"><a href="/index/news" target="_blank">更多+</a></li>
+        </ul>
+        <div class="index_media_con1">
+            <div class="index_media_tab index_media_tab1 ">
+                <volist name="news_list" id="v">
+                <ul class="index_media_ul1 index_media_ul3">
+                    <li class="index_media_li4"><i class="index_media_gt">&gt;</i>
+                        <a href="/index/news_detail?aid={$v['id']}" target="_blank" class="index_media_a index_media_a1">{$v['title']}</a>
+                        <i class="icon-news"></i>
+                    </li>
+                    <li class="index_media_li5"><label>{$v.pubdate|date='Y-m-d',###}</label></li>
+                </ul>
+                </volist>
+
+            </div>
+
+        </div>
+    </div>
+    <!--最新公告公司动态结束-->
+</div>
+<!--新闻结束-->
+
+<!--合作伙伴-->
+<div class="index_news mt20 index_news1">
+    <ul class="index_media_ul index_media_ul4 ml35">
+        <li class="index_media_li active">合作伙伴</li>
+    </ul>
+    <ul class="index_pernter_logo ml25 mt10">
+        <volist name="flink" id="v">
+        <li><a href="{$v['link']}" class="partner1" alt="{$v['name']}" target="_blank" rel="nofollow">
+            <img src="{$v['img']}" title="{$v['name']}" />
+        </a>
+        </li>
+        </volist>
+
+    </ul>
+</div>
+<!--合作伙伴结束-->
+    <script>
+        window.onload =function () {
+            $(".common-nav-list li").removeClass("active");
+            $(".common-nav-list li").eq(0).addClass("active");
+        }
+
+    </script>
+</block>
+
+
+
+

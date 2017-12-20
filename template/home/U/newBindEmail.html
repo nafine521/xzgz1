@@ -1,0 +1,75 @@
+<!--中间白色包裹DIV-->
+<div class="widget-header-em hide"><em>个人资料</em></div>
+<div class="widget-h-75 bg-white"><em>绑定邮箱</em><a href="customerInfo.html">返回&gt;&gt;</a></div>
+<input type="hidden" id="change-type" value="1" />
+
+<div class="datas-widget bg-white bd">
+    <div class="step_content">
+        <div class="step_list">
+
+            <!--第一步-->
+            <div class="ret_qh" style="width: 740px;">
+                <div class="ret_gary_line2"></div>
+                <ul class="ret_green_ul2">
+                    <li class="ret_green_li"><i class="ret_green_i">1</i></li>
+                    <li><i class="ret_gary_i">2</i></li>
+                </ul>
+                <ul class="ret_green_ul3">
+                    <li class="ret_li_zt">绑定邮箱</li>
+                    <li class="ret_li_zt1">完成</li>
+                </ul>
+                <div class="ret_tx">
+                    <!--手机号-->
+                    <form id="bind-mail-form" >
+                        <div class="ret_new_all">
+                            <div class=" ret_new_pwd">绑定邮箱：</div>
+                            <div class="form-line">
+                                <div class="ret_new_pwd1"><input type="text" id="mail-ipt" check-reg="mail" placeholder="输入邮箱" style=" width:230px;"/></div>
+                                <div class="login_Prompt" style=" clear:both; padding-left:100px;">请输入正确的邮箱格式。</div>
+                            </div>
+
+                            <div class="form-line">
+                                <div class=" ret_new_pwd"><label>*</label>验证码：</div>
+                                <div class="ret_new_pwd1"><input type="text" id="mail-identify" placeholder="输入验证码"  maxlength="4" style=" width:120px;"/><div class="bd_yzm"><img id="codeNum" src="verify?pageId=capacity" title="换一张" onclick="javascript:switchCode()"/></div></div>
+                                <div class="login_Prompt" style=" clear:both;padding-left:100px;">请输入正确验证码。</div>
+                            </div>
+                            <!--下一步按钮-->
+                            <div class="login_ph4" >
+                                <input type="submit" value="发送验证邮箱" class="register_butt1" />
+                            </div>
+                            <!--下一步按钮结束-->
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!--第一步结束-->
+
+            <!--第二步-->
+            <div class="ret_qh" >
+                <div class="ret_gary_line2"></div>
+                <ul class="ret_green_ul2">
+                    <li class="ret_green_li1"><i class="ret_green_i1">1</i></li>
+                    <li class="ret_green_li"><i class="ret_green_li">2</i></li>
+                </ul>
+                <ul class="ret_green_ul3">
+                    <li class="ret_li_zt2">绑定邮箱</li>
+                    <li class="ret_li_zt">完成</li>
+                </ul>
+                <div class="ret_tx">
+                    <p class="ret_pfs2">恭喜您，邮箱验证成功！</p>
+
+                </div>
+            </div>
+            <!--第二步结束-->
+        </div>
+    </div>
+</div>
+<!--中间白色包裹DIV结束-->
+<script type="text/javascript" src="__PUBLIC__website/js/bd_yx.js?v=3.0"></script>
+<script >
+    function switchCode() {
+        var timenow = new Date();
+        $("#codeNum").attr("src", "verify?pageId=capacity&d=" + timenow);
+    }
+</script>

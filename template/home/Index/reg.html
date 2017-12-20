@@ -1,0 +1,120 @@
+<extend  name="Public/base" />
+<block name="header">
+    <style>
+        .xz-bottom{margin-top:0}
+        .xz-bottom .footer{background-color: transparent}
+    </style>
+<!-- 注册页头部 start -->
+<div class="regist-header">
+    <div class="header-content">
+        <a href="/" class="company-logo">
+            <img src="__ROOT__{$basic.web_logo}" alt="logo" />
+        </a>
+        <div class="app-qrcode">
+            <img class="qrcode-img" src="https://mer.xiaozhu168.com/static/website/images/qrcode.jpg" alt="扫描下载app" />
+            <p>
+                掌上投资，更加精彩<br />
+                <span class="green">下载小猪罐子客户端</span>
+            </p>
+        </div>
+        <div class="is-vip">
+            已是小猪罐子会员？
+            <a href="javascript:loginWin('/');" class="goto-login">去登录</a>
+        </div>
+    </div>
+</div>
+<!-- 注册页头部 end -->
+</block>
+<block name="content">
+<!-- 页面主体 start -->
+<div class="regist-main">
+    <div class="form-content">
+        <div class="form-box">
+            <form action="register" method="post" class="regist-form">
+                <!-- 邀请人信息 start -->
+                <if condition="$invite[1] != false">
+                <div class="ivt-man-info">
+                    Hi！您好：您的好友：<em class="ivt-man-name"></em>（<em class="ivt-man-tel">{$invite['tel']}</em>）<br>
+                    邀请您与TA一起理财
+                </div>
+                </if>
+                <!-- 邀请人信息 end -->
+
+                <div class="form-line">
+                    <div class="ipt-box">
+                        <i class="icon-user"></i>
+                        <input type="text" id="phon" maxLength="11" class="tel-ipt" placeholder="请输入手机号码" />
+                    </div>
+                    <div class="err-line"></div>
+                </div>
+
+                <div class="form-line">
+                    <div class="ipt-box">
+                        <i class="icon-lock"></i>
+                        <input type="password" id="red_pwd" maxLength="20" class="psd-ipt" placeholder="请输入密码" />
+                    </div>
+                    <div class="view-pwd-list">
+                        <div class="float-l view-pwd-1">弱</div>
+                        <div class="float-l view-pwd-2">中</div>
+                        <div class="float-l view-pwd-3">强</div>
+                    </div>
+                    <div class="err-line"></div>
+                </div>
+
+                <div class="invite-line" <if condition="$invite[1] != false">style="display:none;"</if> >
+                    <div class="invite-toggle">
+                        <i class="icon-point-right"></i>
+                        <span class="red">邀请人手机号/邀请码(选填)</span>
+                    </div>
+                    <div class="form-line invite-form-line">
+                        <div class="ipt-box">
+                            <i class="icon-inviter"></i>
+                            <input type="text" id="refferee" maxLength="11" class="invite-ipt" placeholder="手机号/邀请码" value="{$invite[1]}" />
+                            <input type="hidden" id="user_id" value="{$invite[0]}">
+                        </div>
+                        <div class="err-line"></div>
+                    </div>
+                </div>
+
+                <a href="javascript:;" class="disabled" id="regBtn">
+                    立即注册
+                    <i class="icon-money-pack"></i>
+                </a>
+
+                <div class="contract-line">
+                    <label>
+                        <input type="checkbox" checked />
+                        我已阅读并同意
+                    </label>
+                    <a href="javascript:showProtocol();" class="contract-btn blue">《小猪罐子平台注册及服务协议》</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="regist-banner" style="background-image:url(https://www.xiaozhu168.com/upload/images/288zhuce.jpg);">
+        <img src="__PUBLIC__website/images/regist_banner.jpg" alt="">
+    </div>
+</div>
+</block>
+<block name="com_div">&nbsp;</block>
+<!-- 页面主体 end -->
+
+
+<block name="footer_js">
+<script type="text/javascript" src="__PUBLIC__website/js/promiseA.js"></script>
+
+<script type="text/javascript" src="__PUBLIC__website/js/regist.js"></script>
+
+<script type="text/javascript">
+    var basePath = "http://{$_SERVER['HTTP_HOST']}";
+    function switchCode() {
+        var timenow = new Date();
+        $("#codeNum").attr("src", "{:U('verify')}?pageId=capacity&d=" + timenow);
+    }
+</script>
+</block>
+
+
+

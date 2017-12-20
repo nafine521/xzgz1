@@ -1,0 +1,117 @@
+<extend name="Public:base"/>
+<block name="content">
+  <style type="text/css">
+	.news-title{padding:0 1rem;}
+	.news-title li{border-bottom:1px dashed #ccc;padding:0px 5px;height:1.7rem;line-height:1.7rem;}
+	.news-title li a{color:#929292;font-size:0.6rem;display:block;}
+	.news-title li a span{float:right;}
+	.news-title li a i{background:#49ce7e;color:#fff;padding:0 3px;border-radius:5px;font-size:0.4rem;}
+  </style>
+
+      <div class="content" style="background:#fff;">
+		<div class="buttons-tab">
+		    <a href="#tab1" class="tab-link active button">媒体</a>
+		    <a href="#tab2" class="tab-link button">公告</a>
+		    <a href="#tab3" class="tab-link button">外媒</a>
+		  </div>
+		  <div class="content-block">
+		    <div class="tabs">
+		      <div id="tab1" class="tab active">
+		        <div class="content-block">
+		          <ul class="news-title">
+					<li>
+						<a href="news_details.html">大叔大婶大所大所大所
+							<i>news</i>
+							<span>2017-09-08 14:49:51</span>
+						</a>
+					</li>
+					<li>
+						<a href="news_details.html">大叔大婶大所大所大所
+							<i>news</i>
+							<span>2017-09-08 14:49:51</span>
+						</a>
+					</li>
+					<li>
+						<a href="news_details.html">大叔大婶大所大所大所
+							<i>news</i>
+							<span>2017-09-08 14:49:51</span>
+						</a>
+					</li>					
+		          </ul>
+		        </div>
+		      </div>
+		      <div id="tab2" class="tab">
+		        <div class="content-block">
+		          <ul class="news-title">
+					<li>
+						<a href="">大叔大婶大所大所大所2
+							<i>news</i>
+							<span>2017-09-08 14:49:51</span>
+						</a>
+					</li>
+					<li>
+						<a href="">大叔大婶大所大所大所
+							<i>news</i>
+							<span>2017-09-08 14:49:51</span>
+						</a>
+					</li>
+					<li>
+						<a href="">大叔大婶大所大所大所
+							<i>news</i>
+							<span>2017-09-08 14:49:51</span>
+						</a>
+					</li>					
+		          </ul>
+		        </div>
+		      </div>
+		      <div id="tab3" class="tab">
+		        <div class="content-block">
+		          <ul class="news-title">
+					<li>
+						<a href="">大叔大婶大所大所大所3
+							<i>news</i>
+							<span>2017-09-08 14:49:51</span>
+						</a>
+					</li>
+					<li>
+						<a href="">大叔大婶大所大所大所
+							<i>news</i>
+							<span>2017-09-08 14:49:51</span>
+						</a>
+					</li>
+					<li>
+						<a href="">大叔大婶大所大所大所
+							<i>news</i>
+							<span>2017-09-08 14:49:51</span>
+						</a>
+					</li>					
+		          </ul>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+      </div>
+
+</block>
+<block name="jsinit">
+    <script>
+      $(".pay-list>li>img").click(function(){
+         $(".pay-list li img").removeClass("selected");
+         $(this).addClass("selected");
+      });
+
+      $(function (){
+        $("#pay").click(function(){
+          var money = $("#money").val();
+          if(money == ""){
+            layer.msg("金额不能为空");
+            return false;
+          }
+          if(money < 100){
+            layer.msg("充值金额不得小于100");
+            return false;
+          }          
+        })
+      })
+    </script>
+</block>

@@ -1,0 +1,156 @@
+<extend name="Public:base"/>
+<block name="head_footer">
+    <header class="bar bar-nav">
+        <a class="button button-link button-nav pull-left back">
+            <span class="icon icon-left"></span>
+            返回
+        </a>
+        <h1 class='title'>买入{$info['name']}</h1>
+    </header>
+      <nav class="bar bar-tab">
+          <div id="btnsave">
+              <a href="#" class="button button-big button-fill button-success">买入</a>
+          </div>
+      </nav>
+</block>
+      <block name="content">
+          <div class="content">
+              <div class="list-block">
+                  <!-- Text inputs -->
+                  <div class="card" >
+                      <div class="item-content" >
+                          <div class="item-media"><i class="icon icon-form-name"></i></div>
+                          <div class="item-inner" style="font-size: 1.5rem">
+                              <div class="item-title">￥</div>
+                              <div class="item-input">
+                                  <input type="number" placeholder="{$info['mintender']}元起购" style="height: 4rem;font-size: 1rem" id="amount" value="" name="amount">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <ul>
+                      <li>
+                          <div class="item-content">
+                              <div class="item-media"><i class="icon icon-form-email"></i></div>
+                              <div class="item-inner">
+                                  <div class="item-title label">余额</div>
+                                  <div class="item-after">
+                                      {$user_info['balance']}元
+                                  </div>
+                              </div>
+                          </div>
+                      </li>
+                      <li>
+                          <div class="item-content">
+                              <div class="item-media"><i class="icon icon-form-toggle"></i></div>
+                              <div class="item-inner">
+                                  <div class="item-title label">
+                                      余额支付
+                                  </div>
+                                  <div class="item-text">
+                                      <label class="label-switch">
+                                          <input type="checkbox" checked disabled>
+                                          <div class="checkbox"></div>
+                                      </label>
+                                  </div>
+                              </div>
+                          </div>
+                      </li>
+                      <li>
+                          <div class="item-content">
+                              <div class="item-media"><i class="icon icon-form-toggle"></i></div>
+                              <div class="item-inner">
+                                  <div class="item-title label">
+                                      同意 《<a href="#" class="open-contract"  data-popup=".popup-contract" >合同</a>》
+                                  </div>
+                                  <div class="item-text">
+                                      <label class="label-switch">
+                                          <input type="checkbox" checked disabled>
+                                          <div class="checkbox"></div>
+                                      </label>
+                                  </div>
+                              </div>
+                          </div>
+                      </li>
+                  </ul>
+                  <div class="hidden-input" style="display: none;">
+                      <input type="hidden" name="pro_id" value="{$info['id']}">
+                      <input type="hidden" name="uid" value="{$user_info['uid']}">
+                      <input type="hidden" name="user_balance" value="{$user_info['banlance']}">
+                      <input type="hidden" name="item_total" value="{$info['item_total']}">
+                      <input type="hidden" name="min" value="{$info['mintender']}">
+                      <input type="hidden" name="max" value="{$info['surplus']}">
+                      <input type="hidden" id="annual" name="annual" value="{$info.annual_income}" />
+                      <input type="hidden" id="status" name="status" value="{$info.item_status}" />
+                  </div>
+              </div>
+
+          </div>
+</block>
+<block name="jsinit">
+
+    <script type="text/javascript">
+
+            $.init();
+            var btnsave=false;
+            $(document).on('click','#btnsave .button', function () {
+                if(btnsave)return;
+                btnsave=true;
+                var uid=$(".hidden-input input[name=uid]").val();
+                var mintender=$(".hidden-input input[name=min]").val();
+                var amount=$(".card input[name=amount]").val();console.log(amount)
+                var max=$(".hidden-input input[name=max]").val();
+                var status=$("#status").val();
+                if(!uid) return location.href="{:U('index/login')}";
+                switch (status){
+                    case 0:
+                        $.toast('还有。。将上线');return;
+                        break;//0 未上线 1上线中 2 开标中 3 已售罄 4已还款
+                    case 1:
+                        $.toast('还有。。将上线');return;
+                        break;
+                    case 3:
+                        $.toast('已售罄');return;
+                        break;
+                    case 4:
+                        $.toast('已还款');return;
+                        break;
+                }
+                if(amount==""){
+                    $.toast("请输入金额");btnsave=false;return;
+                }
+                if(parseInt(mintender) > parseInt(amount) ){$.toast("不能低于"+mintender);btnsave=false;return;}
+                if(parseInt(max) < parseInt(amount)){$.toast("只剩下"+max+"可买入了");btnsave=false;return;}
+                var data={
+                    pro_id:$(".hidden-input input[name=pro_id]").val(),
+                    amount:amount
+                }
+                $.post('{:U("index/comfirm_order")}',data,function (res) {
+
+                    if(res.error==1) {
+                        btnsave=false;
+                        if(res.needlogin==1) location.href="{:U('index/login')}";
+                        return $.toast(res.msg);
+                    } else {
+                        $.alert(res.msg);
+                        location.href='/wap/user';
+                    }
+                });
+            });
+            $(document).on('click tap','.open-contract', function () {
+                $.popup('.popup-contract');
+            });
+
+            $('.list-block table').css({'width':'100%','font-size':'.1rem'});
+
+
+
+    </script>
+    <div class="popup popup-contract">
+        <div class="content-block">
+            <div class="  bar bar-nav close-popup  buttons-tab " style="top:-44px;" ><a href="#" class=" title"><span class="icon icon-down"></span></a></div>
+            <div class="list-block" style="margin-top: -1.5rem; ">{$contract|htmlspecialchars_decode}</div>
+        </div>
+
+    </div>
+</block>

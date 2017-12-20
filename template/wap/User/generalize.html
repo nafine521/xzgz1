@@ -1,0 +1,80 @@
+<extend name="Public:base"/>
+<block name="content">
+  <style type="text/css">
+    .testBg{
+     position: absolute;
+     top: 0;
+     background-color:rgba(0, 0, 0, 0.52);
+     filter:alpha(opacity=80); /* IE */
+     -moz-opacity:0.8; /* Moz + FF */
+     display:none ;
+     z-index:16;   
+    }
+    .testBg .testCont{
+     position: absolute;
+     top: 0;
+     left: 0;
+     font-size:16px;
+     width:200px;
+     color: #ffc700;
+     z-index:18;
+     text-align: center;
+    }
+    .card input{
+      width:100%;
+      padding:2px 8px;
+      border:1px solid #ccc;
+    }
+  </style>
+
+      <div class="content">
+
+        <div class="card">
+          <div class="card-header">二维码推广</div>
+          <div class="card-content">
+            <div class="card-content-inner" style="text-align:center;"><button class="testButton open-detail" >点击弹出推广二维码</button></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">推广链接</div>
+          <div class="card-content">
+            <div class="card-content-inner" style="text-align:center;"><input type="text" value="{$info['inviteurl']}" ><p>长按复制内容</p></div>
+          </div>
+        </div>        
+       
+       
+      </div>      
+
+
+</block>
+<block name="jsinit">
+  <div class="popup popup-detail">
+    <div class="content-block">
+      <div class="  bar bar-nav close-popup  buttons-tab " style="top:-44px;" ><a href="#" class=" title"><span class="icon icon-down"></span></a></div>
+      <div class="list-block" style="margin-top: -1.5rem;text-align: center; ">
+        <div class="qrcode" src="{$info['inviteurl']}" ></div>
+
+        <p style="margin:0">分享二维码，领取获得奖励</p></div>
+    </div>
+
+  </div>
+    <script>
+        $(".button-link.back").show();
+
+
+     $(document).on('click tap','.open-detail', function () {
+         $.popup('.popup-detail');
+     });
+
+jQuery=$;//测试zepto是否临时顶用jquery
+    </script>
+  <script type="text/javascript" src="__PUBLIC__website/js/lib/jquery.qrcode.min.js"></script>
+  <script>
+      $('.qrcode').qrcode({
+
+          text : $('.qrcode').attr( 'src' )
+      });
+
+  </script>
+</block>
